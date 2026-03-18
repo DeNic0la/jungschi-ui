@@ -9,6 +9,13 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 
 ## Angular Best Practices
 
+- Always go for a Reactive pattern:
+  - Prefer declarative code over imperative logic.
+  - Use RxJS for asynchronous data streams and event handling.
+  - Use Signals for synchronous state and derived data.
+  - Avoid manual `subscribe()` calls; use the `async` pipe or effect/computed as appropriate.
+  - Keep state transformations pure and predictable.
+- Use PrimeNG components and classes
 - Always use standalone components over NgModules
 - Must NOT set `standalone: true` inside Angular decorators. It's the default in Angular v20+.
 - Use signals for state management
