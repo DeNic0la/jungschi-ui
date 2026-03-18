@@ -1,27 +1,39 @@
-import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, signal, computed } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType, typeEventArgs, ReadyArgs } from 'keycloak-angular';
 import Keycloak from 'keycloak-js';
+import { Menubar } from 'primeng/menubar';
+import { Button } from 'primeng/button';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, Menubar, Button],
   template: `
     <header class="header">
-      <nav class="nav" aria-label="Main Navigation">
-        <span class="logo">Jungschi</span>
-        <div class="nav-links">
-          <a href="#features">Funktionen</a>
-          <a href="#about">Über uns</a>
-          @if (isLoggedIn()) {
-            <button class="btn btn-secondary" (click)="logout()" aria-label="Abmelden">
-              Abmelden
-            </button>
-          } @else {
-            <button class="btn btn-primary" (click)="login()" aria-label="Anmelden">Anmelden</button>
-          }
-        </div>
-      </nav>
+      <p-menubar [model]="menuItems()">
+        <ng-template #start>
+          <span class="logo">Jungschi</span>
+        </ng-template>
+        <ng-template #end>
+          <div class="nav-actions">
+            @if (isLoggedIn()) {
+              <p-button
+                label="Abmelden"
+                icon="pi pi-sign-out"
+                severity="secondary"
+                (click)="logout()"
+                aria-label="Abmelden" />
+            } @else {
+              <p-button
+                label="Anmelden"
+                icon="pi pi-sign-in"
+                (click)="login()"
+                aria-label="Anmelden" />
+            }
+          </div>
+        </ng-template>
+      </p-menubar>
     </header>
 
     <main class="main-content">
@@ -37,48 +49,28 @@ import Keycloak from 'keycloak-js';
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      font-family: system-ui, -apple-system, sans-serif;
-      color: #1a1a1a;
+      font-family: var(--p-font-family);
+      color: var(--p-text-color);
       line-height: 1.5;
     }
 
     .header {
-      padding: 1rem 2rem;
-      background: #fff;
-      border-bottom: 1px solid #eee;
       position: sticky;
       top: 0;
       z-index: 10;
     }
 
-    .nav {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
     .logo {
       font-size: 1.5rem;
       font-weight: bold;
-      color: #3b82f6;
+      color: var(--p-primary-color);
+      margin-right: 2rem;
     }
 
-    .nav-links {
+    .nav-actions {
       display: flex;
-      gap: 1.5rem;
+      gap: 1rem;
       align-items: center;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: #4b5563;
-      font-weight: 500;
-    }
-
-    .nav-links a:hover {
-      color: #1d4ed8;
     }
 
     .main-content {
@@ -88,41 +80,15 @@ import Keycloak from 'keycloak-js';
     .footer {
       padding: 2rem;
       text-align: center;
-      border-top: 1px solid #eee;
-      color: #6b7280;
+      border-top: 1px solid var(--p-content-border-color);
+      color: var(--p-text-muted-color);
     }
 
-    .btn {
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      transition: background 0.2s;
-    }
-
-    .btn-primary {
-      background: #3b82f6;
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: #2563eb;
-    }
-
-    .btn-secondary {
-      background: #e5e7eb;
-      color: #374151;
-    }
-
-    .btn-secondary:hover {
-      background: #d1d5db;
-    }
-
-    @media (max-width: 640px) {
-      .nav-links a {
-        display: none;
-      }
+    :host ::ng-deep .p-menubar {
+      border-radius: 0;
+      border-left: 0;
+      border-right: 0;
+      padding: 0.75rem 2rem;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -133,6 +99,31 @@ export class App {
 
   protected readonly isLoggedIn = signal(false);
   protected readonly currentYear = new Date().getFullYear();
+
+  protected readonly menuItems = computed<MenuItem[]>(() => {
+    const items: MenuItem[] = [
+      {
+        label: 'Funktionen',
+        icon: 'pi pi-list',
+        command: () => this.scrollTo('#features'),
+      },
+      {
+        label: 'Über uns',
+        icon: 'pi pi-info-circle',
+        command: () => this.scrollTo('#about'),
+      },
+    ];
+
+    if (this.isLoggedIn()) {
+      items.push({
+        label: 'Profil',
+        icon: 'pi pi-user',
+        routerLink: '/profile',
+      });
+    }
+
+    return items;
+  });
 
   constructor() {
     effect(() => {
@@ -150,6 +141,10 @@ export class App {
         this.isLoggedIn.set(false);
       }
     });
+  }
+
+  protected scrollTo(selector: string): void {
+    document.querySelector(selector)?.scrollIntoView({ behavior: 'smooth' });
   }
 
   protected login(): void {

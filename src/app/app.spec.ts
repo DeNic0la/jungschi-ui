@@ -4,10 +4,29 @@ import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType } from 'keycloak-angular';
 import Keycloak from 'keycloak-js';
 import { signal } from '@angular/core';
 import { App } from './app';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 describe('App', () => {
   let keycloakMock: any;
   let keycloakSignal: any;
+
+  beforeAll(() => {
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: vi.fn().mockImplementation((query) => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: vi.fn(), // deprecated
+        removeListener: vi.fn(), // deprecated
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        dispatchEvent: vi.fn(),
+      })),
+    });
+  });
 
   beforeEach(async () => {
     keycloakMock = {
@@ -21,6 +40,15 @@ describe('App', () => {
       imports: [App],
       providers: [
         provideRouter([]),
+        provideAnimationsAsync(),
+        providePrimeNG({
+          theme: {
+            preset: Aura,
+            options: {
+              darkModeSelector: 'system',
+            },
+          },
+        }),
         { provide: Keycloak, useValue: keycloakMock },
         { provide: KEYCLOAK_EVENT_SIGNAL, useValue: keycloakSignal },
       ],

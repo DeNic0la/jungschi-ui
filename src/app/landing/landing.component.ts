@@ -1,17 +1,22 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import Keycloak from 'keycloak-js';
+import { Button } from 'primeng/button';
+import { Card } from 'primeng/card';
 
 @Component({
   selector: 'app-landing-page',
-  imports: [],
+  imports: [Button, Card],
   template: `
     <section class="hero">
       <div class="hero-content">
         <h1>Willkommen bei Jungschi</h1>
-        <p>Die ultimative Plattform für moderne Web-Erlebnisse. Gebaut mit Angular, Signals und Barrierefreiheit im Blick.</p>
+        <p>
+          Die ultimative Plattform für moderne Web-Erlebnisse. Gebaut mit Angular, Signals und
+          Barrierefreiheit im Blick.
+        </p>
         <div class="hero-actions">
-          <button class="btn btn-primary lg" (click)="login()">Jetzt loslegen</button>
-          <a href="#features" class="btn btn-secondary lg">Mehr erfahren</a>
+          <p-button label="Jetzt loslegen" size="large" (click)="login()" />
+          <p-button label="Mehr erfahren" size="large" severity="secondary" (click)="scrollToFeatures()" />
         </div>
       </div>
     </section>
@@ -20,17 +25,20 @@ import Keycloak from 'keycloak-js';
       <h2>Funktionen</h2>
       <div class="features-grid">
         @for (feature of features(); track feature.title) {
-          <div class="feature-card">
-            <h3>{{ feature.title }}</h3>
-            <p>{{ feature.description }}</p>
-          </div>
+          <p-card [header]="feature.title" class="feature-card">
+            <p class="m-0">{{ feature.description }}</p>
+          </p-card>
         }
       </div>
     </section>
 
     <section id="about" class="about">
       <h2>Über uns</h2>
-      <p>Wir widmen uns der Bereitstellung der besten Werkzeuge für Entwickler und Benutzer gleichermaßen. Unser Fokus liegt auf Leistung, Sicherheit und einer außergewöhnlichen Benutzererfahrung.</p>
+      <p>
+        Wir widmen uns der Bereitstellung der besten Werkzeuge für Entwickler und Benutzer
+        gleichermaßen. Unser Fokus liegt auf Leistung, Sicherheit und einer außergewöhnlichen
+        Benutzererfahrung.
+      </p>
     </section>
   `,
   styles: `
@@ -40,8 +48,9 @@ import Keycloak from 'keycloak-js';
 
     .hero {
       padding: 5rem 2rem;
-      background: linear-gradient(to bottom right, #eff6ff, #ffffff);
+      background: linear-gradient(to bottom right, var(--p-primary-900), var(--p-surface-900));
       text-align: center;
+      color: var(--p-text-color);
     }
 
     .hero-content {
@@ -54,11 +63,13 @@ import Keycloak from 'keycloak-js';
       margin-bottom: 1.5rem;
       font-weight: 800;
       letter-spacing: -0.025em;
+      color: inherit;
     }
 
     .hero p {
       font-size: 1.25rem;
-      color: #4b5563;
+      color: inherit;
+      opacity: 0.9;
       margin-bottom: 2.5rem;
     }
 
@@ -78,6 +89,7 @@ import Keycloak from 'keycloak-js';
       font-size: 2.25rem;
       text-align: center;
       margin-bottom: 3rem;
+      color: var(--p-text-color);
     }
 
     .features-grid {
@@ -87,65 +99,28 @@ import Keycloak from 'keycloak-js';
     }
 
     .feature-card {
-      padding: 2rem;
-      border: 1px solid #e5e7eb;
-      border-radius: 0.75rem;
-      transition: box-shadow 0.2s;
-    }
-
-    .feature-card:hover {
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    }
-
-    .feature-card h3 {
-      font-size: 1.25rem;
-      margin-bottom: 1rem;
-      color: #111827;
+      height: 100%;
     }
 
     .about {
       padding: 4rem 2rem;
-      background: #f9fafb;
+      background: var(--p-surface-800);
+      color: var(--p-surface-0);
       text-align: center;
+    }
+
+    .about h2 {
+      color: inherit;
+      margin-bottom: 2rem;
+      font-size: 2.25rem;
     }
 
     .about p {
       max-width: 600px;
       margin: 0 auto;
       font-size: 1.125rem;
-      color: #4b5563;
-    }
-
-    .btn {
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      transition: background 0.2s;
-    }
-
-    .btn-primary {
-      background: #3b82f6;
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: #2563eb;
-    }
-
-    .btn-secondary {
-      background: #e5e7eb;
-      color: #374151;
-    }
-
-    .btn-secondary:hover {
-      background: #d1d5db;
-    }
-
-    .btn.lg {
-      padding: 0.75rem 1.5rem;
-      font-size: 1.125rem;
+      color: inherit;
+      opacity: 0.9;
     }
 
     @media (max-width: 640px) {
@@ -162,15 +137,18 @@ export class LandingPageComponent {
   protected readonly features = signal([
     {
       title: 'Hohe Performance',
-      description: 'Entwickelt mit Angular Signals für blitzschnelle Reaktivität und optimale Leistung.',
+      description:
+        'Entwickelt mit Angular Signals für blitzschnelle Reaktivität und optimale Leistung.',
     },
     {
       title: 'Barrierefrei durch Design',
-      description: 'Befolgt die WCAG AA Richtlinien, um sicherzustellen, dass jeder Ihre Anwendung nutzen kann.',
+      description:
+        'Befolgt die WCAG AA Richtlinien, um sicherzustellen, dass jeder Ihre Anwendung nutzen kann.',
     },
     {
       title: 'Moderner Stack',
-      description: 'Verwendet die neuesten Angular-Features wie Standalone-Komponenten und Control Flow.',
+      description:
+        'Verwendet die neuesten Angular-Features wie Standalone-Komponenten und Control Flow.',
     },
   ]);
 
@@ -179,6 +157,10 @@ export class LandingPageComponent {
   protected login(): void {
     this.keycloak.login({
       redirectUri: window.location.origin,
-    })
+    });
+  }
+
+  protected scrollToFeatures(): void {
+    document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
   }
 }
