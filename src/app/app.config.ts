@@ -9,9 +9,9 @@ import {
   provideKeycloak,
   withAutoRefreshToken,
   AutoRefreshTokenService,
-  KeycloakService,
   UserActivityService,
 } from 'keycloak-angular';
+import Keycloak from 'keycloak-js';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { environment } from '../environments/environment';
@@ -28,15 +28,6 @@ const StatsigConfig = {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(withInterceptors([includeBearerTokenInterceptor])),
-    {
-      provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
-      useValue: [
-        {
-          urlPattern: /^\/api\/.*$/i,
-          bearerPrefix: 'Bearer',
-        },
-      ],
-    },
     provideKeycloak({
       config: {
         url: environment.keycloak.url,
@@ -46,9 +37,23 @@ export const appConfig: ApplicationConfig = {
       initOptions: {
         onLoad: 'check-sso',
         silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
+        flow: 'standard',
+        pkceMethod: 'S256',
       },
       features: [withAutoRefreshToken()],
-      providers: [AutoRefreshTokenService, KeycloakService, UserActivityService],
+      providers: [
+        AutoRefreshTokenService,
+        UserActivityService,
+        {
+          provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
+          useValue: [
+            {
+              urlPattern: /^\/api\/.*$/i,
+              bearerPrefix: 'Bearer',
+            },
+          ],
+        },
+      ],
     }),
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),

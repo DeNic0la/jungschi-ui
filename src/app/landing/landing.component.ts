@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import Keycloak from 'keycloak-js';
 
 @Component({
   selector: 'app-landing-page',
@@ -9,8 +10,8 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
         <h1>Willkommen bei Jungschi</h1>
         <p>Die ultimative Plattform für moderne Web-Erlebnisse. Gebaut mit Angular, Signals und Barrierefreiheit im Blick.</p>
         <div class="hero-actions">
-          <button class="btn btn-primary lg">Jetzt loslegen</button>
-          <button class="btn btn-secondary lg">Mehr erfahren</button>
+          <button class="btn btn-primary lg" (click)="login()">Jetzt loslegen</button>
+          <a href="#features" class="btn btn-secondary lg">Mehr erfahren</a>
         </div>
       </div>
     </section>
@@ -156,6 +157,8 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LandingPageComponent {
+  private readonly keycloak = inject(Keycloak);
+
   protected readonly features = signal([
     {
       title: 'Hohe Performance',
@@ -172,4 +175,10 @@ export class LandingPageComponent {
   ]);
 
   protected readonly currentYear = new Date().getFullYear();
+
+  protected login(): void {
+    this.keycloak.login({
+      redirectUri: window.location.origin,
+    })
+  }
 }

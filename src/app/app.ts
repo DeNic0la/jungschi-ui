@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { KeycloakService } from 'keycloak-angular';
+import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType, typeEventArgs, ReadyArgs } from 'keycloak-angular';
+import Keycloak from 'keycloak-js';
 
 @Component({
   selector: 'app-root',
@@ -127,20 +128,35 @@ import { KeycloakService } from 'keycloak-angular';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
-  private readonly keycloak = inject(KeycloakService);
+  private readonly keycloak = inject(Keycloak);
+  private readonly keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
 
   protected readonly isLoggedIn = signal(false);
   protected readonly currentYear = new Date().getFullYear();
 
   constructor() {
-    this.isLoggedIn.set(this.keycloak.isLoggedIn());
+    effect(() => {
+      const event = this.keycloakSignal();
+
+      if (event.type === KeycloakEventType.Ready) {
+        this.isLoggedIn.set(typeEventArgs<ReadyArgs>(event.args));
+      }
+
+      if (event.type === KeycloakEventType.AuthSuccess) {
+        this.isLoggedIn.set(true);
+      }
+
+      if (event.type === KeycloakEventType.AuthLogout) {
+        this.isLoggedIn.set(false);
+      }
+    });
   }
 
   protected login(): void {
-    this.keycloak.login();
+    this.keycloak.login().catch((err) => console.error('Login error:', err));
   }
 
   protected logout(): void {
-    this.keycloak.logout(window.location.origin);
+    this.keycloak.logout({ redirectUri: window.location.origin });
   }
 }
