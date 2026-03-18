@@ -33,14 +33,26 @@
             ],
             "styles": [
               "src/styles.scss"
+            ],
+            "allowedCommonJsDependencies": [
+              "@statsig/session-replay",
+              "@statsig/web-analytics",
+              "@statsig/client-core",
+              "@statsig/js-client"
             ]
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
+                  "maximumWarning": "600kB",
                   "maximumError": "1MB"
                 },
                 {
@@ -67,7 +79,8 @@
               "buildTarget": "jungschi-ui:build:production"
             },
             "development": {
-              "buildTarget": "jungschi-ui:build:development"
+              "buildTarget": "jungschi-ui:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

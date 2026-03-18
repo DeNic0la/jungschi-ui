@@ -33,6 +33,8 @@
     "@statsig/angular-bindings": "^3.32.0",
     "@statsig/session-replay": "^3.32.0",
     "@statsig/web-analytics": "^3.32.0",
+    "keycloak-angular": "^21.0.0",
+    "keycloak-js": "^26.2.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
