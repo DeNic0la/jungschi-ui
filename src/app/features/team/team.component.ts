@@ -5,7 +5,7 @@ import { RouterLink } from '@angular/router';
   selector: 'app-team',
   imports: [RouterLink],
   template: `
-    <div class="team-container">
+    <div class="page-container">
       <h1>Jungschiteam</h1>
       <p>Willkommen auf der Team-Seite!</p>
 
@@ -18,11 +18,6 @@ import { RouterLink } from '@angular/router';
     </div>
   `,
   styles: `
-    .team-container {
-      padding: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
     .team-links {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));

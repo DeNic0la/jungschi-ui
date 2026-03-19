@@ -6,21 +6,21 @@ import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import { Panel } from 'primeng/panel';
 import { Message } from 'primeng/message';
-import { UserService } from '../services/user.service';
+import { UserService } from '../../shared/services/user.service';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
   imports: [CommonModule, ReactiveFormsModule, Button, InputText, Panel, Message],
   template: `
-    <div class="profile-container">
+    <div class="page-container" style="max-width: 800px;">
       <p-panel header="Profil">
         @if (loading()) {
-          <div class="flex justify-center p-4">
+          <div class="loading-container">
             <p-message severity="info" text="Profil wird geladen..." />
           </div>
         } @else if (error()) {
-          <div class="flex justify-center p-4">
+          <div class="error-container">
             <p-message severity="error" [text]="error()!" />
           </div>
         } @else {
@@ -73,16 +73,11 @@ import { firstValueFrom } from 'rxjs';
     </div>
   `,
   styles: `
-    .profile-container {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
-
     .profile-form {
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
+      padding-top: 1rem;
     }
 
     .field {
@@ -98,14 +93,9 @@ import { firstValueFrom } from 'rxjs';
 
     .form-actions {
       display: flex;
+      flex-wrap: wrap;
       gap: 1rem;
       margin-top: 1rem;
-    }
-
-    .profile-avatar {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 1rem;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

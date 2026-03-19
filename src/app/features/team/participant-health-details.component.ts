@@ -3,11 +3,13 @@ import { RouterLink } from '@angular/router';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { JsonPipe, DatePipe } from '@angular/common';
 import { catchError, of, switchMap, tap } from 'rxjs';
-import { TeamService } from '../services/team.service';
+import { TeamService } from '../../shared/services/team.service';
+import { getSeverityColor, getSeverityLabel } from '../../shared/models/intolerance-selection.model';
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from 'primeng/tabs';
 import { Card } from 'primeng/card';
 import { Divider } from 'primeng/divider';
 import { Tag } from 'primeng/tag';
+import { Button } from 'primeng/button';
 
 @Component({
   selector: 'app-participant-health-details',
@@ -23,26 +25,32 @@ import { Tag } from 'primeng/tag';
     Card,
     Divider,
     Tag,
+    Button,
   ],
   template: `
-    <div class="details-container">
-      <div class="header-row">
+    <div class="page-container">
+      <header class="flex-header">
         <h1>Gesundheitsdetails</h1>
-        <a routerLink="/team/health-data" class="back-link">
-          <i class="pi pi-arrow-left"></i> Zurück zur Liste
-        </a>
-      </div>
+        <p-button
+          label="Zurück zur Liste"
+          icon="pi pi-arrow-left"
+          routerLink="/team/health-data"
+          severity="secondary"
+        />
+      </header>
 
       <div class="content">
         @if (isLoading()) {
-          <div class="loading">
+          <div class="loading-container">
             <i class="pi pi-spin pi-spinner" aria-hidden="true"></i>
             <span>Lade Daten...</span>
           </div>
         } @else if (error()) {
-          <div class="error-message">
-            <i class="pi pi-exclamation-triangle" aria-hidden="true"></i>
-            <span>{{ error() }}</span>
+          <div class="error-container">
+            <div class="error-message">
+              <i class="pi pi-exclamation-triangle mr-2" aria-hidden="true"></i>
+              <span>{{ error() }}</span>
+            </div>
           </div>
         } @else if (participant(); as p) {
           <p-tabs value="0">
@@ -185,8 +193,8 @@ import { Tag } from 'primeng/tag';
                               <div class="item-header">
                                 <span class="item-label">{{ item.intolerance.definitionValue }}</span>
                                 <p-tag
-                                  [severity]="getSeverity(item.severity)"
-                                  [value]="item.severity"
+                                  [severity]="getSeverityColor(item.severity)"
+                                  [value]="getSeverityLabel(item.severity)"
                                 />
                               </div>
                               @if (item.customText) {
@@ -365,18 +373,6 @@ export class ParticipantHealthDetailsComponent {
     ),
   );
 
-  getSeverity(
-    severity: string | null,
-  ): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined {
-    switch (severity) {
-      case 'LIFE_THREATENING':
-        return 'danger';
-      case 'STRONG':
-        return 'warn';
-      case 'AFFECTED':
-        return 'info';
-      default:
-        return 'secondary';
-    }
-  }
+  protected readonly getSeverityColor = getSeverityColor;
+  protected readonly getSeverityLabel = getSeverityLabel;
 }

@@ -13,15 +13,15 @@ import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { Button } from 'primeng/button';
 import { CommonModule } from '@angular/common';
-import { TeamService } from '../services/team.service';
-import { TeamParticipantDto } from '../models/team-participant.model';
+import { TeamService } from '../../shared/services/team.service';
+import { TeamParticipantDto } from '../../shared/models/team-participant.model';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-health-data',
   imports: [CommonModule, RouterLink, TableModule, InputText, IconField, InputIcon, Button],
   template: `
-    <div class="health-data-container">
+    <div class="page-container">
       <header class="flex-header">
         <h1>Gesundheitsdaten</h1>
         <p-button label="Zurück" icon="pi pi-arrow-left" routerLink="/team" severity="secondary" />
@@ -85,29 +85,9 @@ import { firstValueFrom } from 'rxjs';
     </div>
   `,
   styles: `
-    .health-data-container {
-      padding: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .flex-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-    }
     :host ::ng-deep .p-datatable-header {
       background: transparent;
       padding: 1rem 0;
-    }
-    .flex {
-      display: flex;
-    }
-    .justify-between {
-      justify-content: space-between;
-    }
-    .items-center {
-      align-items: center;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

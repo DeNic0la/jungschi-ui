@@ -1,16 +1,16 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal, untracked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { map, switchMap, take, catchError, of } from 'rxjs';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { map, switchMap, catchError, of, filter, timer, startWith, Subject } from 'rxjs';
 import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { RadioButton } from 'primeng/radiobutton';
 import { Message } from 'primeng/message';
-import { ParticipantService } from '../../services/participant.service';
-import { CampStatsDto } from '../../models/participant.model';
-import { CanComponentDeactivate } from '../../pending-changes.guard';
+import { ParticipantService } from '../../../shared/services/participant.service';
+import { CampStatsDto } from '../../../shared/models/participant.model';
+import { CanComponentDeactivate } from '../../../shared/guards/pending-changes.guard';
 
 @Component({
   selector: 'app-camp-stats',
@@ -29,13 +29,10 @@ import { CanComponentDeactivate } from '../../pending-changes.guard';
 
       @if (loading()) {
         <div class="loading-container">
-          <i class="pi pi-spin pi-spinner spinner-icon" aria-hidden="true"></i>
-          <span class="sr-only">Laden...</span>
+          <p-message severity="info" text="Lagerdaten werden geladen..." />
         </div>
-      } @else if (error()) {
-        <p-message severity="error" [text]="error()!" />
       } @else {
-        <form [formGroup]="form" (ngSubmit)="save()" class="camp-form">
+        <form [formGroup]="form" (ngSubmit)="save()" class="camp-stats-form">
           <div class="field">
             <label id="vaccinated-label" class="font-bold">Zecken Impfung gemacht</label>
             <div class="radio-group" role="radiogroup" aria-labelledby="vaccinated-label">
@@ -45,7 +42,7 @@ import { CanComponentDeactivate } from '../../pending-changes.guard';
                   formControlName="isTickVaccinated"
                   [value]="true"
                   inputId="vaccinated-yes"
-                ></p-radiobutton>
+                />
                 <label for="vaccinated-yes">Ja</label>
               </div>
               <div class="flex items-center gap-2">
@@ -54,16 +51,16 @@ import { CanComponentDeactivate } from '../../pending-changes.guard';
                   formControlName="isTickVaccinated"
                   [value]="false"
                   inputId="vaccinated-no"
-                ></p-radiobutton>
+                />
                 <label for="vaccinated-no">Nein</label>
               </div>
             </div>
           </div>
 
           <div class="field">
-            <label id="drug-consent-label" class="font-bold"
-              >Einverständnis zur Medikamentenabgabe</label
-            >
+            <label id="drug-consent-label" class="font-bold">
+              Einverständnis zur Medikamentenabgabe
+            </label>
             <div
               class="radio-group vertical"
               role="radiogroup"
@@ -75,7 +72,7 @@ import { CanComponentDeactivate } from '../../pending-changes.guard';
                   formControlName="drugConsent"
                   [value]="true"
                   inputId="drug-consent-yes"
-                ></p-radiobutton>
+                />
                 <label for="drug-consent-yes" class="consent-label">
                   Ja, die Lagerleitung darf meinem Kind bei leichten Schmerzen Medikamente
                   verabreichen (z.B. Dafalgan) oder Crème auftragen (z.B. Bepanthen)
@@ -87,7 +84,7 @@ import { CanComponentDeactivate } from '../../pending-changes.guard';
                   formControlName="drugConsent"
                   [value]="false"
                   inputId="drug-consent-no"
-                ></p-radiobutton>
+                />
                 <label for="drug-consent-no" class="consent-label">
                   Nein, ich möchte nicht, dass die Lagerleitung meinem Kind bei einem kleinen
                   Unfall/Krankheit leichte Medikamente (z.B. Dafalgan, Bepanthen) verabreicht. Ich
@@ -120,14 +117,17 @@ import { CanComponentDeactivate } from '../../pending-changes.guard';
 
           <div class="form-actions">
             <p-button
-              label="Speichern"
+              label="Lagerdaten speichern"
               type="submit"
               [loading]="saving()"
               icon="pi pi-save"
-              [disabled]="form.pristine || form.invalid"
+              [disabled]="form.pristine || form.invalid || saving()"
             />
             @if (saved()) {
-              <p-message severity="success" text="Gespeichert!" />
+              <p-message severity="success" text="Erfolgreich gespeichert!" />
+            }
+            @if (error(); as err) {
+              <p-message severity="error" [text]="err" />
             }
           </div>
         </form>
@@ -138,7 +138,7 @@ import { CanComponentDeactivate } from '../../pending-changes.guard';
     section {
       padding: 1rem 0;
     }
-    .camp-form {
+    .camp-stats-form {
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
@@ -171,19 +171,6 @@ import { CanComponentDeactivate } from '../../pending-changes.guard';
       justify-content: center;
       padding: 2rem;
     }
-    .spinner-icon {
-      font-size: 2rem;
-    }
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
     .font-bold {
       font-weight: 600;
     }
@@ -193,14 +180,11 @@ import { CanComponentDeactivate } from '../../pending-changes.guard';
 export class CampStatsComponent implements CanComponentDeactivate {
   private readonly fb = inject(FormBuilder);
   private readonly participantService = inject(ParticipantService);
-  private readonly route = inject(ActivatedRoute);
 
-  loading = signal(true);
-  saving = signal(false);
-  saved = signal(false);
-  error = signal<string | null>(null);
+  // Router param input (via withComponentInputBinding)
+  id = input.required<string>();
 
-  form = this.fb.group({
+  protected readonly form = this.fb.group({
     isTickVaccinated: this.fb.control<null | boolean>(null, Validators.required),
     drugConsent: this.fb.control<null | boolean>(null, Validators.required),
     ahv: [''],
@@ -208,50 +192,73 @@ export class CampStatsComponent implements CanComponentDeactivate {
     sonstiges: [''],
   });
 
+  // Load stats declaratively
+  private readonly statsResource = toSignal(
+    toObservable(this.id).pipe(
+      map((id: string) => Number(id)),
+      filter((numId: number) => !isNaN(numId)),
+      switchMap((numId: number) => {
+        return this.participantService.getCampStats(numId).pipe(
+          catchError((err) => {
+            console.error('Failed to load camp stats:', err);
+            this.error.set('Daten konnten nicht geladen werden.');
+            return of(null);
+          }),
+        );
+      }),
+    ),
+  );
+
+  protected readonly loading = computed(() => this.statsResource() === undefined);
+  protected readonly saving = signal(false);
+  protected readonly error = signal<string | null>(null);
+
+  private readonly savedTrigger = new Subject<boolean>();
+  protected readonly saved = toSignal(
+    this.savedTrigger.pipe(
+      switchMap((v) =>
+        v
+          ? timer(3000).pipe(
+              map(() => false),
+              startWith(true),
+            )
+          : of(false),
+      ),
+    ),
+    { initialValue: false },
+  );
+
   constructor() {
-    this.route.parent?.paramMap
-      .pipe(
-        map((params) => params.get('id')),
-        switchMap((id) => {
-          const numId = Number(id);
-          if (!id || isNaN(numId)) return of(null);
-          return this.participantService.getCampStats(numId).pipe(
-            catchError(() => {
-              this.error.set('Fehler beim Laden der Daten.');
-              return of(null);
-            }),
-          );
-        }),
-        take(1),
-      )
-      .subscribe((stats) => {
-        if (stats) {
+    // Synchronize form with loaded stats
+    effect(() => {
+      const stats = this.statsResource();
+      if (stats) {
+        untracked(() => {
           this.form.patchValue(stats);
           this.form.markAsPristine();
-        }
-        this.loading.set(false);
-      });
+        });
+      }
+    });
   }
 
-  save() {
-    const participantId = Number(this.route.parent?.snapshot.paramMap.get('id'));
+  protected save(): void {
+    const participantId = Number(this.id());
     if (this.form.invalid || isNaN(participantId)) return;
 
     this.saving.set(true);
-    this.saved.set(false);
 
-    const dto = this.form.value as CampStatsDto;
+    const dto = this.form.getRawValue() as CampStatsDto;
 
     this.participantService.updateCampStats(participantId, dto).subscribe({
       next: () => {
         this.saving.set(false);
-        this.saved.set(true);
+        this.savedTrigger.next(true);
         this.form.markAsPristine();
-        setTimeout(() => this.saved.set(false), 3000);
       },
-      error: () => {
+      error: (err) => {
+        console.error('Failed to update camp stats:', err);
         this.saving.set(false);
-        this.error.set('Fehler beim Speichern der Daten.');
+        this.error.set('Speichern fehlgeschlagen.');
       },
     });
   }

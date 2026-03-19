@@ -15,9 +15,40 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Shared Layout Classes */
+.page-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.flex-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.loading-container,
+.error-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  gap: 1rem;
+}
+
+.error-message {
+  color: var(--p-red-500);
+  background: var(--p-red-50);
+  border: 1px solid var(--p-red-100);
+  padding: 1rem;
+  border-radius: 6px;
+}
+
 /* Global styles for readonly inputs to ensure high contrast and readability */
 input[type='text'][readonly] {
-  background-color: var(--p-surface-500);
+  background-color: var(--p-surface-100);
   color: var(--p-text-color);
   border: 1px solid var(--p-surface-300);
   cursor: default !important;

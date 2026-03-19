@@ -1,39 +1,41 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './auth.guard';
-import { pendingChangesGuard } from './pending-changes.guard';
+import { authGuard } from './shared/guards/auth.guard';
+import { pendingChangesGuard } from './shared/guards/pending-changes.guard';
 
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./landing/landing.component').then((m) => m.LandingPageComponent),
+    loadComponent: () =>
+      import('./features/landing/landing.component').then((m) => m.LandingPageComponent),
   },
   {
     path: 'profile',
-    loadComponent: () => import('./profile/profile.component').then((m) => m.ProfileComponent),
+    loadComponent: () => import('./features/profile/profile.component').then((m) => m.ProfileComponent),
     canActivate: [authGuard],
   },
   {
     path: 'participants',
     loadComponent: () =>
-      import('./participant/participant.component').then((m) => m.ParticipantComponent),
+      import('./features/participant/participant.component').then((m) => m.ParticipantComponent),
     canActivate: [authGuard],
   },
   {
     path: 'team',
-    loadComponent: () => import('./team/team.component').then((m) => m.TeamComponent),
+    loadComponent: () => import('./features/team/team.component').then((m) => m.TeamComponent),
     canActivate: [authGuard],
     data: { roles: ['Jungschiteam'] },
   },
   {
     path: 'team/health-data',
-    loadComponent: () => import('./team/health-data.component').then((m) => m.HealthDataComponent),
+    loadComponent: () =>
+      import('./features/team/health-data.component').then((m) => m.HealthDataComponent),
     canActivate: [authGuard],
     data: { roles: ['Jungschiteam'] },
   },
   {
     path: 'team/health-data/:id/details',
     loadComponent: () =>
-      import('./team/participant-health-details.component').then(
+      import('./features/team/participant-health-details.component').then(
         (m) => m.ParticipantHealthDetailsComponent,
       ),
     canActivate: [authGuard],
@@ -42,7 +44,7 @@ export const routes: Routes = [
   {
     path: 'participants/:id',
     loadComponent: () =>
-      import('./participant-detail/participant-detail.component').then(
+      import('./features/participant-detail/participant-detail.component').then(
         (m) => m.ParticipantDetailComponent,
       ),
     canActivate: [authGuard],
@@ -50,7 +52,7 @@ export const routes: Routes = [
       {
         path: '',
         loadComponent: () =>
-          import('./participant-detail/subpages/overview.component').then(
+          import('./features/participant-detail/subpages/overview.component').then(
             (m) => m.ParticipantOverviewComponent,
           ),
         canDeactivate: [pendingChangesGuard],
@@ -58,7 +60,7 @@ export const routes: Routes = [
       {
         path: 'health-stats',
         loadComponent: () =>
-          import('./participant-detail/subpages/health-stats.component').then(
+          import('./features/participant-detail/subpages/health-stats.component').then(
             (m) => m.HealthStatsComponent,
           ),
         canDeactivate: [pendingChangesGuard],
@@ -66,7 +68,7 @@ export const routes: Routes = [
       {
         path: 'camp-stats',
         loadComponent: () =>
-          import('./participant-detail/subpages/camp-stats.component').then(
+          import('./features/participant-detail/subpages/camp-stats.component').then(
             (m) => m.CampStatsComponent,
           ),
         canDeactivate: [pendingChangesGuard],
@@ -74,7 +76,9 @@ export const routes: Routes = [
       {
         path: 'allergy',
         loadComponent: () =>
-          import('./participant-detail/subpages/allergy.component').then((m) => m.AllergyComponent),
+          import('./features/participant-detail/subpages/allergy.component').then(
+            (m) => m.AllergyComponent,
+          ),
         canDeactivate: [pendingChangesGuard],
       },
     ],

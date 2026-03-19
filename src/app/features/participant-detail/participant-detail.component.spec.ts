@@ -6,9 +6,9 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 import { ParticipantDetailComponent } from './participant-detail.component';
-import { ParticipantService } from '../services/participant.service';
+import { ParticipantService } from '../../shared/services/participant.service';
 import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeng/themes/aura';
+import Aura from '@primeuix/themes/aura';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { By } from '@angular/platform-browser';
 

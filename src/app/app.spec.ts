@@ -8,13 +8,13 @@ import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType } from 'keycloak-angular';
 import Keycloak from 'keycloak-js';
 import { signal } from '@angular/core';
 import { of } from 'rxjs';
-import { App } from './app';
-import { UserService } from './services/user.service';
+import { AppComponent } from './app.component';
+import { UserService } from './shared/services/user.service';
 import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeng/themes/aura';
+import Aura from '@primeuix/themes/aura';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
-describe('App', () => {
+describe('AppComponent', () => {
   let keycloakMock: any;
   let keycloakSignal: any;
   let userServiceMock: any;
@@ -45,10 +45,12 @@ describe('App', () => {
     keycloakSignal = signal({ type: KeycloakEventType.Ready });
     userServiceMock = {
       getUserProfile: vi.fn().mockReturnValue(of({ username: 'testuser' })),
+      userProfile: signal({ username: 'testuser' }),
+      clearProfile: vi.fn(),
     };
 
     await TestBed.configureTestingModule({
-      imports: [App],
+      imports: [AppComponent],
       providers: [
         provideRouter([]),
         provideAnimationsAsync(),
@@ -68,7 +70,7 @@ describe('App', () => {
   });
 
   it('should call keycloak.login when login is clicked', () => {
-    const fixture = TestBed.createComponent(App);
+    const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     const loginSpy = vi.spyOn(keycloakMock, 'login');
 
@@ -78,7 +80,7 @@ describe('App', () => {
   });
 
   it('should update isLoggedIn when keycloak events fire', () => {
-    const fixture = TestBed.createComponent(App);
+    const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
 
     expect(app['isLoggedIn']()).toBe(false);
@@ -95,16 +97,16 @@ describe('App', () => {
   });
 
   it('should show Team menu item only if user has Jungschiteam role', () => {
-    const fixture = TestBed.createComponent(App);
+    const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
 
     // Not logged in
-    expect(app['menuItems']().some((i) => i.label === 'Team')).toBe(false);
+    expect(app['menuItems']().some((i: any) => i.label === 'Team')).toBe(false);
 
     // Logged in, no role
     keycloakSignal.set({ type: KeycloakEventType.AuthSuccess });
     fixture.detectChanges();
-    expect(app['menuItems']().some((i) => i.label === 'Team')).toBe(false);
+    expect(app['menuItems']().some((i: any) => i.label === 'Team')).toBe(false);
 
     // Logged in, with role
     keycloakMock.hasRealmRole.mockReturnValue(true);
@@ -116,11 +118,11 @@ describe('App', () => {
     app['isLoggedIn'].set(true);
     fixture.detectChanges();
 
-    expect(app['menuItems']().some((i) => i.label === 'Team')).toBe(true);
+    expect(app['menuItems']().some((i: any) => i.label === 'Team')).toBe(true);
   });
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(App);
+    const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });

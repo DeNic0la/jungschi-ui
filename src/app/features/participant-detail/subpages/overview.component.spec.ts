@@ -6,7 +6,7 @@ import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { ParticipantOverviewComponent } from './overview.component';
-import { ParticipantService } from '../../services/participant.service';
+import { ParticipantService } from '../../../shared/services/participant.service';
 import { By } from '@angular/platform-browser';
 
 describe('ParticipantOverviewComponent', () => {
@@ -47,12 +47,14 @@ describe('ParticipantOverviewComponent', () => {
 
   it('should create the overview component', () => {
     const fixture = TestBed.createComponent(ParticipantOverviewComponent);
+    fixture.componentRef.setInput('id', '1');
     const component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });
 
   it('should load and display participant data', async () => {
     const fixture = TestBed.createComponent(ParticipantOverviewComponent);
+    fixture.componentRef.setInput('id', '1');
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();

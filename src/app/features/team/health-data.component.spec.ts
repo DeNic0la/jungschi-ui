@@ -6,11 +6,11 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { HealthDataComponent } from './health-data.component';
 import { By } from '@angular/platform-browser';
-import { TeamService } from '../services/team.service';
+import { TeamService } from '../../shared/services/team.service';
 import { of } from 'rxjs';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeng/themes/aura';
+import Aura from '@primeuix/themes/aura';
 
 describe('HealthDataComponent', () => {
   let teamServiceMock: any;

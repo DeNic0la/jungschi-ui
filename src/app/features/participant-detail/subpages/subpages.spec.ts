@@ -7,13 +7,13 @@ import { HealthStatsComponent } from './health-stats.component';
 import { CampStatsComponent } from './camp-stats.component';
 import { AllergyComponent } from './allergy.component';
 import { By } from '@angular/platform-browser';
-import { GlobalDefinitionsService } from '../../services/global-definitions.service';
+import { GlobalDefinitionsService } from '../../../shared/services/global-definitions.service';
 import { of } from 'rxjs';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
-import { ParticipantService } from '../../services/participant.service';
+import { ParticipantService } from '../../../shared/services/participant.service';
 import { ConfirmationService } from 'primeng/api';
 
 describe('Participant Subpages', () => {
@@ -162,6 +162,7 @@ describe('Participant Subpages', () => {
       ],
     });
     const fixture = TestBed.createComponent(CampStatsComponent);
+    fixture.componentRef.setInput('id', '1');
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('h2')).nativeElement.textContent).toBe('Lager Daten');
   });
@@ -184,6 +185,7 @@ describe('Participant Subpages', () => {
       ],
     });
     const fixture = TestBed.createComponent(AllergyComponent);
+    fixture.componentRef.setInput('id', '1');
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('h2')).nativeElement.textContent).toBe(
       'Allergien & Lebensmittel-Unverträglichkeiten',

@@ -10,8 +10,8 @@ import { DatePicker } from 'primeng/datepicker';
 import { Toast } from 'primeng/toast';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { MessageService, ConfirmationService } from 'primeng/api';
-import { ParticipantService } from '../services/participant.service';
-import { Participant, ParticipantInput } from '../models/participant.model';
+import { ParticipantService } from '../../shared/services/participant.service';
+import { Participant, ParticipantInput } from '../../shared/models/participant.model';
 import { firstValueFrom, fromEvent, map, startWith } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Card } from 'primeng/card';
@@ -32,12 +32,12 @@ import { Card } from 'primeng/card';
     Card,
   ],
   template: `
-    <div class="container">
+    <div class="page-container">
       <p-toast />
       <p-confirmdialog />
 
       <header class="flex-header">
-        <h1 class="title">Teilnehmer</h1>
+        <h1>Teilnehmer</h1>
         <p-button styleClass="block lg:hidden" icon="pi pi-plus" (click)="openAddDialog()" />
         <p-button styleClass="hidden lg:block" label="Neuer Teilnehmer" icon="pi pi-plus" (click)="openAddDialog()" />
       </header>
@@ -171,96 +171,74 @@ import { Card } from 'primeng/card';
     </div>
   `,
   styles: `
-    @reference "tailwindcss";
-
-    .container {
-      @apply lg:p-4 p-2;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .flex-header {
-      @apply flex items-center lg:mb-4 mb-2 justify-between;
-      margin-bottom: 2rem;
-    }
-
-    .title {
-      font-size: 1.875rem;
-      font-weight: 700;
-      margin: 0;
-    }
-
-    .loading-container {
-      display: flex;
-      justify-content: center;
-      padding: 4rem;
-    }
-
-    .spinner-icon {
-      font-size: 2.5rem;
-      color: var(--p-primary-color);
-    }
-
-    .actions-column {
-      width: 120px;
-    }
-
-    .actions-cell {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .empty-message {
-      text-align: center;
-      padding: 2rem;
-      color: var(--p-text-muted-color);
-      width: 100%;
-    }
-
     .card-grid {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 1.5rem;
+      margin-top: 1rem;
     }
 
     .participant-card {
-      @apply inline-block p-1 sm:w-auto w-full;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .participant-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     }
 
     .card-header-content {
-      padding: 1.25rem 1.25rem 0 1.25rem;
-      cursor: pointer;
+      padding: 1.25rem 1.5rem 0.5rem;
+      border-bottom: 1px solid var(--p-content-border-color);
     }
 
     .participant-name {
       font-size: 1.25rem;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--p-primary-color);
-    }
-
-    .participant-name:hover {
-      text-decoration: underline;
+      display: block;
     }
 
     .card-content {
-      @apply sm:flex sm:flex-col sm:gap-1 md:gap-2 hidden;
+      padding: 1rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
     }
 
     .info-item {
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
+      font-size: 0.9rem;
     }
 
     .info-item .label {
-      font-size: 0.875rem;
       color: var(--p-text-muted-color);
-      font-weight: 500;
+    }
+
+    .actions-cell {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      padding: 0 1.5rem 1.25rem;
+    }
+
+    .empty-message {
+      text-align: center;
+      padding: 3rem;
+      color: var(--p-text-muted-color);
+      font-style: italic;
+      grid-column: 1 / -1;
     }
 
     .participant-form {
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 1.25rem;
       padding-top: 1rem;
     }
 
@@ -272,11 +250,17 @@ import { Card } from 'primeng/card';
 
     .field label {
       font-weight: 600;
+      font-size: 0.875rem;
+    }
+
+    .field input,
+    .field p-datepicker {
+      width: 100%;
     }
 
     .error-text {
       color: var(--p-red-500);
-      font-size: 0.875rem;
+      font-size: 0.75rem;
     }
 
     .form-actions {
@@ -284,6 +268,23 @@ import { Card } from 'primeng/card';
       justify-content: flex-end;
       gap: 1rem;
       margin-top: 1rem;
+    }
+
+    .spinner-icon {
+      font-size: 2.5rem;
+      color: var(--p-primary-color);
+    }
+
+    :host ::ng-deep .p-card-body {
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    :host ::ng-deep .p-card-content {
+      padding: 0;
+      flex-grow: 1;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

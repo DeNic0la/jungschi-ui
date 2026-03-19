@@ -6,15 +6,15 @@ import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
 import { Tabs, TabList, Tab } from 'primeng/tabs';
 import { RouterLink, RouterOutlet, Router } from '@angular/router';
-import { ParticipantService } from '../services/participant.service';
+import { ParticipantService } from '../../shared/services/participant.service';
 
 @Component({
   selector: 'app-participant-detail',
   imports: [CommonModule, Card, Button, Tabs, TabList, Tab, RouterLink, RouterOutlet],
   template: `
-    <div class="container">
+    <div class="page-container">
       <header class="flex-header">
-        <h1 class="title">Teilnehmer-Details</h1>
+        <h1>Teilnehmer-Details</h1>
         <p-button
           label="Zurück zur Liste"
           icon="pi pi-arrow-left"
@@ -72,32 +72,8 @@ import { ParticipantService } from '../services/participant.service';
     </div>
   `,
   styles: `
-    .container {
-      max-width: 1400px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
-    .flex-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    .title {
-      margin: 0;
-      font-size: 1.75rem;
-      color: var(--p-text-color);
-    }
     .subpage-content {
-      padding: 1rem 0;
-    }
-    .loading-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 4rem 0;
+      padding: 1.5rem 0 0;
     }
     .spinner-icon {
       font-size: 3rem;

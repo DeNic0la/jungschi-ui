@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { catchError, map, of, switchMap, Observable, filter } from 'rxjs';
 import { Checkbox } from 'primeng/checkbox';
-import { ParticipantService } from '../../services/participant.service';
-import { CanComponentDeactivate } from '../../pending-changes.guard';
+import { ParticipantService } from '../../../shared/services/participant.service';
+import { CanComponentDeactivate } from '../../../shared/guards/pending-changes.guard';
 
 @Component({
   selector: 'app-participant-overview',
@@ -107,21 +107,14 @@ import { CanComponentDeactivate } from '../../pending-changes.guard';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ParticipantOverviewComponent implements CanComponentDeactivate {
-  private readonly route = inject(ActivatedRoute);
   private readonly participantService = inject(ParticipantService);
 
-  // We need the parent route's param if this is a child
-  // But with withComponentInputBinding, it should be available as an input too if we declare it.
-  // However, since it's a child, the param is on the parent.
-  // We can use inject(ActivatedRoute).parent.params
-
-  id$: Observable<string | null> = (
-    (this.route.parent?.paramMap as Observable<ParamMap | null>) ?? of(null)
-  ).pipe(map((params: ParamMap | null) => params?.get('id') ?? null));
+  // Router param input (via withComponentInputBinding)
+  id = input.required<string>();
 
   participant = toSignal(
-    this.id$.pipe(
-      map((id: string | null) => (id ? Number(id) : NaN)),
+    toObservable(this.id).pipe(
+      map((id: string) => Number(id)),
       filter((id: number) => !isNaN(id)),
       switchMap((id: number) => this.participantService.info(id).pipe(catchError(() => of(null)))),
     ),

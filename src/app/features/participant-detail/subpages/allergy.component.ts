@@ -6,6 +6,7 @@ import {
   computed,
   effect,
   untracked,
+  input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -21,11 +22,11 @@ import { Select } from 'primeng/select';
 import { Card } from 'primeng/card';
 import { Tag } from 'primeng/tag';
 
-import { GlobalDefinitionsService } from '../../services/global-definitions.service';
-import { GlobalDefinitionDto } from '../../models/global-definition.model';
-import { ParticipantService } from '../../services/participant.service';
-import { IntoleranceSelectionDto, Severity } from '../../models/intolerance-selection.model';
-import { CanComponentDeactivate } from '../../pending-changes.guard';
+import { GlobalDefinitionsService } from '../../../shared/services/global-definitions.service';
+import { GlobalDefinitionDto } from '../../../shared/models/global-definition.model';
+import { ParticipantService } from '../../../shared/services/participant.service';
+import { IntoleranceSelectionDto, Severity, getSeverityColor, getSeverityLabel, getSeverityCSSColor } from '../../../shared/models/intolerance-selection.model';
+import { CanComponentDeactivate } from '../../../shared/guards/pending-changes.guard';
 import { PrimeTemplate } from 'primeng/api';
 
 interface IntoleranceItem {
@@ -138,7 +139,7 @@ interface IntoleranceItem {
                     <div class="flex items-center gap-3">
                       <i
                         class="pi pi-exclamation-triangle"
-                        [style.color]="getSeverityColor(item.severity)"
+                        [style.color]="getSeverityCSSColor(item.severity)"
                       ></i>
                       <h4 class="m-0">
                         {{ item.isCustom ? item.notes || item.label : item.label }}
@@ -174,7 +175,7 @@ interface IntoleranceItem {
                           @if (selectedOption) {
                             <div class="flex items-center gap-2">
                               <p-tag
-                                [severity]="getSeverity(selectedOption.value)"
+                                [severity]="getSeverityColor(selectedOption.value)"
                                 [value]="selectedOption.label"
                               />
                             </div>
@@ -182,7 +183,7 @@ interface IntoleranceItem {
                         </ng-template>
                         <ng-template pTemplate="option" let-option>
                           <div class="flex items-center gap-2">
-                            <p-tag [severity]="getSeverity(option.value)" [value]="option.label" />
+                            <p-tag [severity]="getSeverityColor(option.value)" [value]="option.label" />
                           </div>
                         </ng-template>
                       </p-select>
@@ -366,16 +367,14 @@ interface IntoleranceItem {
 export class AllergyComponent implements CanComponentDeactivate {
   private readonly globalDefinitionsService = inject(GlobalDefinitionsService);
   private readonly participantService = inject(ParticipantService);
-  private readonly route = inject(ActivatedRoute);
 
-  // Participant ID
-  private readonly id$ = (
-    (this.route.parent?.paramMap as Observable<ParamMap | null>) ?? of(null)
-  ).pipe(
-    map((params) => params?.get('id')),
-    map((id) => (id ? Number(id) : null)),
-  );
-  protected readonly id = toSignal(this.id$, { initialValue: null });
+  // Participant ID from route (via withComponentInputBinding)
+  id = input.required<string>();
+
+  protected readonly numericId = computed(() => {
+    const val = this.id();
+    return val ? Number(val) : null;
+  });
 
   // Available options from API
   private readonly allAllergies = toSignal(this.globalDefinitionsService.getAllergies(), {
@@ -389,7 +388,7 @@ export class AllergyComponent implements CanComponentDeactivate {
   // Initial Selections from API for this participant
   private readonly refreshTrigger = signal<number>(0);
   protected readonly initialSelections = toSignal(
-    toObservable(this.id).pipe(
+    toObservable(this.numericId).pipe(
       filter((id) => !!id),
       switchMap((id) => {
         this.refreshTrigger(); // Added dependency for refresh
@@ -424,31 +423,9 @@ export class AllergyComponent implements CanComponentDeactivate {
 
   loading = computed(() => this.initialSelections() === undefined);
 
-  getSeverity(severity: Severity | null): 'info' | 'warn' | 'danger' | 'secondary' {
-    switch (severity) {
-      case 'LIFE_THREATENING':
-        return 'danger';
-      case 'STRONG':
-        return 'warn';
-      case 'AFFECTED':
-        return 'info';
-      default:
-        return 'secondary';
-    }
-  }
-
-  getSeverityColor(severity: Severity | null): string {
-    switch (severity) {
-      case 'LIFE_THREATENING':
-        return 'var(--p-red-800)';
-      case 'STRONG':
-        return 'var(--p-orange-800)';
-      case 'AFFECTED':
-        return 'var(--p-blue-800)';
-      default:
-        return 'var(--p-surface-400)';
-    }
-  }
+  protected readonly getSeverityLabel = getSeverityLabel;
+  protected readonly getSeverityColor = getSeverityColor;
+  protected readonly getSeverityCSSColor = getSeverityCSSColor;
 
   constructor() {
     effect(() => {
@@ -572,7 +549,7 @@ export class AllergyComponent implements CanComponentDeactivate {
   }
 
   save() {
-    const participantId = this.id();
+    const participantId = this.numericId();
     if (!participantId) return;
 
     this.saving.set(true);

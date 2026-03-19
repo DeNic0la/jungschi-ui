@@ -18,9 +18,9 @@ import { RadioButton } from 'primeng/radiobutton';
 import { Message } from 'primeng/message';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
-import { ParticipantService } from '../../services/participant.service';
-import { HealthStatsDto } from '../../models/participant.model';
-import { CanComponentDeactivate } from '../../pending-changes.guard';
+import { ParticipantService } from '../../../shared/services/participant.service';
+import { HealthStatsDto } from '../../../shared/models/participant.model';
+import { CanComponentDeactivate } from '../../../shared/guards/pending-changes.guard';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -215,11 +215,10 @@ export class HealthStatsComponent implements CanComponentDeactivate {
 
   // Load stats declaratively
   private readonly statsResource = toSignal(
-    this.route.paramMap.pipe(
-      map((params) => params.get('id')),
-      switchMap((id) => {
-        const numId = Number(id);
-        if (!id || isNaN(numId)) return of(null);
+    toObservable(this.id).pipe(
+      map((id: string) => Number(id)),
+      filter((numId: number) => !isNaN(numId)),
+      switchMap((numId: number) => {
         return this.participantService.getHealthStats(numId).pipe(
           catchError((err) => {
             console.error('Failed to load health stats:', err);
@@ -282,7 +281,7 @@ export class HealthStatsComponent implements CanComponentDeactivate {
   }
 
   protected save(): void {
-    const participantId = Number(this.route.parent?.snapshot.paramMap.get('id'));
+    const participantId = Number(this.id());
     if (this.form.invalid || isNaN(participantId)) return;
 
     this.saving.set(true);

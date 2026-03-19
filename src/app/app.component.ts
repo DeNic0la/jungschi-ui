@@ -18,8 +18,8 @@ import { Menubar } from 'primeng/menubar';
 import { Button } from 'primeng/button';
 import { Menu } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
-import { UserService } from './services/user.service';
-import { UserProfile } from './models/user.model';
+import { UserService } from './shared/services/user.service';
+import { UserProfile } from './shared/models/user.model';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -128,14 +128,14 @@ import { firstValueFrom } from 'rxjs';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class App {
+export class AppComponent {
   private readonly keycloak = inject(Keycloak);
   private readonly keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
   private readonly userService = inject(UserService);
 
 
   protected readonly isLoggedIn = signal(false);
-  protected readonly userProfile = signal<UserProfile | null>(null);
+  protected readonly userProfile = this.userService.userProfile;
   protected readonly currentYear = new Date().getFullYear();
 
   protected readonly menuItems = computed<MenuItem[]>(() => {
@@ -187,19 +187,14 @@ export class App {
 
       if (event.type === KeycloakEventType.AuthLogout) {
         this.isLoggedIn.set(false);
-        this.userProfile.set(null);
+        this.userService.clearProfile();
       }
     });
 
     effect(() => {
       if (this.isLoggedIn()) {
         firstValueFrom(this.userService.getUserProfile())
-          .then((profile) =>
-            this.userProfile.set(profile)
-          )
           .catch((err) => console.error('Failed to load user profile in app', err));
-      } else {
-        this.userProfile.set(null);
       }
     });
   }

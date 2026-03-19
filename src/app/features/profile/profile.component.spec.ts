@@ -9,9 +9,9 @@ import Keycloak from 'keycloak-js';
 import { signal } from '@angular/core';
 import { of } from 'rxjs';
 import { ProfileComponent } from './profile.component';
-import { UserService } from '../services/user.service';
+import { UserService } from '../../shared/services/user.service';
 import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeng/themes/aura';
+import Aura from '@primeuix/themes/aura';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 describe('ProfileComponent', () => {

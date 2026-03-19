@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ParticipantHealthDetailsComponent } from './participant-health-details.component';
-import { TeamService } from '../services/team.service';
+import { TeamService } from '../../shared/services/team.service';
 import { of, throwError } from 'rxjs';
 import { provideRouter } from '@angular/router';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
