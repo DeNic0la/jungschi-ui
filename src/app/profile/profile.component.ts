@@ -6,7 +6,6 @@ import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import { Panel } from 'primeng/panel';
 import { Message } from 'primeng/message';
-import { Avatar } from 'primeng/avatar';
 import { UserService } from '../services/user.service';
 import { firstValueFrom } from 'rxjs';
 
@@ -125,7 +124,6 @@ export class ProfileComponent implements OnInit {
   protected readonly loading = signal(true);
   protected readonly saving = signal(false);
   protected readonly error = signal<string | null>(null);
-  protected readonly pictureUrl = signal<string | null>(null);
 
   async ngOnInit(): Promise<void> {
     try {

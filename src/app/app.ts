@@ -6,14 +6,13 @@ import { Menubar } from 'primeng/menubar';
 import { Button } from 'primeng/button';
 import { Menu } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
-import { Avatar } from 'primeng/avatar';
 import { UserService } from './services/user.service';
 import { UserProfile } from './models/user.model';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Menubar, Button, Menu, Avatar],
+  imports: [RouterOutlet, Menubar, Button, Menu],
   template: `
     <header class="header">
       <p-menubar [model]="menuItems()">

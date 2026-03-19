@@ -1,5 +1,4 @@
 export interface UserProfile {
-  id: number;
   oidcSubject: string;
   username: string;
   email: string;

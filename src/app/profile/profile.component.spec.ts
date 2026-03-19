@@ -43,7 +43,6 @@ describe('ProfileComponent', () => {
     userServiceMock = {
       getUserProfile: vi.fn().mockReturnValue(
         of({
-          id: 1,
           oidcSubject: 'test-subject',
           username: 'testuser',
           email: 'test@example.com',
@@ -54,7 +53,6 @@ describe('ProfileComponent', () => {
       ),
       updateUserProfile: vi.fn().mockReturnValue(
         of({
-          id: 1,
           oidcSubject: 'test-subject',
           username: 'testuser',
           email: 'test@example.com',

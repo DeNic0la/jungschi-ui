@@ -3,7 +3,9 @@ import { provideRouter } from '@angular/router';
 import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType } from 'keycloak-angular';
 import Keycloak from 'keycloak-js';
 import { signal } from '@angular/core';
+import { of } from 'rxjs';
 import { App } from './app';
+import { UserService } from './services/user.service';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -11,6 +13,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 describe('App', () => {
   let keycloakMock: any;
   let keycloakSignal: any;
+  let userServiceMock: any;
 
   beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {
@@ -35,6 +38,9 @@ describe('App', () => {
       logout: () => Promise.resolve(),
     };
     keycloakSignal = signal({ type: KeycloakEventType.Ready });
+    userServiceMock = {
+      getUserProfile: vi.fn().mockReturnValue(of({ username: 'testuser' })),
+    };
 
     await TestBed.configureTestingModule({
       imports: [App],
@@ -51,6 +57,7 @@ describe('App', () => {
         }),
         { provide: Keycloak, useValue: keycloakMock },
         { provide: KEYCLOAK_EVENT_SIGNAL, useValue: keycloakSignal },
+        { provide: UserService, useValue: userServiceMock },
       ],
     }).compileComponents();
   });
