@@ -48,9 +48,8 @@ export const appConfig: ApplicationConfig = {
         clientId: environment.keycloak.clientId,
       },
       initOptions: {
-        flow: 'implicit',
+        adapter: 'cordova',
         checkLoginIframe: true,
-        pkceMethod: 'S256',
       },
       features: [withAutoRefreshToken()],
       providers: [
