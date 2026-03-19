@@ -57,10 +57,10 @@ import { firstValueFrom } from 'rxjs';
           </ng-template>
           <ng-template #body let-participant>
             <tr>
-              <td>{{ participant.firstname }}</td>
-              <td>{{ participant.lastname }}</td>
-              <td>{{ participant.dateOfBirth | date: 'dd.MM.yyyy' }}</td>
-              <td>{{ participant.lastUpdatedAt | date: 'dd.MM.yyyy HH:mm' }}</td>
+              <td [routerLink]="['/participants', participant.id]">{{ participant.firstname }}</td>
+              <td [routerLink]="['/participants', participant.id]">{{ participant.lastname }}</td>
+              <td [routerLink]="['/participants', participant.id]">{{ participant.dateOfBirth | date: 'dd.MM.yyyy' }}</td>
+              <td [routerLink]="['/participants', participant.id]">{{ participant.lastUpdatedAt | date: 'dd.MM.yyyy HH:mm' }}</td>
               <td>
                 <div class="actions-cell">
                   <p-button

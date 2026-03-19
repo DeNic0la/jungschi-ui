@@ -115,6 +115,7 @@ import { ActivatedRoute } from '@angular/router';
               label="Löschen"
               type="button"
               severity="danger"
+              class="hidden"
               variant="text"
               icon="pi pi-trash"
               (click)="delete()"
@@ -132,6 +133,9 @@ import { ActivatedRoute } from '@angular/router';
   styles: `
     section {
       padding: 1rem 0;
+    }
+    .hidden {
+      display: none;
     }
     .health-form {
       display: flex;

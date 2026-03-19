@@ -24,8 +24,8 @@ const StatsigConfig = {
   sdkKey: environment.statsig.sdkKey,
   user: { userID: 'annonymous' }, // initial user object
   options: {
-    disableCompression: true,
-    plugins: [StatsigSessionReplayPlugin, StatsigAutoCapturePlugin],
+    disableCompression: false,
+    plugins: [new StatsigSessionReplayPlugin(), new StatsigAutoCapturePlugin()],
   },
 };
 
@@ -48,10 +48,8 @@ export const appConfig: ApplicationConfig = {
         clientId: environment.keycloak.clientId,
       },
       initOptions: {
-        onLoad: 'check-sso',
-        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
         flow: 'standard',
-        pkceMethod: 'S256',
+        pkceMethod: 'S256'
       },
       features: [withAutoRefreshToken()],
       providers: [
