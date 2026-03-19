@@ -134,7 +134,6 @@ export class App {
   private readonly keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
   private readonly userService = inject(UserService);
 
-  private readonly statsig = inject(StatsigService);
 
   protected readonly isLoggedIn = signal(false);
   protected readonly userProfile = signal<UserProfile | null>(null);
@@ -188,10 +187,9 @@ export class App {
     effect(() => {
       if (this.isLoggedIn()) {
         firstValueFrom(this.userService.getUserProfile())
-          .then((profile) => {
-            this.userProfile.set(profile);
-            this.statsig.updateUserAsync({userID: profile.oidcSubject}).then(r =>console.log(r))
-          })
+          .then((profile) =>
+            this.userProfile.set(profile)
+          )
           .catch((err) => console.error('Failed to load user profile in app', err));
       } else {
         this.userProfile.set(null);

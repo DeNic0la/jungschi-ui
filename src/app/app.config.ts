@@ -70,9 +70,9 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withComponentInputBinding()),
     MessageService,
     ConfirmationService,
-    {
-      provide: STATSIG_INIT_CONFIG,
-      useValue: StatsigConfig,
-    },
+    // {
+    //   provide: STATSIG_INIT_CONFIG,
+    //   useValue: StatsigConfig,
+    // },
   ],
 };
