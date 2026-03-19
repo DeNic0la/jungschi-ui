@@ -19,7 +19,8 @@ import { ParticipantService } from '../services/participant.service';
           label="Zurück zur Liste"
           icon="pi pi-arrow-left"
           [routerLink]="['/participants']"
-          severity="secondary" />
+          severity="secondary"
+        />
       </header>
 
       @if (loading()) {
@@ -36,17 +37,20 @@ import { ParticipantService } from '../services/participant.service';
               </p-tab>
               <p-tab
                 [value]="'/participants/' + id() + '/health-stats'"
-                [routerLink]="['/participants', id(), 'health-stats']">
+                [routerLink]="['/participants', id(), 'health-stats']"
+              >
                 <i class="pi pi-heart mr-2"></i> Gesundheitsinfo
               </p-tab>
               <p-tab
                 [value]="'/participants/' + id() + '/camp-stats'"
-                [routerLink]="['/participants', id(), 'camp-stats']">
+                [routerLink]="['/participants', id(), 'camp-stats']"
+              >
                 <i class="pi pi-map mr-2"></i> Lager Daten
               </p-tab>
               <p-tab
                 [value]="'/participants/' + id() + '/allergy'"
-                [routerLink]="['/participants', id(), 'allergy']">
+                [routerLink]="['/participants', id(), 'allergy']"
+              >
                 <i class="pi pi-exclamation-triangle mr-2"></i> Allergien & Essen
               </p-tab>
             </p-tablist>
@@ -58,7 +62,11 @@ import { ParticipantService } from '../services/participant.service';
       } @else {
         <p-card header="Fehler">
           <p>Teilnehmer mit der ID {{ id() }} konnte nicht gefunden werden.</p>
-          <p-button label="Zurück zur Liste" icon="pi pi-arrow-left" [routerLink]="['/participants']" />
+          <p-button
+            label="Zurück zur Liste"
+            icon="pi pi-arrow-left"
+            [routerLink]="['/participants']"
+          />
         </p-card>
       }
     </div>
@@ -122,10 +130,8 @@ export class ParticipantDetailComponent {
     toObservable(this.id).pipe(
       map((id: string) => Number(id)),
       filter((id: number) => !isNaN(id)),
-      switchMap((id: number) =>
-        this.participantService.get(id).pipe(catchError(() => of(null)))
-      )
-    )
+      switchMap((id: number) => this.participantService.get(id).pipe(catchError(() => of(null)))),
+    ),
   );
 
   loading = computed(() => this.participant() === undefined);

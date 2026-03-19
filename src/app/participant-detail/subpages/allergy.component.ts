@@ -26,7 +26,7 @@ import { GlobalDefinitionDto } from '../../models/global-definition.model';
 import { ParticipantService } from '../../services/participant.service';
 import { IntoleranceSelectionDto, Severity } from '../../models/intolerance-selection.model';
 import { CanComponentDeactivate } from '../../pending-changes.guard';
-import {PrimeTemplate} from 'primeng/api';
+import { PrimeTemplate } from 'primeng/api';
 
 interface IntoleranceItem {
   intoleranceId: number | null;
@@ -82,8 +82,8 @@ interface IntoleranceItem {
                   optionLabel="definitionValue"
                   [fluid]="true"
                   placeholder="Z.B. Pollen, Hausstaub..."
-                  ariaLabel="Allergien suchen">
-
+                  ariaLabel="Allergien suchen"
+                >
                 </p-autocomplete>
               </div>
 
@@ -100,7 +100,8 @@ interface IntoleranceItem {
                   optionLabel="definitionValue"
                   [fluid]="true"
                   placeholder="Z.B. Laktose, Gluten..."
-                  ariaLabel="Lebensmittel-Unverträglichkeiten suchen"/>
+                  ariaLabel="Lebensmittel-Unverträglichkeiten suchen"
+                />
               </div>
             </div>
 
@@ -111,7 +112,8 @@ interface IntoleranceItem {
                   icon="pi pi-plus"
                   [text]="true"
                   (click)="addCustomItem()"
-                  ariaLabel="Benutzerdefinierte Allergie hinzufügen"/>
+                  ariaLabel="Benutzerdefinierte Allergie hinzufügen"
+                />
               </div>
             }
           </p-card>
@@ -123,23 +125,26 @@ interface IntoleranceItem {
                 <h3 class="m-0">Aktuelle Einträge</h3>
                 <p-tag
                   [value]="items().length + (items().length === 1 ? ' Eintrag' : ' Einträge')"
-                  severity="secondary"/>
+                  severity="secondary"
+                />
               </div>
 
               @for (item of items(); track trackByIndex($index, item)) {
                 <p-card
                   class="intolerance-card"
-                  [class]="'severity-' + (item.severity?.toLowerCase() || 'none')">
+                  [class]="'severity-' + (item.severity?.toLowerCase() || 'none')"
+                >
                   <div class="card-header">
                     <div class="flex items-center gap-3">
                       <i
                         class="pi pi-exclamation-triangle"
-                        [style.color]="getSeverityColor(item.severity)"></i>
+                        [style.color]="getSeverityColor(item.severity)"
+                      ></i>
                       <h4 class="m-0">
-                        {{ item.isCustom ? (item.notes || item.label) : item.label }}
+                        {{ item.isCustom ? item.notes || item.label : item.label }}
                       </h4>
                       @if (item.isCustom) {
-                        <p-tag value="Eigener Eintrag" severity="contrast" [rounded]="true"/>
+                        <p-tag value="Eigener Eintrag" severity="contrast" [rounded]="true" />
                       }
                     </div>
                     <p-button
@@ -148,7 +153,8 @@ interface IntoleranceItem {
                       [text]="true"
                       [rounded]="true"
                       (click)="removeItem($index)"
-                      ariaLabel="Entfernen"/>
+                      ariaLabel="Entfernen"
+                    />
                   </div>
 
                   <div class="card-content">
@@ -162,21 +168,21 @@ interface IntoleranceItem {
                         optionValue="value"
                         placeholder="Schweregrad wählen"
                         [fluid]="true"
-                        (onChange)="markDirty()">
+                        (onChange)="markDirty()"
+                      >
                         <ng-template pTemplate="selectedItem" let-selectedOption>
                           @if (selectedOption) {
                             <div class="flex items-center gap-2">
                               <p-tag
                                 [severity]="getSeverity(selectedOption.value)"
-                                [value]="selectedOption.label"/>
+                                [value]="selectedOption.label"
+                              />
                             </div>
                           }
                         </ng-template>
                         <ng-template pTemplate="option" let-option>
                           <div class="flex items-center gap-2">
-                            <p-tag
-                              [severity]="getSeverity(option.value)"
-                              [value]="option.label"/>
+                            <p-tag [severity]="getSeverity(option.value)" [value]="option.label" />
                           </div>
                         </ng-template>
                       </p-select>
@@ -191,7 +197,8 @@ interface IntoleranceItem {
                         (ngModelChange)="markDirty()"
                         [autoResize]="true"
                         rows="2"
-                        placeholder="Z.B. Notfallmedikation, Symptome..."></textarea>
+                        placeholder="Z.B. Notfallmedikation, Symptome..."
+                      ></textarea>
                     </div>
                   </div>
                 </p-card>
@@ -216,13 +223,14 @@ interface IntoleranceItem {
               [loading]="saving()"
               icon="pi pi-save"
               [disabled]="!isDirty() || saving()"
-              size="large"/>
+              size="large"
+            />
 
             @if (saved()) {
-              <p-message severity="success" text="Erfolgreich gespeichert!"/>
+              <p-message severity="success" text="Erfolgreich gespeichert!" />
             }
             @if (error(); as err) {
-              <p-message severity="error" [text]="err"/>
+              <p-message severity="error" [text]="err" />
             }
           </div>
         </div>
@@ -376,9 +384,11 @@ export class AllergyComponent implements CanComponentDeactivate {
   private readonly route = inject(ActivatedRoute);
 
   // Participant ID
-  private readonly id$ = (this.route.parent?.paramMap as Observable<ParamMap | null> ?? of(null)).pipe(
+  private readonly id$ = (
+    (this.route.parent?.paramMap as Observable<ParamMap | null>) ?? of(null)
+  ).pipe(
     map((params) => params?.get('id')),
-    map((id) => (id ? Number(id) : null))
+    map((id) => (id ? Number(id) : null)),
   );
   protected readonly id = toSignal(this.id$, { initialValue: null });
 
@@ -388,7 +398,7 @@ export class AllergyComponent implements CanComponentDeactivate {
   });
   private readonly allFoodIntolerances = toSignal(
     this.globalDefinitionsService.getFoodIntolerances(),
-    { initialValue: [] }
+    { initialValue: [] },
   );
 
   // Initial Selections from API for this participant
@@ -399,8 +409,8 @@ export class AllergyComponent implements CanComponentDeactivate {
       switchMap((id) => {
         this.refreshTrigger(); // Added dependency for refresh
         return this.participantService.getIntoleranceSelections(id!).pipe(catchError(() => of([])));
-      })
-    )
+      }),
+    ),
   );
 
   // Current items list
@@ -471,7 +481,7 @@ export class AllergyComponent implements CanComponentDeactivate {
 
             return {
               intoleranceId: sel.intoleranceId,
-              definitionValue: definition?.definitionValue  ?? 'Unbekannt',
+              definitionValue: definition?.definitionValue ?? 'Unbekannt',
               label: definition?.label ?? sel.customText ?? 'Unbekannt',
               severity: sel.severity,
               notes: sel.customText,
@@ -492,8 +502,8 @@ export class AllergyComponent implements CanComponentDeactivate {
     const currentIds = this.items().map((i) => i.intoleranceId);
     this.filteredAllergies.set(
       this.allAllergies().filter(
-        (a) => a.label.toLowerCase().includes(query) && !currentIds.includes(a.id)
-      )
+        (a) => a.label.toLowerCase().includes(query) && !currentIds.includes(a.id),
+      ),
     );
   }
 
@@ -502,8 +512,8 @@ export class AllergyComponent implements CanComponentDeactivate {
     const currentIds = this.items().map((i) => i.intoleranceId);
     this.filteredFoodIntolerances.set(
       this.allFoodIntolerances().filter(
-        (f) => f.label.toLowerCase().includes(query) && !currentIds.includes(f.id)
-      )
+        (f) => f.label.toLowerCase().includes(query) && !currentIds.includes(f.id),
+      ),
     );
   }
 
@@ -593,7 +603,7 @@ export class AllergyComponent implements CanComponentDeactivate {
           intoleranceId: item.intoleranceId,
           customText: item.notes,
           severity: item.severity,
-        })
+        }),
       );
     });
 
@@ -605,7 +615,7 @@ export class AllergyComponent implements CanComponentDeactivate {
     toDelete.forEach((sel) => {
       if (sel.intoleranceId !== null) {
         requests.push(
-          this.participantService.deleteIntoleranceSelection(participantId, sel.intoleranceId)
+          this.participantService.deleteIntoleranceSelection(participantId, sel.intoleranceId),
         );
       } else {
         requests.push(this.participantService.deleteIntoleranceSelection(participantId));

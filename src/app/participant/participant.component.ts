@@ -43,17 +43,15 @@ import { firstValueFrom } from 'rxjs';
           <i class="pi pi-spin pi-spinner spinner-icon"></i>
         </div>
       } @else {
-        <p-table
-          [value]="participants()"
-          dataKey="id"
-          [stripedRows]="true"
-          size="small">
+        <p-table [value]="participants()" dataKey="id" [stripedRows]="true" size="small">
           <ng-template #header>
             <tr>
               <th pSortableColumn="firstname">Vorname <p-sortIcon field="firstname" /></th>
               <th pSortableColumn="lastname">Nachname <p-sortIcon field="lastname" /></th>
               <th pSortableColumn="dateOfBirth">Geburtsdatum <p-sortIcon field="dateOfBirth" /></th>
-              <th pSortableColumn="lastUpdatedAt">Zuletzt aktualisiert <p-sortIcon field="lastUpdatedAt" /></th>
+              <th pSortableColumn="lastUpdatedAt">
+                Zuletzt aktualisiert <p-sortIcon field="lastUpdatedAt" />
+              </th>
               <th class="actions-column">Aktionen</th>
             </tr>
           </ng-template>
@@ -70,19 +68,22 @@ import { firstValueFrom } from 'rxjs';
                     [rounded]="true"
                     severity="info"
                     [routerLink]="['/participants', participant.id]"
-                    aria-label="Anzeigen" />
+                    aria-label="Anzeigen"
+                  />
                   <p-button
                     icon="pi pi-pencil"
                     [rounded]="true"
                     severity="secondary"
                     (click)="openEditDialog(participant)"
-                    aria-label="Bearbeiten" />
+                    aria-label="Bearbeiten"
+                  />
                   <p-button
                     icon="pi pi-trash"
                     [rounded]="true"
                     severity="danger"
                     (click)="confirmDelete(participant)"
-                    aria-label="Löschen" />
+                    aria-label="Löschen"
+                  />
                 </div>
               </td>
             </tr>
@@ -100,12 +101,20 @@ import { firstValueFrom } from 'rxjs';
         [(visible)]="displayDialog"
         [modal]="true"
         [style]="{ width: '90%', maxWidth: '450px' }"
-        (onHide)="closeDialog()">
+        (onHide)="closeDialog()"
+      >
         <form [formGroup]="participantForm" (ngSubmit)="saveParticipant()" class="participant-form">
           <div class="field">
             <label for="firstname">Vorname</label>
-            <input pInputText id="firstname" formControlName="firstname" autocomplete="given-name" />
-            @if (participantForm.get('firstname')?.invalid && participantForm.get('firstname')?.touched) {
+            <input
+              pInputText
+              id="firstname"
+              formControlName="firstname"
+              autocomplete="given-name"
+            />
+            @if (
+              participantForm.get('firstname')?.invalid && participantForm.get('firstname')?.touched
+            ) {
               <small class="error-text">Vorname ist erforderlich.</small>
             }
           </div>
@@ -113,7 +122,9 @@ import { firstValueFrom } from 'rxjs';
           <div class="field">
             <label for="lastname">Nachname</label>
             <input pInputText id="lastname" formControlName="lastname" autocomplete="family-name" />
-            @if (participantForm.get('lastname')?.invalid && participantForm.get('lastname')?.touched) {
+            @if (
+              participantForm.get('lastname')?.invalid && participantForm.get('lastname')?.touched
+            ) {
               <small class="error-text">Nachname ist erforderlich.</small>
             }
           </div>
@@ -126,8 +137,12 @@ import { firstValueFrom } from 'rxjs';
               dateFormat="dd.mm.yy"
               appendTo="body"
               [showIcon]="true"
-              inputId="dateOfBirthInput" />
-            @if (participantForm.get('dateOfBirth')?.invalid && participantForm.get('dateOfBirth')?.touched) {
+              inputId="dateOfBirthInput"
+            />
+            @if (
+              participantForm.get('dateOfBirth')?.invalid &&
+              participantForm.get('dateOfBirth')?.touched
+            ) {
               <small class="error-text">Geburtsdatum ist erforderlich.</small>
             }
           </div>
@@ -137,12 +152,14 @@ import { firstValueFrom } from 'rxjs';
               label="Abbrechen"
               severity="secondary"
               type="button"
-              (click)="closeDialog()" />
+              (click)="closeDialog()"
+            />
             <p-button
               label="Speichern"
               [loading]="saving()"
               type="submit"
-              [disabled]="participantForm.invalid" />
+              [disabled]="participantForm.invalid"
+            />
           </div>
         </form>
       </p-dialog>

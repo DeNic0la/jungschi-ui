@@ -22,7 +22,7 @@ export const routes: Routes = [
     path: 'participants/:id',
     loadComponent: () =>
       import('./participant-detail/participant-detail.component').then(
-        (m) => m.ParticipantDetailComponent
+        (m) => m.ParticipantDetailComponent,
       ),
     canActivate: [authGuard],
     children: [
@@ -30,7 +30,7 @@ export const routes: Routes = [
         path: '',
         loadComponent: () =>
           import('./participant-detail/subpages/overview.component').then(
-            (m) => m.ParticipantOverviewComponent
+            (m) => m.ParticipantOverviewComponent,
           ),
         canDeactivate: [pendingChangesGuard],
       },
@@ -38,7 +38,7 @@ export const routes: Routes = [
         path: 'health-stats',
         loadComponent: () =>
           import('./participant-detail/subpages/health-stats.component').then(
-            (m) => m.HealthStatsComponent
+            (m) => m.HealthStatsComponent,
           ),
         canDeactivate: [pendingChangesGuard],
       },
@@ -46,16 +46,14 @@ export const routes: Routes = [
         path: 'camp-stats',
         loadComponent: () =>
           import('./participant-detail/subpages/camp-stats.component').then(
-            (m) => m.CampStatsComponent
+            (m) => m.CampStatsComponent,
           ),
         canDeactivate: [pendingChangesGuard],
       },
       {
         path: 'allergy',
         loadComponent: () =>
-          import('./participant-detail/subpages/allergy.component').then(
-            (m) => m.AllergyComponent
-          ),
+          import('./participant-detail/subpages/allergy.component').then((m) => m.AllergyComponent),
         canDeactivate: [pendingChangesGuard],
       },
     ],

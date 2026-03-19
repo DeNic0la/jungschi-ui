@@ -30,22 +30,27 @@ describe('ParticipantDetailComponent', () => {
       })),
     });
 
-    vi.stubGlobal('ResizeObserver', class {
-      observe = vi.fn();
-      unobserve = vi.fn();
-      disconnect = vi.fn();
-    });
+    vi.stubGlobal(
+      'ResizeObserver',
+      class {
+        observe = vi.fn();
+        unobserve = vi.fn();
+        disconnect = vi.fn();
+      },
+    );
   });
 
   beforeEach(async () => {
     participantServiceMock = {
-      get: vi.fn().mockReturnValue(of({
-        id: 1,
-        firstname: 'John',
-        lastname: 'Doe',
-        dateOfBirth: '1990-01-01',
-        lastUpdatedAt: '2026-03-19T00:00:00'
-      })),
+      get: vi.fn().mockReturnValue(
+        of({
+          id: 1,
+          firstname: 'John',
+          lastname: 'Doe',
+          dateOfBirth: '1990-01-01',
+          lastUpdatedAt: '2026-03-19T00:00:00',
+        }),
+      ),
     };
 
     await TestBed.configureTestingModule({
@@ -94,7 +99,8 @@ describe('ParticipantDetailComponent', () => {
     expect(participantServiceMock.get).toHaveBeenCalledWith(123);
     expect(component.participant()).toEqual(mockParticipant);
 
-    const cardHeader = fixture.debugElement.query(By.css('.p-card-title')).nativeElement.textContent;
+    const cardHeader = fixture.debugElement.query(By.css('.p-card-title')).nativeElement
+      .textContent;
     expect(cardHeader).toContain('Max');
     expect(cardHeader).toContain('Mustermann');
 

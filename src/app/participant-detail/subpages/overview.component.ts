@@ -36,7 +36,8 @@ import { CanComponentDeactivate } from '../../pending-changes.guard';
               [ngModel]="p.healthStats"
               [readonly]="true"
               size="large"
-              label="Vollständig" />
+              label="Vollständig"
+            />
           </span>
         </div>
         <div class="detail-item">
@@ -48,7 +49,8 @@ import { CanComponentDeactivate } from '../../pending-changes.guard';
               [ngModel]="p.campStats"
               [readonly]="true"
               size="large"
-              label="Vollständig" />
+              label="Vollständig"
+            />
           </span>
         </div>
       </div>
@@ -113,19 +115,16 @@ export class ParticipantOverviewComponent implements CanComponentDeactivate {
   // However, since it's a child, the param is on the parent.
   // We can use inject(ActivatedRoute).parent.params
 
-  id$: Observable<string | null> =
-    (this.route.parent?.paramMap as Observable<ParamMap | null> ?? of(null)).pipe(
-      map((params: ParamMap | null) => params?.get('id') ?? null)
-    );
+  id$: Observable<string | null> = (
+    (this.route.parent?.paramMap as Observable<ParamMap | null>) ?? of(null)
+  ).pipe(map((params: ParamMap | null) => params?.get('id') ?? null));
 
   participant = toSignal(
     this.id$.pipe(
       map((id: string | null) => (id ? Number(id) : NaN)),
       filter((id: number) => !isNaN(id)),
-      switchMap((id: number) =>
-        this.participantService.info(id).pipe(catchError(() => of(null)))
-      )
-    )
+      switchMap((id: number) => this.participantService.info(id).pipe(catchError(() => of(null)))),
+    ),
   );
 
   loading = computed(() => this.participant() === undefined);

@@ -57,13 +57,15 @@ import { firstValueFrom } from 'rxjs';
                 type="button"
                 severity="secondary"
                 icon="pi pi-key"
-                (click)="changePassword()" />
+                (click)="changePassword()"
+              />
               <p-button
                 label="Account verwalten"
                 type="button"
                 severity="info"
                 icon="pi pi-external-link"
-                (click)="manageAccount()" />
+                (click)="manageAccount()"
+              />
             </div>
           </form>
         }

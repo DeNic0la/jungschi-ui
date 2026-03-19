@@ -33,7 +33,7 @@ import { CanComponentDeactivate } from '../../pending-changes.guard';
           <span class="sr-only">Laden...</span>
         </div>
       } @else if (error()) {
-        <p-message severity="error" [text]="error()!"/>
+        <p-message severity="error" [text]="error()!" />
       } @else {
         <form [formGroup]="form" (ngSubmit)="save()" class="camp-form">
           <div class="field">
@@ -44,7 +44,8 @@ import { CanComponentDeactivate } from '../../pending-changes.guard';
                   name="isTickVaccinated"
                   formControlName="isTickVaccinated"
                   [value]="true"
-                  inputId="vaccinated-yes"></p-radiobutton>
+                  inputId="vaccinated-yes"
+                ></p-radiobutton>
                 <label for="vaccinated-yes">Ja</label>
               </div>
               <div class="flex items-center gap-2">
@@ -52,23 +53,32 @@ import { CanComponentDeactivate } from '../../pending-changes.guard';
                   name="isTickVaccinated"
                   formControlName="isTickVaccinated"
                   [value]="false"
-                  inputId="vaccinated-no"></p-radiobutton>
+                  inputId="vaccinated-no"
+                ></p-radiobutton>
                 <label for="vaccinated-no">Nein</label>
               </div>
             </div>
           </div>
 
           <div class="field">
-            <label id="drug-consent-label" class="font-bold">Einverständnis zur Medikamentenabgabe</label>
-            <div class="radio-group vertical" role="radiogroup" aria-labelledby="drug-consent-label">
+            <label id="drug-consent-label" class="font-bold"
+              >Einverständnis zur Medikamentenabgabe</label
+            >
+            <div
+              class="radio-group vertical"
+              role="radiogroup"
+              aria-labelledby="drug-consent-label"
+            >
               <div class="flex items-start gap-2">
                 <p-radiobutton
                   name="drugConsent"
                   formControlName="drugConsent"
                   [value]="true"
-                  inputId="drug-consent-yes"></p-radiobutton>
+                  inputId="drug-consent-yes"
+                ></p-radiobutton>
                 <label for="drug-consent-yes" class="consent-label">
-                  Ja, die Lagerleitung darf meinem Kind bei leichten Schmerzen Medikamente verabreichen (z.B. Dafalgan) oder Crème auftragen (z.B. Bepanthen)
+                  Ja, die Lagerleitung darf meinem Kind bei leichten Schmerzen Medikamente
+                  verabreichen (z.B. Dafalgan) oder Crème auftragen (z.B. Bepanthen)
                 </label>
               </div>
               <div class="flex items-start gap-2">
@@ -76,9 +86,12 @@ import { CanComponentDeactivate } from '../../pending-changes.guard';
                   name="drugConsent"
                   formControlName="drugConsent"
                   [value]="false"
-                  inputId="drug-consent-no"></p-radiobutton>
+                  inputId="drug-consent-no"
+                ></p-radiobutton>
                 <label for="drug-consent-no" class="consent-label">
-                  Nein, ich möchte nicht, dass die Lagerleitung meinem Kind bei einem kleinen Unfall/Krankheit leichte Medikamente (z.B. Dafalgan, Bepanthen) verabreicht. Ich möchte in diesem Fall zuerst telefonisch informiert werden.
+                  Nein, ich möchte nicht, dass die Lagerleitung meinem Kind bei einem kleinen
+                  Unfall/Krankheit leichte Medikamente (z.B. Dafalgan, Bepanthen) verabreicht. Ich
+                  möchte in diesem Fall zuerst telefonisch informiert werden.
                 </label>
               </div>
             </div>
@@ -101,7 +114,8 @@ import { CanComponentDeactivate } from '../../pending-changes.guard';
               id="sonstiges"
               formControlName="sonstiges"
               [autoResize]="true"
-              rows="3"></textarea>
+              rows="3"
+            ></textarea>
           </div>
 
           <div class="form-actions">
@@ -110,9 +124,10 @@ import { CanComponentDeactivate } from '../../pending-changes.guard';
               type="submit"
               [loading]="saving()"
               icon="pi pi-save"
-              [disabled]="form.pristine || form.invalid"/>
+              [disabled]="form.pristine || form.invalid"
+            />
             @if (saved()) {
-              <p-message severity="success" text="Gespeichert!"/>
+              <p-message severity="success" text="Gespeichert!" />
             }
           </div>
         </form>
@@ -186,15 +201,16 @@ export class CampStatsComponent implements CanComponentDeactivate {
   error = signal<string | null>(null);
 
   form = this.fb.group({
-    isTickVaccinated: this.fb.control<null|boolean>(null, Validators.required),
-    drugConsent:  this.fb.control<null|boolean>(null, Validators.required),
+    isTickVaccinated: this.fb.control<null | boolean>(null, Validators.required),
+    drugConsent: this.fb.control<null | boolean>(null, Validators.required),
     ahv: [''],
     krankenkasse: [''],
     sonstiges: [''],
   });
 
   constructor() {
-    this.route.parent?.paramMap.pipe(
+    this.route.parent?.paramMap
+      .pipe(
         map((params) => params.get('id')),
         switchMap((id) => {
           const numId = Number(id);
@@ -203,10 +219,10 @@ export class CampStatsComponent implements CanComponentDeactivate {
             catchError(() => {
               this.error.set('Fehler beim Laden der Daten.');
               return of(null);
-            })
+            }),
           );
         }),
-        take(1)
+        take(1),
       )
       .subscribe((stats) => {
         if (stats) {

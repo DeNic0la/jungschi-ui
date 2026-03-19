@@ -16,7 +16,12 @@ import { Card } from 'primeng/card';
         </p>
         <div class="hero-actions">
           <p-button label="Jetzt loslegen" size="large" (click)="login()" />
-          <p-button label="Mehr erfahren" size="large" severity="secondary" (click)="scrollToFeatures()" />
+          <p-button
+            label="Mehr erfahren"
+            size="large"
+            severity="secondary"
+            (click)="scrollToFeatures()"
+          />
         </div>
       </div>
     </section>

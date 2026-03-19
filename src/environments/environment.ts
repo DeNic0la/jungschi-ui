@@ -7,5 +7,5 @@ export const environment = {
   },
   statsig: {
     sdkKey: 'client-GmvqYVSPkAuEhQg5ktIz8QH1bQ4cucBg2JG23g0DIMJ',
-  }
+  },
 };

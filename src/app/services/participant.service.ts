@@ -4,7 +4,8 @@ import { Observable } from 'rxjs';
 import {
   CampStatsDto,
   HealthStatsDto,
-  Participant, ParticipantInfo,
+  Participant,
+  ParticipantInfo,
   ParticipantInput,
 } from '../models/participant.model';
 import { IntoleranceSelectionDto } from '../models/intolerance-selection.model';
@@ -57,17 +58,17 @@ export class ParticipantService {
 
   getIntoleranceSelections(participantId: number): Observable<IntoleranceSelectionDto[]> {
     return this.http.get<IntoleranceSelectionDto[]>(
-      `${this.apiUrl}/${participantId}/intolerance-selections`
+      `${this.apiUrl}/${participantId}/intolerance-selections`,
     );
   }
 
   updateIntoleranceSelection(
     participantId: number,
-    dto: IntoleranceSelectionDto
+    dto: IntoleranceSelectionDto,
   ): Observable<IntoleranceSelectionDto> {
     return this.http.put<IntoleranceSelectionDto>(
       `${this.apiUrl}/${participantId}/intolerance-selections`,
-      dto
+      dto,
     );
   }
 

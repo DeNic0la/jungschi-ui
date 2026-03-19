@@ -1,6 +1,18 @@
-import { ChangeDetectionStrategy, Component, effect, inject, signal, computed } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  signal,
+  computed,
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType, typeEventArgs, ReadyArgs } from 'keycloak-angular';
+import {
+  KEYCLOAK_EVENT_SIGNAL,
+  KeycloakEventType,
+  typeEventArgs,
+  ReadyArgs,
+} from 'keycloak-angular';
 import Keycloak from 'keycloak-js';
 import { Menubar } from 'primeng/menubar';
 import { Button } from 'primeng/button';
@@ -25,7 +37,8 @@ import { firstValueFrom } from 'rxjs';
               <p-button
                 severity="secondary"
                 (click)="userMenu.toggle($event)"
-                aria-label="Benutzermenü">
+                aria-label="Benutzermenü"
+              >
                 <div class="user-button-content">
                   <i class="pi pi-user"></i>
                   <span class="username">{{ userProfile()?.username ?? 'Profil' }}</span>
@@ -37,7 +50,8 @@ import { firstValueFrom } from 'rxjs';
                 label="Anmelden"
                 icon="pi pi-sign-in"
                 (click)="login()"
-                aria-label="Anmelden" />
+                aria-label="Anmelden"
+              />
             }
           </div>
         </ng-template>

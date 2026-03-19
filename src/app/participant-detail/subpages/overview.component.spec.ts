@@ -15,23 +15,25 @@ describe('ParticipantOverviewComponent', () => {
 
   beforeEach(async () => {
     participantServiceMock = {
-      info: vi.fn().mockReturnValue(of({
-        id: 1,
-        firstname: 'John',
-        lastname: 'Doe',
-        dateOfBirth: '1990-01-01',
-        lastUpdatedAt: '2026-03-19T00:00:00',
-        healthStats: true,
-        campStats: false
-      })),
+      info: vi.fn().mockReturnValue(
+        of({
+          id: 1,
+          firstname: 'John',
+          lastname: 'Doe',
+          dateOfBirth: '1990-01-01',
+          lastUpdatedAt: '2026-03-19T00:00:00',
+          healthStats: true,
+          campStats: false,
+        }),
+      ),
     };
 
     activatedRouteMock = {
       parent: {
         paramMap: of({
-          get: (key: string) => (key === 'id' ? '1' : null)
-        })
-      }
+          get: (key: string) => (key === 'id' ? '1' : null),
+        }),
+      },
     };
 
     await TestBed.configureTestingModule({

@@ -45,7 +45,7 @@ import { ActivatedRoute } from '@angular/router';
           <span class="sr-only">Laden...</span>
         </div>
       } @else if (error()) {
-        <p-message severity="error" [text]="error()!"/>
+        <p-message severity="error" [text]="error()!" />
       } @else {
         <form [formGroup]="form" (ngSubmit)="save()" class="health-form">
           <div class="field">
@@ -59,7 +59,8 @@ import { ActivatedRoute } from '@angular/router';
                   name="isHealthy"
                   formControlName="isHealthy"
                   [value]="true"
-                  inputId="healthy-yes"></p-radiobutton>
+                  inputId="healthy-yes"
+                ></p-radiobutton>
                 <label for="healthy-yes">Ja</label>
               </div>
               <div class="flex items-center gap-2">
@@ -67,7 +68,8 @@ import { ActivatedRoute } from '@angular/router';
                   name="isHealthy"
                   formControlName="isHealthy"
                   [value]="false"
-                  inputId="healthy-no"></p-radiobutton>
+                  inputId="healthy-no"
+                ></p-radiobutton>
                 <label for="healthy-no">Nein</label>
               </div>
             </div>
@@ -81,7 +83,8 @@ import { ActivatedRoute } from '@angular/router';
                 id="healthyReason"
                 formControlName="healthyReason"
                 [autoResize]="true"
-                rows="3"></textarea>
+                rows="3"
+              ></textarea>
             </div>
 
             <div class="field">
@@ -93,11 +96,10 @@ import { ActivatedRoute } from '@angular/router';
                 id="excludedActivities"
                 formControlName="excludedActivities"
                 [autoResize]="true"
-                rows="3"></textarea>
+                rows="3"
+              ></textarea>
             </div>
           }
-
-
 
           <div class="form-actions">
             <p-button
@@ -105,7 +107,8 @@ import { ActivatedRoute } from '@angular/router';
               type="submit"
               [loading]="saving()"
               icon="pi pi-save"
-              [disabled]="form.pristine || form.invalid"/>
+              [disabled]="form.pristine || form.invalid"
+            />
 
             <p-button
               id="delete-btn"
@@ -115,10 +118,11 @@ import { ActivatedRoute } from '@angular/router';
               variant="text"
               icon="pi pi-trash"
               (click)="delete()"
-              [disabled]="loading() || saving()"/>
+              [disabled]="loading() || saving()"
+            />
 
             @if (saved()) {
-              <p-message severity="success" text="Gespeichert!"/>
+              <p-message severity="success" text="Gespeichert!" />
             }
           </div>
         </form>
@@ -217,10 +221,10 @@ export class HealthStatsComponent implements CanComponentDeactivate {
             console.error('Failed to load health stats:', err);
             this.error.set('Daten konnten nicht geladen werden.');
             return of(null);
-          })
-        )
-      })
-    )
+          }),
+        );
+      }),
+    ),
   );
 
   protected readonly loading = computed(() => this.statsResource() === undefined);
@@ -230,9 +234,16 @@ export class HealthStatsComponent implements CanComponentDeactivate {
   private readonly savedTrigger = new Subject<boolean>();
   protected readonly saved = toSignal(
     this.savedTrigger.pipe(
-      switchMap((v) => (v ? timer(3000).pipe(map(() => false), startWith(true)) : of(false)))
+      switchMap((v) =>
+        v
+          ? timer(3000).pipe(
+              map(() => false),
+              startWith(true),
+            )
+          : of(false),
+      ),
     ),
-    { initialValue: false }
+    { initialValue: false },
   );
 
   private readonly confirmationService = inject(ConfirmationService);

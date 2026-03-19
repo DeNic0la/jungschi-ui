@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import "primeicons/primeicons.css";
+@import 'primeicons/primeicons.css';
 
 :root {
   --p-font-family: system-ui, -apple-system, sans-serif;
@@ -14,10 +14,10 @@ body {
 }
 
 /* Global styles for readonly inputs to ensure high contrast and readability */
-input[type=text][readonly] {
-  background-color: var(--p-surface-500) ;
-  color: var(--p-text-color) ;
-  border: 1px solid var(--p-surface-300) ;
+input[type='text'][readonly] {
+  background-color: var(--p-surface-500);
+  color: var(--p-text-color);
+  border: 1px solid var(--p-surface-300);
   cursor: default !important;
   opacity: 1 !important;
   -webkit-text-fill-color: var(--p-text-color);

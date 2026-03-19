@@ -33,7 +33,7 @@ describe('Participant Subpages', () => {
       fixture.componentRef.setInput('id', '1');
       fixture.detectChanges();
       expect(fixture.debugElement.query(By.css('h2')).nativeElement.textContent).toBe(
-        'Gesundheitsinfo'
+        'Gesundheitsinfo',
       );
     });
 
@@ -186,7 +186,7 @@ describe('Participant Subpages', () => {
     const fixture = TestBed.createComponent(AllergyComponent);
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('h2')).nativeElement.textContent).toBe(
-      'Allergien & Lebensmittel-Unverträglichkeiten'
+      'Allergien & Lebensmittel-Unverträglichkeiten',
     );
   });
 });

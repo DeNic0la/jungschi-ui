@@ -6,7 +6,7 @@ export interface Participant {
   lastUpdatedAt: string; // LocalDateTime
 }
 
-export interface ParticipantInfo extends Participant{
+export interface ParticipantInfo extends Participant {
   healthStats: boolean;
   campStats: boolean;
 }

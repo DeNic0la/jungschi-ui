@@ -23,7 +23,13 @@ describe('ParticipantService', () => {
 
   it('should get all participants', () => {
     const mockParticipants: Participant[] = [
-      { id: 1, firstname: 'John', lastname: 'Doe', dateOfBirth: '1990-01-01', lastUpdatedAt: '2026-03-19T00:00:00' },
+      {
+        id: 1,
+        firstname: 'John',
+        lastname: 'Doe',
+        dateOfBirth: '1990-01-01',
+        lastUpdatedAt: '2026-03-19T00:00:00',
+      },
     ];
 
     service.getAll().subscribe((data) => {
@@ -54,7 +60,11 @@ describe('ParticipantService', () => {
   });
 
   it('should create a participant', () => {
-    const input: ParticipantInput = { firstname: 'Jane', lastname: 'Doe', dateOfBirth: '1995-05-05' };
+    const input: ParticipantInput = {
+      firstname: 'Jane',
+      lastname: 'Doe',
+      dateOfBirth: '1995-05-05',
+    };
     const response: Participant = { ...input, id: 2, lastUpdatedAt: '2026-03-19T01:00:00' };
 
     service.create(input).subscribe((data) => {
@@ -68,7 +78,11 @@ describe('ParticipantService', () => {
   });
 
   it('should update a participant', () => {
-    const input: ParticipantInput = { firstname: 'Jane', lastname: 'Smith', dateOfBirth: '1995-05-05' };
+    const input: ParticipantInput = {
+      firstname: 'Jane',
+      lastname: 'Smith',
+      dateOfBirth: '1995-05-05',
+    };
     const response: Participant = { ...input, id: 2, lastUpdatedAt: '2026-03-19T02:00:00' };
 
     service.update(2, input).subscribe((data) => {

@@ -68,7 +68,13 @@ describe('ParticipantComponent', () => {
 
   it('should load participants on init', async () => {
     const mockParticipants = [
-      { id: 1, firstname: 'John', lastname: 'Doe', dateOfBirth: '1990-01-01', lastUpdatedAt: '2026-03-19T00:00:00' },
+      {
+        id: 1,
+        firstname: 'John',
+        lastname: 'Doe',
+        dateOfBirth: '1990-01-01',
+        lastUpdatedAt: '2026-03-19T00:00:00',
+      },
     ];
     participantServiceMock.getAll.mockReturnValue(of(mockParticipants));
 
@@ -95,7 +101,13 @@ describe('ParticipantComponent', () => {
   it('should open dialog for editing and patch values', () => {
     const fixture = TestBed.createComponent(ParticipantComponent);
     const component = fixture.componentInstance;
-    const participant = { id: 1, firstname: 'John', lastname: 'Doe', dateOfBirth: '1990-01-01', lastUpdatedAt: '2026-03-19T00:00:00' };
+    const participant = {
+      id: 1,
+      firstname: 'John',
+      lastname: 'Doe',
+      dateOfBirth: '1990-01-01',
+      lastUpdatedAt: '2026-03-19T00:00:00',
+    };
 
     component['openEditDialog'](participant);
 
