@@ -203,7 +203,6 @@ export class App {
         action: 'login',
         redirectUri: window.location.origin + '/profile',
         prompt: 'login',
-        flow: 'standard',
         scope: 'openid profile email',
       })
       .catch((err) => console.error('Login error:', err));

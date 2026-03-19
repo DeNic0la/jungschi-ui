@@ -48,8 +48,7 @@ export const appConfig: ApplicationConfig = {
         clientId: environment.keycloak.clientId,
       },
       initOptions: {
-        adapter: 'cordova',
-        checkLoginIframe: true,
+        flow: 'standard',
       },
       features: [withAutoRefreshToken()],
       providers: [
