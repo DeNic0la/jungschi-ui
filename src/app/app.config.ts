@@ -1,5 +1,4 @@
 import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeng/themes/aura';
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
@@ -14,6 +13,7 @@ import {
   UserActivityService,
 } from 'keycloak-angular';
 import Keycloak from 'keycloak-js';
+import Aura from '@primeuix/themes/aura';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { environment } from '../environments/environment';
@@ -27,6 +27,10 @@ export const appConfig: ApplicationConfig = {
         preset: Aura,
         options: {
           darkModeSelector: 'system',
+          cssLayer: {
+            name: 'primeng',
+            order: 'theme, base, primeng'
+          }
         },
       },
     }),

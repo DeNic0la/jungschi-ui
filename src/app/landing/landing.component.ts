@@ -36,24 +36,15 @@ import { Card } from 'primeng/card';
         }
       </div>
     </section>
-
-    <section id="about" class="about">
-      <h2>Über uns</h2>
-      <p>
-        Wir widmen uns der Bereitstellung der besten Werkzeuge für Entwickler und Benutzer
-        gleichermaßen. Unser Fokus liegt auf Leistung, Sicherheit und einer außergewöhnlichen
-        Benutzererfahrung.
-      </p>
-    </section>
   `,
   styles: `
+    @reference "tailwindcss";
     :host {
       display: block;
     }
-
     .hero {
       padding: 5rem 2rem;
-      background: linear-gradient(to bottom right, var(--p-primary-900), var(--p-surface-900));
+      @apply bg-indigo-300 text-gray-800;
       text-align: center;
       color: var(--p-text-color);
     }

@@ -38,7 +38,8 @@ import { Card } from 'primeng/card';
 
       <header class="flex-header">
         <h1 class="title">Teilnehmer</h1>
-        <p-button label="Neuer Teilnehmer" icon="pi pi-plus" (click)="openAddDialog()" />
+        <p-button styleClass="block lg:hidden" icon="pi pi-plus" (click)="openAddDialog()" />
+        <p-button styleClass="hidden lg:block" label="Neuer Teilnehmer" icon="pi pi-plus" (click)="openAddDialog()" />
       </header>
 
       @if (loading()) {
@@ -46,67 +47,7 @@ import { Card } from 'primeng/card';
           <i class="pi pi-spin pi-spinner spinner-icon"></i>
         </div>
       } @else {
-        @if (isMobile()) {
-          <p-table [value]="participants()" dataKey="id" [stripedRows]="true" size="small">
-            <ng-template #header>
-              <tr>
-                <th pSortableColumn="firstname">Vorname <p-sortIcon field="firstname" /></th>
-                <th pSortableColumn="lastname">Nachname <p-sortIcon field="lastname" /></th>
-                <th pSortableColumn="dateOfBirth">
-                  Geburtsdatum <p-sortIcon field="dateOfBirth" />
-                </th>
-                <th pSortableColumn="lastUpdatedAt">
-                  Zuletzt aktualisiert <p-sortIcon field="lastUpdatedAt" />
-                </th>
-                <th class="actions-column">Aktionen</th>
-              </tr>
-            </ng-template>
-            <ng-template #body let-participant>
-              <tr>
-                <td [routerLink]="['/participants', participant.id]">
-                  {{ participant.firstname }}
-                </td>
-                <td [routerLink]="['/participants', participant.id]">{{ participant.lastname }}</td>
-                <td [routerLink]="['/participants', participant.id]">
-                  {{ participant.dateOfBirth | date: 'dd.MM.yyyy' }}
-                </td>
-                <td [routerLink]="['/participants', participant.id]">
-                  {{ participant.lastUpdatedAt | date: 'dd.MM.yyyy HH:mm' }}
-                </td>
-                <td>
-                  <div class="actions-cell">
-                    <p-button
-                      icon="pi pi-eye"
-                      [rounded]="true"
-                      severity="info"
-                      [routerLink]="['/participants', participant.id]"
-                      aria-label="Anzeigen"
-                    />
-                    <p-button
-                      icon="pi pi-pencil"
-                      [rounded]="true"
-                      severity="secondary"
-                      (click)="openEditDialog(participant)"
-                      aria-label="Bearbeiten"
-                    />
-                    <p-button
-                      icon="pi pi-trash"
-                      [rounded]="true"
-                      severity="danger"
-                      (click)="confirmDelete(participant)"
-                      aria-label="Löschen"
-                    />
-                  </div>
-                </td>
-              </tr>
-            </ng-template>
-            <ng-template #emptymessage>
-              <tr>
-                <td colspan="5" class="empty-message">Keine Teilnehmer gefunden.</td>
-              </tr>
-            </ng-template>
-          </p-table>
-        } @else {
+
           <div class="card-grid">
             @for (participant of participants(); track participant.id) {
               <p-card class="participant-card">
@@ -157,7 +98,7 @@ import { Card } from 'primeng/card';
               <div class="empty-message">Keine Teilnehmer gefunden.</div>
             }
           </div>
-        }
+
       }
 
       <p-dialog
@@ -230,16 +171,16 @@ import { Card } from 'primeng/card';
     </div>
   `,
   styles: `
+    @reference "tailwindcss";
+
     .container {
-      padding: 2rem;
+      @apply lg:p-4 p-2;
       max-width: 1400px;
       margin: 0 auto;
     }
 
     .flex-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      @apply flex items-center lg:mb-4 mb-2 justify-between;
       margin-bottom: 2rem;
     }
 
@@ -283,8 +224,7 @@ import { Card } from 'primeng/card';
     }
 
     .participant-card {
-      flex: 1 1 300px;
-      max-width: calc(33.333% - 1rem);
+      @apply inline-block p-1 sm:w-auto w-full;
     }
 
     .card-header-content {
@@ -303,9 +243,7 @@ import { Card } from 'primeng/card';
     }
 
     .card-content {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
+      @apply sm:flex sm:flex-col sm:gap-1 md:gap-2 hidden;
     }
 
     .info-item {

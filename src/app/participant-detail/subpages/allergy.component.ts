@@ -254,7 +254,6 @@ interface IntoleranceItem {
       gap: 1.25rem;
     }
     .intolerance-card {
-      background: var(--p-surface-700);
       border-left: 6px solid var(--p-surface-500);
       transition: all 0.2s ease;
     }
@@ -286,7 +285,6 @@ interface IntoleranceItem {
       align-items: start;
     }
     .add-section-card {
-      background: var(--p-surface-800);
       border: 1px dashed var(--p-surface-300);
     }
     .grid-layout {
@@ -317,7 +315,6 @@ interface IntoleranceItem {
       gap: 1.5rem;
       margin-top: 1rem;
       padding: 1.5rem;
-      background: var(--p-surface-800);
       border-radius: 12px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     }
@@ -329,7 +326,6 @@ interface IntoleranceItem {
     .empty-state {
       text-align: center;
       padding: 4rem 2rem;
-      background: var(--p-surface-800);
       border-radius: 12px;
       border: 2px dashed var(--p-surface-200);
       color: var(--block-text-color);
@@ -354,18 +350,7 @@ interface IntoleranceItem {
       clip: rect(0, 0, 0, 0);
       border: 0;
     }
-    .m-0 {
-      margin: 0;
-    }
-    .mt-4 {
-      margin-top: 1rem;
-    }
-    .mb-2 {
-      margin-bottom: 0.5rem;
-    }
-    .mr-2 {
-      margin-right: 0.5rem;
-    }
+
     @media (max-width: 768px) {
       .card-content {
         grid-template-columns: 1fr;
