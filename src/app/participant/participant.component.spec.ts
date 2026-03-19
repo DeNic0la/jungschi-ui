@@ -129,7 +129,11 @@ describe('ParticipantComponent', () => {
     expect(component['isMobile']()).toBe(true);
 
     // Set window width to desktop
-    Object.defineProperty(window, 'innerWidth', { writable: true, configurable: true, value: 1024 });
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 1024,
+    });
     window.dispatchEvent(new Event('resize'));
     expect(component['isMobile']()).toBe(false);
   });

@@ -52,7 +52,9 @@ import { Card } from 'primeng/card';
               <tr>
                 <th pSortableColumn="firstname">Vorname <p-sortIcon field="firstname" /></th>
                 <th pSortableColumn="lastname">Nachname <p-sortIcon field="lastname" /></th>
-                <th pSortableColumn="dateOfBirth">Geburtsdatum <p-sortIcon field="dateOfBirth" /></th>
+                <th pSortableColumn="dateOfBirth">
+                  Geburtsdatum <p-sortIcon field="dateOfBirth" />
+                </th>
                 <th pSortableColumn="lastUpdatedAt">
                   Zuletzt aktualisiert <p-sortIcon field="lastUpdatedAt" />
                 </th>
@@ -61,7 +63,9 @@ import { Card } from 'primeng/card';
             </ng-template>
             <ng-template #body let-participant>
               <tr>
-                <td [routerLink]="['/participants', participant.id]">{{ participant.firstname }}</td>
+                <td [routerLink]="['/participants', participant.id]">
+                  {{ participant.firstname }}
+                </td>
                 <td [routerLink]="['/participants', participant.id]">{{ participant.lastname }}</td>
                 <td [routerLink]="['/participants', participant.id]">
                   {{ participant.dateOfBirth | date: 'dd.MM.yyyy' }}

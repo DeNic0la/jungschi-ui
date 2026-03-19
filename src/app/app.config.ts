@@ -49,7 +49,7 @@ export const appConfig: ApplicationConfig = {
       },
       initOptions: {
         flow: 'standard',
-        pkceMethod: 'S256'
+        pkceMethod: 'S256',
       },
       features: [withAutoRefreshToken()],
       providers: [

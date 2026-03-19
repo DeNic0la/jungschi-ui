@@ -21,7 +21,7 @@ import { MenuItem } from 'primeng/api';
 import { UserService } from './services/user.service';
 import { UserProfile } from './models/user.model';
 import { firstValueFrom } from 'rxjs';
-import {StatsigService} from '@statsig/angular-bindings';
+import { StatsigService } from '@statsig/angular-bindings';
 
 @Component({
   selector: 'app-root',
@@ -134,16 +134,14 @@ export class App {
   private readonly keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
   private readonly userService = inject(UserService);
 
-  private readonly statsig = inject(StatsigService)
+  private readonly statsig = inject(StatsigService);
 
   protected readonly isLoggedIn = signal(false);
   protected readonly userProfile = signal<UserProfile | null>(null);
   protected readonly currentYear = new Date().getFullYear();
 
   protected readonly menuItems = computed<MenuItem[]>(() => {
-    const items: MenuItem[] = [
-
-    ];
+    const items: MenuItem[] = [];
 
     if (this.isLoggedIn()) {
       items.push({
@@ -190,9 +188,9 @@ export class App {
     effect(() => {
       if (this.isLoggedIn()) {
         firstValueFrom(this.userService.getUserProfile())
-          .then((profile) =>{
-            this.statsig.updateUserAsync({userID: profile.oidcSubject})
-            this.userProfile.set(profile)
+          .then((profile) => {
+            this.statsig.updateUserAsync({ userID: profile.oidcSubject });
+            this.userProfile.set(profile);
           })
           .catch((err) => console.error('Failed to load user profile in app', err));
       } else {
@@ -202,10 +200,12 @@ export class App {
   }
 
   protected login(): void {
-    this.keycloak.login({
-      redirectUri: window.location.origin + '/profile',
-      scope: 'openid profile email',
-    }).catch((err) => console.error('Login error:', err));
+    this.keycloak
+      .login({
+        redirectUri: window.location.origin + '/profile',
+        scope: 'openid profile email',
+      })
+      .catch((err) => console.error('Login error:', err));
   }
 
   protected logout(): void {
