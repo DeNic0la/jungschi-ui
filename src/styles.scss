@@ -14,7 +14,7 @@ body {
 }
 
 /* Global styles for readonly inputs to ensure high contrast and readability */
-input[readonly] {
+input[type=text][readonly] {
   background-color: var(--p-surface-500) ;
   color: var(--p-text-color) ;
   border: 1px solid var(--p-surface-300) ;

@@ -2,7 +2,8 @@ import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { MessageService, ConfirmationService } from 'primeng/api';
 import { STATSIG_INIT_CONFIG } from '@statsig/angular-bindings';
 import { StatsigSessionReplayPlugin } from '@statsig/session-replay';
 import { StatsigAutoCapturePlugin } from '@statsig/web-analytics';
@@ -68,7 +69,9 @@ export const appConfig: ApplicationConfig = {
       ],
     }),
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes),
+    provideRouter(routes, withComponentInputBinding()),
+    MessageService,
+    ConfirmationService,
     {
       provide: STATSIG_INIT_CONFIG,
       useValue: StatsigConfig,

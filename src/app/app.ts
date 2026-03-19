@@ -137,6 +137,14 @@ export class App {
       },
     ];
 
+    if (this.isLoggedIn()) {
+      items.push({
+        label: 'Teilnehmer',
+        icon: 'pi pi-users',
+        routerLink: '/participants',
+      });
+    }
+
     return items;
   });
 

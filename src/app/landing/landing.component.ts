@@ -54,7 +54,7 @@ import { Card } from 'primeng/card';
     }
 
     .hero-content {
-      max-width: 800px;
+      max-width: 1000px;
       margin: 0 auto;
     }
 
@@ -81,7 +81,7 @@ import { Card } from 'primeng/card';
 
     .features {
       padding: 4rem 2rem;
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
     }
 
@@ -116,7 +116,7 @@ import { Card } from 'primeng/card';
     }
 
     .about p {
-      max-width: 600px;
+      max-width: 800px;
       margin: 0 auto;
       font-size: 1.125rem;
       color: inherit;
