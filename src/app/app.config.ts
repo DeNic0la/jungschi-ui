@@ -48,7 +48,9 @@ export const appConfig: ApplicationConfig = {
         clientId: environment.keycloak.clientId,
       },
       initOptions: {
+        onLoad: 'check-sso',
         flow: 'standard',
+        silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html'
       },
       features: [withAutoRefreshToken()],
       providers: [

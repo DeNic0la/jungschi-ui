@@ -200,9 +200,7 @@ export class App {
   protected login(): void {
     this.keycloak
       .login({
-        action: 'login',
         redirectUri: window.location.origin + '/profile',
-        prompt: 'login',
         scope: 'openid profile email',
       })
       .catch((err) => console.error('Login error:', err));
