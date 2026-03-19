@@ -12,7 +12,9 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { ParticipantService } from '../services/participant.service';
 import { Participant, ParticipantInput } from '../models/participant.model';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, fromEvent, map, startWith } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Card } from 'primeng/card';
 
 @Component({
   selector: 'app-participant',
@@ -27,6 +29,7 @@ import { firstValueFrom } from 'rxjs';
     DatePicker,
     Toast,
     ConfirmDialog,
+    Card,
   ],
   template: `
     <div class="container">
@@ -43,57 +46,114 @@ import { firstValueFrom } from 'rxjs';
           <i class="pi pi-spin pi-spinner spinner-icon"></i>
         </div>
       } @else {
-        <p-table [value]="participants()" dataKey="id" [stripedRows]="true" size="small">
-          <ng-template #header>
-            <tr>
-              <th pSortableColumn="firstname">Vorname <p-sortIcon field="firstname" /></th>
-              <th pSortableColumn="lastname">Nachname <p-sortIcon field="lastname" /></th>
-              <th pSortableColumn="dateOfBirth">Geburtsdatum <p-sortIcon field="dateOfBirth" /></th>
-              <th pSortableColumn="lastUpdatedAt">
-                Zuletzt aktualisiert <p-sortIcon field="lastUpdatedAt" />
-              </th>
-              <th class="actions-column">Aktionen</th>
-            </tr>
-          </ng-template>
-          <ng-template #body let-participant>
-            <tr>
-              <td [routerLink]="['/participants', participant.id]">{{ participant.firstname }}</td>
-              <td [routerLink]="['/participants', participant.id]">{{ participant.lastname }}</td>
-              <td [routerLink]="['/participants', participant.id]">{{ participant.dateOfBirth | date: 'dd.MM.yyyy' }}</td>
-              <td [routerLink]="['/participants', participant.id]">{{ participant.lastUpdatedAt | date: 'dd.MM.yyyy HH:mm' }}</td>
-              <td>
-                <div class="actions-cell">
-                  <p-button
-                    icon="pi pi-eye"
-                    [rounded]="true"
-                    severity="info"
-                    [routerLink]="['/participants', participant.id]"
-                    aria-label="Anzeigen"
-                  />
-                  <p-button
-                    icon="pi pi-pencil"
-                    [rounded]="true"
-                    severity="secondary"
-                    (click)="openEditDialog(participant)"
-                    aria-label="Bearbeiten"
-                  />
-                  <p-button
-                    icon="pi pi-trash"
-                    [rounded]="true"
-                    severity="danger"
-                    (click)="confirmDelete(participant)"
-                    aria-label="Löschen"
-                  />
+        @if (isMobile()) {
+          <p-table [value]="participants()" dataKey="id" [stripedRows]="true" size="small">
+            <ng-template #header>
+              <tr>
+                <th pSortableColumn="firstname">Vorname <p-sortIcon field="firstname" /></th>
+                <th pSortableColumn="lastname">Nachname <p-sortIcon field="lastname" /></th>
+                <th pSortableColumn="dateOfBirth">Geburtsdatum <p-sortIcon field="dateOfBirth" /></th>
+                <th pSortableColumn="lastUpdatedAt">
+                  Zuletzt aktualisiert <p-sortIcon field="lastUpdatedAt" />
+                </th>
+                <th class="actions-column">Aktionen</th>
+              </tr>
+            </ng-template>
+            <ng-template #body let-participant>
+              <tr>
+                <td [routerLink]="['/participants', participant.id]">{{ participant.firstname }}</td>
+                <td [routerLink]="['/participants', participant.id]">{{ participant.lastname }}</td>
+                <td [routerLink]="['/participants', participant.id]">
+                  {{ participant.dateOfBirth | date: 'dd.MM.yyyy' }}
+                </td>
+                <td [routerLink]="['/participants', participant.id]">
+                  {{ participant.lastUpdatedAt | date: 'dd.MM.yyyy HH:mm' }}
+                </td>
+                <td>
+                  <div class="actions-cell">
+                    <p-button
+                      icon="pi pi-eye"
+                      [rounded]="true"
+                      severity="info"
+                      [routerLink]="['/participants', participant.id]"
+                      aria-label="Anzeigen"
+                    />
+                    <p-button
+                      icon="pi pi-pencil"
+                      [rounded]="true"
+                      severity="secondary"
+                      (click)="openEditDialog(participant)"
+                      aria-label="Bearbeiten"
+                    />
+                    <p-button
+                      icon="pi pi-trash"
+                      [rounded]="true"
+                      severity="danger"
+                      (click)="confirmDelete(participant)"
+                      aria-label="Löschen"
+                    />
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template #emptymessage>
+              <tr>
+                <td colspan="5" class="empty-message">Keine Teilnehmer gefunden.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        } @else {
+          <div class="card-grid">
+            @for (participant of participants(); track participant.id) {
+              <p-card class="participant-card">
+                <ng-template #header>
+                  <div class="card-header-content" [routerLink]="['/participants', participant.id]">
+                    <span class="participant-name">
+                      {{ participant.firstname }} {{ participant.lastname }}
+                    </span>
+                  </div>
+                </ng-template>
+                <div class="card-content" [routerLink]="['/participants', participant.id]">
+                  <div class="info-item">
+                    <span class="label">Geburtsdatum:</span>
+                    <span>{{ participant.dateOfBirth | date: 'dd.MM.yyyy' }}</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="label">Zuletzt aktualisiert:</span>
+                    <span>{{ participant.lastUpdatedAt | date: 'dd.MM.yyyy HH:mm' }}</span>
+                  </div>
                 </div>
-              </td>
-            </tr>
-          </ng-template>
-          <ng-template #emptymessage>
-            <tr>
-              <td colspan="5" class="empty-message">Keine Teilnehmer gefunden.</td>
-            </tr>
-          </ng-template>
-        </p-table>
+                <ng-template #footer>
+                  <div class="actions-cell">
+                    <p-button
+                      icon="pi pi-eye"
+                      [rounded]="true"
+                      severity="info"
+                      [routerLink]="['/participants', participant.id]"
+                      aria-label="Anzeigen"
+                    />
+                    <p-button
+                      icon="pi pi-pencil"
+                      [rounded]="true"
+                      severity="secondary"
+                      (click)="openEditDialog(participant)"
+                      aria-label="Bearbeiten"
+                    />
+                    <p-button
+                      icon="pi pi-trash"
+                      [rounded]="true"
+                      severity="danger"
+                      (click)="confirmDelete(participant)"
+                      aria-label="Löschen"
+                    />
+                  </div>
+                </ng-template>
+              </p-card>
+            } @empty {
+              <div class="empty-message">Keine Teilnehmer gefunden.</div>
+            }
+          </div>
+        }
       }
 
       <p-dialog
@@ -209,6 +269,50 @@ import { firstValueFrom } from 'rxjs';
       text-align: center;
       padding: 2rem;
       color: var(--p-text-muted-color);
+      width: 100%;
+    }
+
+    .card-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .participant-card {
+      flex: 1 1 300px;
+      max-width: calc(33.333% - 1rem);
+    }
+
+    .card-header-content {
+      padding: 1.25rem 1.25rem 0 1.25rem;
+      cursor: pointer;
+    }
+
+    .participant-name {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--p-primary-color);
+    }
+
+    .participant-name:hover {
+      text-decoration: underline;
+    }
+
+    .card-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .info-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .info-item .label {
+      font-size: 0.875rem;
+      color: var(--p-text-muted-color);
+      font-weight: 500;
     }
 
     .participant-form {
@@ -247,6 +351,14 @@ export class ParticipantComponent implements OnInit {
   private readonly participantService = inject(ParticipantService);
   private readonly messageService = inject(MessageService);
   private readonly confirmationService = inject(ConfirmationService);
+
+  protected readonly isMobile = toSignal(
+    fromEvent(window, 'resize').pipe(
+      map(() => window.innerWidth < 768),
+      startWith(window.innerWidth < 768),
+    ),
+    { initialValue: window.innerWidth < 768 },
+  );
 
   protected readonly participants = signal<Participant[]>([]);
   protected readonly loading = signal(false);

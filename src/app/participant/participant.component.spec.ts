@@ -118,4 +118,19 @@ describe('ParticipantComponent', () => {
     // Date of birth will be a Date object
     expect(component['participantForm'].get('dateOfBirth')?.value).toBeInstanceOf(Date);
   });
+
+  it('should track mobile status correctly', () => {
+    const fixture = TestBed.createComponent(ParticipantComponent);
+    const component = fixture.componentInstance;
+
+    // Set window width to mobile
+    Object.defineProperty(window, 'innerWidth', { writable: true, configurable: true, value: 500 });
+    window.dispatchEvent(new Event('resize'));
+    expect(component['isMobile']()).toBe(true);
+
+    // Set window width to desktop
+    Object.defineProperty(window, 'innerWidth', { writable: true, configurable: true, value: 1024 });
+    window.dispatchEvent(new Event('resize'));
+    expect(component['isMobile']()).toBe(false);
+  });
 });
