@@ -21,7 +21,6 @@ import { MenuItem } from 'primeng/api';
 import { UserService } from './services/user.service';
 import { UserProfile } from './models/user.model';
 import { firstValueFrom } from 'rxjs';
-import { StatsigService } from '@statsig/angular-bindings';
 
 @Component({
   selector: 'app-root',
