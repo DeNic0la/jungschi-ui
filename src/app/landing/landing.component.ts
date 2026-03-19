@@ -162,6 +162,7 @@ export class LandingPageComponent {
   protected login(): void {
     this.keycloak.login({
       redirectUri: window.location.origin,
+
     });
   }
 

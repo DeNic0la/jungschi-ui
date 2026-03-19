@@ -189,8 +189,8 @@ export class App {
       if (this.isLoggedIn()) {
         firstValueFrom(this.userService.getUserProfile())
           .then((profile) => {
-            this.statsig.updateUserAsync({ userID: profile.oidcSubject });
             this.userProfile.set(profile);
+            this.statsig.updateUserAsync({userID: profile.oidcSubject}).then(r =>console.log(r))
           })
           .catch((err) => console.error('Failed to load user profile in app', err));
       } else {
@@ -201,10 +201,7 @@ export class App {
 
   protected login(): void {
     this.keycloak
-      .login({
-        redirectUri: window.location.origin + '/profile',
-        scope: 'openid profile email',
-      })
+      .login()
       .catch((err) => console.error('Login error:', err));
   }
 
