@@ -148,6 +148,14 @@ export class App {
         icon: 'pi pi-users',
         routerLink: '/participants',
       });
+
+      if (this.keycloak.hasRealmRole('Jungschiteam')) {
+        items.push({
+          label: 'Team',
+          icon: 'pi pi-id-card',
+          routerLink: '/team',
+        });
+      }
     }
 
     return items;
@@ -200,6 +208,8 @@ export class App {
   protected login(): void {
     this.keycloak
       .login({
+        prompt: 'login',
+        action: 'login',
         redirectUri: window.location.origin + '/profile',
         scope: 'openid profile email',
       })

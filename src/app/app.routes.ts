@@ -19,6 +19,27 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
+    path: 'team',
+    loadComponent: () => import('./team/team.component').then((m) => m.TeamComponent),
+    canActivate: [authGuard],
+    data: { roles: ['Jungschiteam'] },
+  },
+  {
+    path: 'team/health-data',
+    loadComponent: () => import('./team/health-data.component').then((m) => m.HealthDataComponent),
+    canActivate: [authGuard],
+    data: { roles: ['Jungschiteam'] },
+  },
+  {
+    path: 'team/health-data/:id/details',
+    loadComponent: () =>
+      import('./team/participant-health-details.component').then(
+        (m) => m.ParticipantHealthDetailsComponent,
+      ),
+    canActivate: [authGuard],
+    data: { roles: ['Jungschiteam'] },
+  },
+  {
     path: 'participants/:id',
     loadComponent: () =>
       import('./participant-detail/participant-detail.component').then(

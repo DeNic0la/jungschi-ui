@@ -1,3 +1,7 @@
+import { describe, it, expect, vi, beforeAll, beforeEach } from 'vitest';
+/**
+ * @vitest-environment jsdom
+ */
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType } from 'keycloak-angular';
@@ -36,6 +40,7 @@ describe('App', () => {
       authenticated: false,
       login: () => Promise.resolve(),
       logout: () => Promise.resolve(),
+      hasRealmRole: vi.fn().mockReturnValue(false),
     };
     keycloakSignal = signal({ type: KeycloakEventType.Ready });
     userServiceMock = {
@@ -87,6 +92,31 @@ describe('App', () => {
     fixture.detectChanges();
 
     expect(app['isLoggedIn']()).toBe(false);
+  });
+
+  it('should show Team menu item only if user has Jungschiteam role', () => {
+    const fixture = TestBed.createComponent(App);
+    const app = fixture.componentInstance;
+
+    // Not logged in
+    expect(app['menuItems']().some((i) => i.label === 'Team')).toBe(false);
+
+    // Logged in, no role
+    keycloakSignal.set({ type: KeycloakEventType.AuthSuccess });
+    fixture.detectChanges();
+    expect(app['menuItems']().some((i) => i.label === 'Team')).toBe(false);
+
+    // Logged in, with role
+    keycloakMock.hasRealmRole.mockReturnValue(true);
+    // Trigger signal update if necessary (menuItems is computed, depends on isLoggedIn)
+    // Actually it doesn't depend on a signal that changes when roles are checked if we don't use a signal for roles.
+    // However, isLoggedIn changing will trigger it.
+    // Let's re-trigger AuthSuccess or just set isLoggedIn again.
+    app['isLoggedIn'].set(false);
+    app['isLoggedIn'].set(true);
+    fixture.detectChanges();
+
+    expect(app['menuItems']().some((i) => i.label === 'Team')).toBe(true);
   });
 
   it('should create the app', () => {

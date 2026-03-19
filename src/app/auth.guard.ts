@@ -9,5 +9,11 @@ export const authGuard = createAuthGuard(async (route, state, authData) => {
     return false;
   }
 
-  return true;
+  const requiredRoles = route.data['roles'] as string[];
+
+  if (!requiredRoles || requiredRoles.length === 0) {
+    return true;
+  }
+
+  return requiredRoles.every((role) => authData.keycloak.hasRealmRole(role));
 });
