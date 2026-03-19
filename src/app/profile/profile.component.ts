@@ -6,6 +6,7 @@ import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import { Panel } from 'primeng/panel';
 import { Message } from 'primeng/message';
+import { Avatar } from 'primeng/avatar';
 import { UserService } from '../services/user.service';
 import { firstValueFrom } from 'rxjs';
 
@@ -100,9 +101,10 @@ import { firstValueFrom } from 'rxjs';
       margin-top: 1rem;
     }
 
-    input[readonly] {
-      background-color: var(--p-surface-100);
-      cursor: not-allowed;
+    .profile-avatar {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -113,7 +115,7 @@ export class ProfileComponent implements OnInit {
   private readonly userService = inject(UserService);
 
   protected readonly profileForm = this.fb.group({
-    username: [{ value: '', disabled: true }],
+    username: [''],
     email: ['', [Validators.required, Validators.email]],
     firstName: [''],
     lastName: [''],
@@ -123,6 +125,7 @@ export class ProfileComponent implements OnInit {
   protected readonly loading = signal(true);
   protected readonly saving = signal(false);
   protected readonly error = signal<string | null>(null);
+  protected readonly pictureUrl = signal<string | null>(null);
 
   async ngOnInit(): Promise<void> {
     try {

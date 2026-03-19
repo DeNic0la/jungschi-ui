@@ -4,11 +4,16 @@ import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType, typeEventArgs, ReadyArgs } fr
 import Keycloak from 'keycloak-js';
 import { Menubar } from 'primeng/menubar';
 import { Button } from 'primeng/button';
+import { Menu } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
+import { Avatar } from 'primeng/avatar';
+import { UserService } from './services/user.service';
+import { UserProfile } from './models/user.model';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Menubar, Button],
+  imports: [RouterOutlet, Menubar, Button, Menu, Avatar],
   template: `
     <header class="header">
       <p-menubar [model]="menuItems()">
@@ -19,11 +24,15 @@ import { MenuItem } from 'primeng/api';
           <div class="nav-actions">
             @if (isLoggedIn()) {
               <p-button
-                label="Abmelden"
-                icon="pi pi-sign-out"
                 severity="secondary"
-                (click)="logout()"
-                aria-label="Abmelden" />
+                (click)="userMenu.toggle($event)"
+                aria-label="Benutzermenü">
+                <div class="user-button-content">
+                  <i class="pi pi-user"></i>
+                  <span class="username">{{ userProfile()?.username ?? 'Profil' }}</span>
+                </div>
+              </p-button>
+              <p-menu #userMenu [model]="userMenuItems()" [popup]="true" appendTo="body" />
             } @else {
               <p-button
                 label="Anmelden"
@@ -73,6 +82,19 @@ import { MenuItem } from 'primeng/api';
       align-items: center;
     }
 
+    .user-button-content {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .username {
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     .main-content {
       flex: 1;
     }
@@ -96,8 +118,10 @@ import { MenuItem } from 'primeng/api';
 export class App {
   private readonly keycloak = inject(Keycloak);
   private readonly keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
+  private readonly userService = inject(UserService);
 
   protected readonly isLoggedIn = signal(false);
+  protected readonly userProfile = signal<UserProfile | null>(null);
   protected readonly currentYear = new Date().getFullYear();
 
   protected readonly menuItems = computed<MenuItem[]>(() => {
@@ -114,16 +138,21 @@ export class App {
       },
     ];
 
-    if (this.isLoggedIn()) {
-      items.push({
-        label: 'Profil',
-        icon: 'pi pi-user',
-        routerLink: '/profile',
-      });
-    }
-
     return items;
   });
+
+  protected readonly userMenuItems = computed<MenuItem[]>(() => [
+    {
+      label: 'Mein Profil',
+      icon: 'pi pi-user',
+      routerLink: '/profile',
+    },
+    {
+      label: 'Abmelden',
+      icon: 'pi pi-sign-out',
+      command: () => this.logout(),
+    },
+  ]);
 
   constructor() {
     effect(() => {
@@ -139,6 +168,17 @@ export class App {
 
       if (event.type === KeycloakEventType.AuthLogout) {
         this.isLoggedIn.set(false);
+        this.userProfile.set(null);
+      }
+    });
+
+    effect(() => {
+      if (this.isLoggedIn()) {
+        firstValueFrom(this.userService.getUserProfile())
+          .then((profile) => this.userProfile.set(profile))
+          .catch((err) => console.error('Failed to load user profile in app', err));
+      } else {
+        this.userProfile.set(null);
       }
     });
   }

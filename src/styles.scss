@@ -12,3 +12,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Global styles for readonly inputs to ensure high contrast and readability */
+input[readonly] {
+  background-color: var(--p-surface-500) ;
+  color: var(--p-text-color) ;
+  border: 1px solid var(--p-surface-300) ;
+  cursor: default !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: var(--p-text-color);
+}
