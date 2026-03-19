@@ -20,14 +20,14 @@ export interface TeamParticipantDetailsDto {
     isHealthy: boolean;
     healthyReason: string | null;
     excludedActivities: string | null;
-  };
+  } | null;
   campStats: {
     isTickVaccinated: boolean;
     drugConsent: boolean;
     ahv: string | null;
     krankenkasse: string | null;
     notes: string | null;
-  };
+  } | null;
   intoleranceSelections: Array<{
     id: number;
     intolerance: {

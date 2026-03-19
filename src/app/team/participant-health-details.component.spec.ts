@@ -152,4 +152,38 @@ describe('ParticipantHealthDetailsComponent', () => {
     expect(errorMessage).toBeTruthy();
     expect(errorMessage.textContent).toContain('Fehler beim Laden');
   });
+
+  it('should handle null healthStats and campStats gracefully', async () => {
+    const mockParticipant = {
+      id: 1,
+      firstname: 'Nicola Maria',
+      lastname: 'Fioretti',
+      dateOfBirth: '2026-03-11',
+      lastUpdatedAt: '2026-03-19T12:27:48.618243',
+      user: {
+        firstName: 'Nicola',
+        lastName: 'Fioretti',
+        email: 'alocinfioretti@gmail.com',
+      },
+      healthStats: null,
+      campStats: null,
+      intoleranceSelections: [],
+    };
+    teamServiceMock.getParticipant.mockReturnValue(of(mockParticipant));
+
+    fixture.componentRef.setInput('id', '1');
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const noDataElements = fixture.nativeElement.querySelectorAll('.no-data');
+    expect(noDataElements.length).toBe(2);
+    expect(noDataElements[0].textContent).toContain('Keine Daten vorhanden');
+    expect(noDataElements[1].textContent).toContain('Keine Daten vorhanden');
+
+    const emptyIntoleranceMessage = fixture.nativeElement.querySelector(
+      '.full-width p:not(.no-data)',
+    );
+    expect(emptyIntoleranceMessage.textContent).toContain('Keine Einträge vorhanden');
+  });
 });

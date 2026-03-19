@@ -96,25 +96,29 @@ import { Tag } from 'primeng/tag';
                         </div>
                       </ng-template>
                       <div class="info-grid">
-                        <div class="info-item">
-                          <label>Gesund</label>
-                          <div class="value">
-                            <p-tag
-                              [severity]="p.healthStats.isHealthy ? 'success' : 'danger'"
-                              [value]="p.healthStats.isHealthy ? 'Ja' : 'Nein'"
-                            />
-                          </div>
-                        </div>
-                        @if (!p.healthStats.isHealthy) {
+                        @if (p.healthStats; as hs) {
                           <div class="info-item">
-                            <label>Grund</label>
-                            <div class="value">{{ p.healthStats.healthyReason }}</div>
+                            <label>Gesund</label>
+                            <div class="value">
+                              <p-tag
+                                [severity]="hs.isHealthy ? 'success' : 'danger'"
+                                [value]="hs.isHealthy ? 'Ja' : 'Nein'"
+                              />
+                            </div>
                           </div>
+                          @if (!hs.isHealthy) {
+                            <div class="info-item">
+                              <label>Grund</label>
+                              <div class="value">{{ hs.healthyReason }}</div>
+                            </div>
+                          }
+                          <div class="info-item">
+                            <label>Eingeschränkte Aktivitäten</label>
+                            <div class="value">{{ hs.excludedActivities || 'Keine' }}</div>
+                          </div>
+                        } @else {
+                          <p class="no-data">Keine Daten vorhanden.</p>
                         }
-                        <div class="info-item">
-                          <label>Eingeschränkte Aktivitäten</label>
-                          <div class="value">{{ p.healthStats.excludedActivities || 'Keine' }}</div>
-                        </div>
                       </div>
                     </p-card>
 
@@ -127,36 +131,40 @@ import { Tag } from 'primeng/tag';
                         </div>
                       </ng-template>
                       <div class="info-grid">
-                        <div class="info-item">
-                          <label>Zeckenimpfung</label>
-                          <div class="value">
-                            <p-tag
-                              [severity]="p.campStats.isTickVaccinated ? 'success' : 'secondary'"
-                              [value]="p.campStats.isTickVaccinated ? 'Ja' : 'Nein'"
-                            />
+                        @if (p.campStats; as cs) {
+                          <div class="info-item">
+                            <label>Zeckenimpfung</label>
+                            <div class="value">
+                              <p-tag
+                                [severity]="cs.isTickVaccinated ? 'success' : 'secondary'"
+                                [value]="cs.isTickVaccinated ? 'Ja' : 'Nein'"
+                              />
+                            </div>
                           </div>
-                        </div>
-                        <div class="info-item">
-                          <label>Medikamentenabgabe</label>
-                          <div class="value">
-                            <p-tag
-                              [severity]="p.campStats.drugConsent ? 'success' : 'secondary'"
-                              [value]="p.campStats.drugConsent ? 'Ja' : 'Nein'"
-                            />
+                          <div class="info-item">
+                            <label>Medikamentenabgabe</label>
+                            <div class="value">
+                              <p-tag
+                                [severity]="cs.drugConsent ? 'success' : 'secondary'"
+                                [value]="cs.drugConsent ? 'Ja' : 'Nein'"
+                              />
+                            </div>
                           </div>
-                        </div>
-                        <div class="info-item">
-                          <label>AHV-Nummer</label>
-                          <div class="value">{{ p.campStats.ahv || '-' }}</div>
-                        </div>
-                        <div class="info-item">
-                          <label>Krankenkasse</label>
-                          <div class="value">{{ p.campStats.krankenkasse || '-' }}</div>
-                        </div>
-                        <div class="info-item">
-                          <label>Bemerkungen</label>
-                          <div class="value">{{ p.campStats.notes || 'Keine' }}</div>
-                        </div>
+                          <div class="info-item">
+                            <label>AHV-Nummer</label>
+                            <div class="value">{{ cs.ahv || '-' }}</div>
+                          </div>
+                          <div class="info-item">
+                            <label>Krankenkasse</label>
+                            <div class="value">{{ cs.krankenkasse || '-' }}</div>
+                          </div>
+                          <div class="info-item">
+                            <label>Bemerkungen</label>
+                            <div class="value">{{ cs.notes || 'Keine' }}</div>
+                          </div>
+                        } @else {
+                          <p class="no-data">Keine Daten vorhanden.</p>
+                        }
                       </div>
                     </p-card>
 
@@ -285,6 +293,12 @@ import { Tag } from 'primeng/tag';
       font-size: 0.9rem;
       color: var(--p-text-muted-color);
       font-style: italic;
+    }
+    .no-data {
+      color: var(--p-text-muted-color);
+      font-style: italic;
+      grid-column: span 2;
+      margin: 0;
     }
     .json-box {
       background: var(--p-surface-900);
