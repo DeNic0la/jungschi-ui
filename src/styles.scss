@@ -13,29 +13,28 @@ body {
   font-family: var(--p-font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: var(--p-text-color);
+}
+
+.flex-header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  @apply dark:text-teal-700;
 }
 
 /* Shared Layout Classes */
 .page-container {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  @apply md:p-2 xl:max-w-9/12 md:my-0 md:mx-auto md:max-w-10/12 w-full sm:px-2;
+
 }
 
 .flex-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
+  @apply flex md:justify-between items-center justify-around mb-4 mt-1;
 }
 
 .loading-container,
 .error-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  gap: 1rem;
+  @apply flex justify-center items-center p-2 gap-4;
 }
 
 .error-message {

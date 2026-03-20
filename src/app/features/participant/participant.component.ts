@@ -15,6 +15,7 @@ import { Participant, ParticipantInput } from '../../shared/models/participant.m
 import { firstValueFrom, fromEvent, map, startWith } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Card } from 'primeng/card';
+import {StyleClass} from 'primeng/styleclass';
 
 @Component({
   selector: 'app-participant',
@@ -38,8 +39,10 @@ import { Card } from 'primeng/card';
 
       <header class="flex-header">
         <h1>Teilnehmer</h1>
-        <p-button styleClass="block lg:hidden" icon="pi pi-plus" (click)="openAddDialog()" />
-        <p-button styleClass="hidden lg:block" label="Neuer Teilnehmer" icon="pi pi-plus" (click)="openAddDialog()" />
+        <div class="content">
+          <p-button styleClass="block lg:hidden" icon="pi pi-plus" (click)="openAddDialog()" />
+          <p-button styleClass="hidden lg:block" label="Neuer Teilnehmer" icon="pi pi-plus" (click)="openAddDialog()" />
+        </div>
       </header>
 
       @if (loading()) {
@@ -105,7 +108,7 @@ import { Card } from 'primeng/card';
         [header]="isEdit() ? 'Teilnehmer bearbeiten' : 'Neuer Teilnehmer'"
         [(visible)]="displayDialog"
         [modal]="true"
-        [style]="{ width: '90%', maxWidth: '450px' }"
+        styleClass="page-container"
         (onHide)="closeDialog()"
       >
         <form [formGroup]="participantForm" (ngSubmit)="saveParticipant()" class="participant-form">

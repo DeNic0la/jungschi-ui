@@ -6,7 +6,7 @@ import {
   signal,
   computed,
 } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {RouterLink, RouterOutlet} from '@angular/router';
 import {
   KEYCLOAK_EVENT_SIGNAL,
   KeycloakEventType,
@@ -24,12 +24,12 @@ import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Menubar, Button, Menu],
+  imports: [RouterOutlet, Menubar, Button, Menu, RouterLink],
   template: `
     <header class="header">
       <p-menubar [model]="menuItems()">
         <ng-template #start>
-          <span class="logo">Jungschi</span>
+          <span [routerLink]="['/']"  class="logo">Jungschi</span>
         </ng-template>
         <ng-template #end>
           <div class="nav-actions">
@@ -67,13 +67,11 @@ import { firstValueFrom } from 'rxjs';
     </footer>
   `,
   styles: `
+    @reference "tailwindcss";
     :host {
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      font-family: var(--p-font-family);
-      color: var(--p-text-color);
-      line-height: 1.5;
     }
 
     .header {
@@ -85,8 +83,7 @@ import { firstValueFrom } from 'rxjs';
     .logo {
       font-size: 1.5rem;
       font-weight: bold;
-      color: var(--p-primary-color);
-      margin-right: 2rem;
+      @apply mr-2 text-purple-600;
     }
 
     .nav-actions {

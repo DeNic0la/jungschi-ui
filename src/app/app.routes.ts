@@ -51,6 +51,11 @@ export const routes: Routes = [
     children: [
       {
         path: '',
+        redirectTo: 'overview',
+        pathMatch: 'full',
+      },
+      {
+        path: 'overview',
         loadComponent: () =>
           import('./features/participant-detail/subpages/overview.component').then(
             (m) => m.ParticipantOverviewComponent,
