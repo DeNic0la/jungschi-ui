@@ -26,22 +26,29 @@ import { firstValueFrom } from 'rxjs';
   selector: 'app-root',
   imports: [RouterOutlet, Menubar, Button, Menu, RouterLink],
   template: `
-    <header class="header">
-      <p-menubar [model]="menuItems()">
+    <header class="sticky top-0 z-50 shadow-sm">
+      <p-menubar [model]="menuItems()" styleClass="border-0 rounded-none px-4 sm:px-8 py-3">
         <ng-template #start>
-          <span [routerLink]="['/']"  class="logo">Jungschi</span>
+          <span
+            [routerLink]="['/']"
+            class="text-2xl font-black mr-6 text-primary cursor-pointer tracking-tighter"
+          >
+            Jungschi
+          </span>
         </ng-template>
         <ng-template #end>
-          <div class="nav-actions">
+          <div class="flex items-center gap-4">
             @if (isLoggedIn()) {
               <p-button
                 severity="secondary"
                 (click)="userMenu.toggle($event)"
                 aria-label="Benutzermenü"
               >
-                <div class="user-button-content">
+                <div class="flex items-center gap-2">
                   <i class="pi pi-user"></i>
-                  <span class="username">{{ userProfile()?.username ?? 'Profil' }}</span>
+                  <span class="max-w-[150px] truncate hidden sm:inline">
+                    {{ userProfile()?.username ?? 'Profil' }}
+                  </span>
                 </div>
               </p-button>
               <p-menu #userMenu [model]="userMenuItems()" [popup]="true" appendTo="body" />
@@ -58,69 +65,21 @@ import { firstValueFrom } from 'rxjs';
       </p-menubar>
     </header>
 
-    <main class="main-content">
+    <main class="flex-1">
       <router-outlet></router-outlet>
     </main>
 
-    <footer class="footer">
+    <footer
+      class="p-8 text-center border-t border-surface-200 dark:border-surface-700 text-surface-500 text-sm"
+    >
       <p>&copy; {{ currentYear }} Jungschi. Alle Rechte vorbehalten.</p>
     </footer>
   `,
   styles: `
-    @reference "tailwindcss";
     :host {
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-    }
-
-    .header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-      @apply mr-2 text-purple-600;
-    }
-
-    .nav-actions {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
-
-    .user-button-content {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .username {
-      max-width: 150px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .main-content {
-      flex: 1;
-    }
-
-    .footer {
-      padding: 2rem;
-      text-align: center;
-      border-top: 1px solid var(--p-content-border-color);
-      color: var(--p-text-muted-color);
-    }
-
-    :host ::ng-deep .p-menubar {
-      border-radius: 0;
-      border-left: 0;
-      border-right: 0;
-      padding: 0.75rem 2rem;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

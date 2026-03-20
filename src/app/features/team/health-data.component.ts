@@ -22,9 +22,15 @@ import { firstValueFrom } from 'rxjs';
   imports: [CommonModule, RouterLink, TableModule, InputText, IconField, InputIcon, Button],
   template: `
     <div class="page-container">
-      <header class="flex-header">
-        <h1>Gesundheitsdaten</h1>
-        <p-button label="Zurück" icon="pi pi-arrow-left" routerLink="/team" severity="secondary" />
+      <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <h1 class="text-3xl font-bold text-surface-900 dark:text-surface-0">Gesundheitsdaten</h1>
+        <p-button
+          label="Zurück"
+          icon="pi pi-arrow-left"
+          routerLink="/team"
+          severity="secondary"
+          class="w-full sm:w-auto"
+        />
       </header>
 
       <p-table
@@ -40,14 +46,15 @@ import { firstValueFrom } from 'rxjs';
         [loading]="loading()"
       >
         <ng-template #caption>
-          <div class="flex justify-between items-center">
-            <p-iconfield iconPosition="left">
+          <div class="flex justify-end">
+            <p-iconfield iconPosition="left" class="w-full sm:w-auto">
               <p-inputicon class="pi pi-search" />
               <input
                 pInputText
                 type="text"
                 (input)="onGlobalFilter($event)"
                 placeholder="Suchen..."
+                class="w-full"
               />
             </p-iconfield>
           </div>
@@ -84,12 +91,7 @@ import { firstValueFrom } from 'rxjs';
       </p-table>
     </div>
   `,
-  styles: `
-    :host ::ng-deep .p-datatable-header {
-      background: transparent;
-      padding: 1rem 0;
-    }
-  `,
+  styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HealthDataComponent implements OnInit {

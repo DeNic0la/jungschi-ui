@@ -13,44 +13,60 @@ import { firstValueFrom } from 'rxjs';
   selector: 'app-profile',
   imports: [CommonModule, ReactiveFormsModule, Button, InputText, Panel, Message],
   template: `
-    <div class="page-container" style="max-width: 800px;">
+    <div class="page-container max-w-3xl">
       <p-panel header="Profil">
         @if (loading()) {
-          <div class="loading-container">
+          <div class="flex justify-center items-center p-8">
             <p-message severity="info" text="Profil wird geladen..." />
           </div>
         } @else if (error()) {
-          <div class="error-container">
+          <div class="flex justify-center items-center p-8">
             <p-message severity="error" [text]="error()!" />
           </div>
         } @else {
-          <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="profile-form">
-            <div class="field">
-              <label for="username">Benutzername</label>
-              <input pInputText id="username" formControlName="username" readonly />
+          <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="flex flex-col gap-6 pt-4">
+            <div class="flex flex-col gap-2">
+              <label for="username" class="font-semibold text-surface-900 dark:text-surface-0">
+                Benutzername
+              </label>
+              <input pInputText id="username" formControlName="username" readonly class="w-full" />
             </div>
 
-            <div class="field">
-              <label for="email">E-Mail</label>
-              <input pInputText id="email" formControlName="email" type="email" />
+            <div class="flex flex-col gap-2">
+              <label for="email" class="font-semibold text-surface-900 dark:text-surface-0">
+                E-Mail
+              </label>
+              <input pInputText id="email" formControlName="email" type="email" class="w-full" />
             </div>
 
-            <div class="field">
-              <label for="firstName">Vorname</label>
-              <input pInputText id="firstName" formControlName="firstName" />
+            <div class="flex flex-col gap-2">
+              <label for="firstName" class="font-semibold text-surface-900 dark:text-surface-0">
+                Vorname
+              </label>
+              <input pInputText id="firstName" formControlName="firstName" class="w-full" />
             </div>
 
-            <div class="field">
-              <label for="lastName">Nachname</label>
-              <input pInputText id="lastName" formControlName="lastName" />
+            <div class="flex flex-col gap-2">
+              <label for="lastName" class="font-semibold text-surface-900 dark:text-surface-0">
+                Nachname
+              </label>
+              <input pInputText id="lastName" formControlName="lastName" class="w-full" />
             </div>
 
-            <div class="field">
-              <label for="phoneNumber">Telefonnummer</label>
-              <input pInputText id="phoneNumber" formControlName="phoneNumber" type="tel" />
+            <div class="flex flex-col gap-2">
+              <label for="phoneNumber" class="font-semibold text-surface-900 dark:text-surface-0">
+                Telefonnummer
+              </label>
+              <input
+                pInputText
+                id="phoneNumber"
+                formControlName="phoneNumber"
+                type="tel"
+                class="w-full"
+              />
             </div>
 
-            <div class="form-actions">
+            <div class="flex flex-wrap gap-4 mt-4">
               <p-button label="Speichern" type="submit" [loading]="saving()" icon="pi pi-save" />
               <p-button
                 label="Passwort ändern"
@@ -72,32 +88,7 @@ import { firstValueFrom } from 'rxjs';
       </p-panel>
     </div>
   `,
-  styles: `
-    .profile-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      padding-top: 1rem;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .field label {
-      font-weight: 600;
-      color: var(--p-text-color);
-    }
-
-    .form-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-  `,
+  styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent implements OnInit {

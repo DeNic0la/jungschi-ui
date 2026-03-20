@@ -37,108 +37,131 @@ import {StyleClass} from 'primeng/styleclass';
       <p-toast />
       <p-confirmdialog />
 
-      <header class="flex-header">
-        <h1>Teilnehmer</h1>
-        <div class="content">
-          <p-button styleClass="block lg:hidden" icon="pi pi-plus" (click)="openAddDialog()" />
-          <p-button styleClass="hidden lg:block" label="Neuer Teilnehmer" icon="pi pi-plus" (click)="openAddDialog()" />
-        </div>
+      <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <h1 class="text-3xl font-bold text-surface-900 dark:text-surface-0">Teilnehmer</h1>
+        <p-button
+          label="Neuer Teilnehmer"
+          icon="pi pi-plus"
+          (click)="openAddDialog()"
+          class="w-full sm:w-auto"
+        />
       </header>
 
       @if (loading()) {
-        <div class="loading-container">
-          <i class="pi pi-spin pi-spinner spinner-icon"></i>
+        <div class="flex justify-center items-center py-20">
+          <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
         </div>
       } @else {
-
-          <div class="card-grid">
-            @for (participant of participants(); track participant.id) {
-              <p-card class="participant-card">
-                <ng-template #header>
-                  <div class="card-header-content" [routerLink]="['/participants', participant.id]">
-                    <span class="participant-name">
-                      {{ participant.firstname }} {{ participant.lastname }}
-                    </span>
-                  </div>
-                </ng-template>
-                <div class="card-content" [routerLink]="['/participants', participant.id]">
-                  <div class="info-item">
-                    <span class="label">Geburtsdatum:</span>
-                    <span>{{ participant.dateOfBirth | date: 'dd.MM.yyyy' }}</span>
-                  </div>
-                  <div class="info-item">
-                    <span class="label">Zuletzt aktualisiert:</span>
-                    <span>{{ participant.lastUpdatedAt | date: 'dd.MM.yyyy HH:mm' }}</span>
-                  </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          @for (participant of participants(); track participant.id) {
+            <p-card
+              class="hover:shadow-lg transition-shadow cursor-pointer"
+            >
+              <ng-template #header>
+                <div
+                  [routerLink]="['/participants', participant.id]"
+                  class="px-6 pt-6 pb-2 border-b border-surface-200 dark:border-surface-700">
+                  <span class="text-xl font-bold text-primary block">
+                    {{ participant.firstname }} {{ participant.lastname }}
+                  </span>
                 </div>
-                <ng-template #footer>
-                  <div class="actions-cell">
-                    <p-button
-                      icon="pi pi-eye"
-                      [rounded]="true"
-                      severity="info"
-                      [routerLink]="['/participants', participant.id]"
-                      aria-label="Anzeigen"
-                    />
-                    <p-button
-                      icon="pi pi-pencil"
-                      [rounded]="true"
-                      severity="secondary"
-                      (click)="openEditDialog(participant)"
-                      aria-label="Bearbeiten"
-                    />
-                    <p-button
-                      icon="pi pi-trash"
-                      [rounded]="true"
-                      severity="danger"
-                      (click)="confirmDelete(participant)"
-                      aria-label="Löschen"
-                    />
-                  </div>
-                </ng-template>
-              </p-card>
-            } @empty {
-              <div class="empty-message">Keine Teilnehmer gefunden.</div>
-            }
-          </div>
+              </ng-template>
 
+              <div class="flex flex-col gap-3 m-4">
+                <div class="flex justify-between text-sm">
+                  <span class="text-surface-500 dark:text-surface-400">Geburtsdatum:</span>
+                  <span class="text-surface-900 dark:text-surface-0 font-medium">
+                    {{ participant.dateOfBirth | date: 'dd.MM.yyyy' }}
+                  </span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-surface-500 dark:text-surface-400">Zuletzt aktualisiert:</span>
+                  <span class="text-surface-900 dark:text-surface-0 font-medium">
+                    {{ participant.lastUpdatedAt | date: 'dd.MM.yyyy HH:mm' }}
+                  </span>
+                </div>
+                <div class="flex justify-around">
+                  <p-button
+                    icon="pi pi-eye"
+                    [rounded]="true"
+                    severity="info"
+                    [routerLink]="['/participants', participant.id]"
+                    aria-label="Anzeigen"
+                  />
+                  <p-button
+                    icon="pi pi-pencil"
+                    [rounded]="true"
+                    severity="secondary"
+                    (click)="openEditDialog(participant)"
+                    aria-label="Bearbeiten"
+                  />
+                  <p-button
+                    icon="pi pi-trash"
+                    [rounded]="true"
+                    severity="danger"
+                    (click)="confirmDelete(participant)"
+                    aria-label="Löschen"
+                  />
+                </div>
+              </div>
+
+
+            </p-card>
+          } @empty {
+            <div class="col-span-full text-center py-20 text-surface-500 italic">
+              Keine Teilnehmer gefunden.
+            </div>
+          }
+        </div>
       }
 
       <p-dialog
         [header]="isEdit() ? 'Teilnehmer bearbeiten' : 'Neuer Teilnehmer'"
         [(visible)]="displayDialog"
         [modal]="true"
-        styleClass="page-container"
+        [breakpoints]="{ '960px': '75vw', '640px': '90vw' }"
+        [style]="{ width: '50vw' }"
         (onHide)="closeDialog()"
       >
-        <form [formGroup]="participantForm" (ngSubmit)="saveParticipant()" class="participant-form">
-          <div class="field">
-            <label for="firstname">Vorname</label>
+        <form
+          [formGroup]="participantForm"
+          (ngSubmit)="saveParticipant()"
+          class="flex flex-col gap-5 pt-4"
+        >
+          <div class="flex flex-col gap-2">
+            <label for="firstname" class="font-semibold text-sm">Vorname</label>
             <input
               pInputText
               id="firstname"
               formControlName="firstname"
               autocomplete="given-name"
+              class="w-full"
             />
             @if (
               participantForm.get('firstname')?.invalid && participantForm.get('firstname')?.touched
             ) {
-              <small class="error-text">Vorname ist erforderlich.</small>
+              <small class="text-red-500 text-xs">Vorname ist erforderlich.</small>
             }
           </div>
 
-          <div class="field">
-            <label for="lastname">Nachname</label>
-            <input pInputText id="lastname" formControlName="lastname" autocomplete="family-name" />
+          <div class="flex flex-col gap-2">
+            <label for="lastname" class="font-semibold text-sm">Nachname</label>
+            <input
+              pInputText
+              id="lastname"
+              formControlName="lastname"
+              autocomplete="family-name"
+              class="w-full"
+            />
             @if (
               participantForm.get('lastname')?.invalid && participantForm.get('lastname')?.touched
             ) {
-              <small class="error-text">Nachname ist erforderlich.</small>
+              <small class="text-red-500 text-xs">Nachname ist erforderlich.</small>
             }
           </div>
 
-          <div class="field">
-            <label for="dateOfBirthInput">Geburtsdatum</label>
+          <div class="flex flex-col gap-2">
+            <label for="dateOfBirthInput" class="font-semibold text-sm">Geburtsdatum</label>
             <p-datepicker
               id="dateOfBirth"
               formControlName="dateOfBirth"
@@ -146,16 +169,17 @@ import {StyleClass} from 'primeng/styleclass';
               appendTo="body"
               [showIcon]="true"
               inputId="dateOfBirthInput"
+              styleClass="w-full"
             />
             @if (
               participantForm.get('dateOfBirth')?.invalid &&
               participantForm.get('dateOfBirth')?.touched
             ) {
-              <small class="error-text">Geburtsdatum ist erforderlich.</small>
+              <small class="text-red-500 text-xs">Geburtsdatum ist erforderlich.</small>
             }
           </div>
 
-          <div class="form-actions">
+          <div class="flex justify-end gap-3 mt-4">
             <p-button
               label="Abbrechen"
               severity="secondary"
@@ -174,110 +198,6 @@ import {StyleClass} from 'primeng/styleclass';
     </div>
   `,
   styles: `
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1rem;
-    }
-
-    .participant-card {
-      transition: transform 0.2s, box-shadow 0.2s;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-
-    .participant-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .card-header-content {
-      padding: 1.25rem 1.5rem 0.5rem;
-      border-bottom: 1px solid var(--p-content-border-color);
-    }
-
-    .participant-name {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--p-primary-color);
-      display: block;
-    }
-
-    .card-content {
-      padding: 1rem 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-
-    .info-item {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.9rem;
-    }
-
-    .info-item .label {
-      color: var(--p-text-muted-color);
-    }
-
-    .actions-cell {
-      display: flex;
-      justify-content: flex-end;
-      gap: 0.75rem;
-      padding: 0 1.5rem 1.25rem;
-    }
-
-    .empty-message {
-      text-align: center;
-      padding: 3rem;
-      color: var(--p-text-muted-color);
-      font-style: italic;
-      grid-column: 1 / -1;
-    }
-
-    .participant-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-      padding-top: 1rem;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .field label {
-      font-weight: 600;
-      font-size: 0.875rem;
-    }
-
-    .field input,
-    .field p-datepicker {
-      width: 100%;
-    }
-
-    .error-text {
-      color: var(--p-red-500);
-      font-size: 0.75rem;
-    }
-
-    .form-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .spinner-icon {
-      font-size: 2.5rem;
-      color: var(--p-primary-color);
-    }
-
     :host ::ng-deep .p-card-body {
       padding: 0;
       display: flex;
@@ -297,14 +217,6 @@ export class ParticipantComponent implements OnInit {
   private readonly participantService = inject(ParticipantService);
   private readonly messageService = inject(MessageService);
   private readonly confirmationService = inject(ConfirmationService);
-
-  protected readonly isMobile = toSignal(
-    fromEvent(window, 'resize').pipe(
-      map(() => window.innerWidth < 768),
-      startWith(window.innerWidth < 768),
-    ),
-    { initialValue: window.innerWidth < 768 },
-  );
 
   protected readonly participants = signal<Participant[]>([]);
   protected readonly loading = signal(false);

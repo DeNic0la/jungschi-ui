@@ -13,19 +13,20 @@ import { ParticipantService } from '../../shared/services/participant.service';
   imports: [CommonModule, Card, Button, Tabs, TabList, Tab, RouterLink, RouterOutlet],
   template: `
     <div class="page-container">
-      <header class="flex-header">
-        <h1>Teilnehmer-Details</h1>
+      <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <h1 class="text-3xl font-bold text-surface-900 dark:text-surface-0">Teilnehmer-Details</h1>
         <p-button
           label="Zurück zur Liste"
           icon="pi pi-arrow-left"
           [routerLink]="['/participants']"
           severity="secondary"
+          class="w-full sm:w-auto"
         />
       </header>
 
       @if (loading()) {
-        <div class="loading-container">
-          <i class="pi pi-spin pi-spinner spinner-icon" aria-hidden="true"></i>
+        <div class="flex justify-center items-center py-20">
+          <i class="pi pi-spin pi-spinner text-4xl text-primary" aria-hidden="true"></i>
           <span class="sr-only">Laden...</span>
         </div>
       } @else if (participant(); as p) {
@@ -36,35 +37,41 @@ import { ParticipantService } from '../../shared/services/participant.service';
                 [value]="'/participants/' + id() + '/overview'"
                 [routerLink]="['/participants', id(), 'overview']"
               >
-                <i class="pi pi-info-circle mr-2"></i> Übersicht
+                <i class="pi pi-info-circle mr-2"></i>
+                <span class="hidden sm:inline">Übersicht</span>
               </p-tab>
               <p-tab
                 [value]="'/participants/' + id() + '/health-stats'"
                 [routerLink]="['/participants', id(), 'health-stats']"
               >
-                <i class="pi pi-heart mr-2"></i> Gesundheitsinfo
+                <i class="pi pi-heart mr-2"></i>
+                <span class="hidden sm:inline">Gesundheitsinfo</span>
               </p-tab>
               <p-tab
                 [value]="'/participants/' + id() + '/camp-stats'"
                 [routerLink]="['/participants', id(), 'camp-stats']"
               >
-                <i class="pi pi-map mr-2"></i> Lager Daten
+                <i class="pi pi-map mr-2"></i>
+                <span class="hidden sm:inline">Lager Daten</span>
               </p-tab>
               <p-tab
                 [value]="'/participants/' + id() + '/allergy'"
                 [routerLink]="['/participants', id(), 'allergy']"
               >
-                <i class="pi pi-exclamation-triangle mr-2"></i> Allergien & Essen
+                <i class="pi pi-exclamation-triangle mr-2"></i>
+                <span class="hidden sm:inline">Allergien & Essen</span>
               </p-tab>
             </p-tablist>
           </p-tabs>
-          <div class="subpage-content">
+          <div class="pt-6">
             <router-outlet />
           </div>
         </p-card>
       } @else {
         <p-card header="Fehler">
-          <p>Teilnehmer mit der ID {{ id() }} konnte nicht gefunden werden.</p>
+          <p class="mb-4 text-surface-600 dark:text-surface-400">
+            Teilnehmer mit der ID {{ id() }} konnte nicht gefunden werden.
+          </p>
           <p-button
             label="Zurück zur Liste"
             icon="pi pi-arrow-left"
@@ -75,26 +82,7 @@ import { ParticipantService } from '../../shared/services/participant.service';
     </div>
   `,
   styles: `
-    .subpage-content {
-      padding: 1.5rem 0 0;
-    }
-    .spinner-icon {
-      font-size: 3rem;
-      color: var(--p-primary-color);
-    }
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
-    .mr-2 {
-      margin-right: 0.5rem;
-    }
+
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

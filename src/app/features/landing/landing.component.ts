@@ -7,14 +7,16 @@ import { Card } from 'primeng/card';
   selector: 'app-landing-page',
   imports: [Button, Card],
   template: `
-    <section class="hero">
-      <div class="hero-content">
-        <h1>Willkommen bei Jungschi</h1>
-        <p>
+    <section class="py-20 px-8 text-center bg-primary-50 dark:bg-surface-950 transition-colors">
+      <div class="max-w-5xl mx-auto">
+        <h1 class="text-4xl sm:text-6xl font-extrabold mb-6 tracking-tight text-surface-900 dark:text-surface-0">
+          Willkommen bei Jungschi
+        </h1>
+        <p class="text-lg sm:text-xl text-surface-600 dark:text-surface-400 mb-10 max-w-2xl mx-auto">
           Die ultimative Plattform für moderne Web-Erlebnisse. Gebaut mit Angular, Signals und
           Barrierefreiheit im Blick.
         </p>
-        <div class="hero-actions">
+        <div class="flex gap-4 justify-center flex-wrap">
           <p-button label="Jetzt loslegen" size="large" (click)="login()" />
           <p-button
             label="Mehr erfahren"
@@ -26,103 +28,22 @@ import { Card } from 'primeng/card';
       </div>
     </section>
 
-    <section id="features" class="features">
-      <h2>Funktionen</h2>
-      <div class="features-grid">
+    <section id="features" class="py-16 px-8 max-w-7xl mx-auto">
+      <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 text-surface-900 dark:text-surface-0">
+        Funktionen
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         @for (feature of features(); track feature.title) {
-          <p-card [header]="feature.title" class="feature-card">
-            <p class="m-0">{{ feature.description }}</p>
+          <p-card [header]="feature.title" class="h-full">
+            <p class="m-0 text-surface-600 dark:text-surface-400">{{ feature.description }}</p>
           </p-card>
         }
       </div>
     </section>
   `,
   styles: `
-    @reference "tailwindcss";
     :host {
       display: block;
-    }
-    .hero {
-      padding: 5rem 2rem;
-      @apply bg-indigo-300 text-gray-800;
-      text-align: center;
-      color: var(--p-text-color);
-    }
-
-    .hero-content {
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    .hero h1 {
-      font-size: 3.5rem;
-      margin-bottom: 1.5rem;
-      font-weight: 800;
-      letter-spacing: -0.025em;
-      color: inherit;
-    }
-
-    .hero p {
-      font-size: 1.25rem;
-      color: inherit;
-      opacity: 0.9;
-      margin-bottom: 2.5rem;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-    }
-
-    .features {
-      padding: 4rem 2rem;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .features h2 {
-      font-size: 2.25rem;
-      text-align: center;
-      margin-bottom: 3rem;
-      color: var(--p-text-color);
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-
-    .feature-card {
-      height: 100%;
-    }
-
-    .about {
-      padding: 4rem 2rem;
-      background: var(--p-surface-800);
-      color: var(--p-surface-0);
-      text-align: center;
-    }
-
-    .about h2 {
-      color: inherit;
-      margin-bottom: 2rem;
-      font-size: 2.25rem;
-    }
-
-    .about p {
-      max-width: 800px;
-      margin: 0 auto;
-      font-size: 1.125rem;
-      color: inherit;
-      opacity: 0.9;
-    }
-
-    @media (max-width: 640px) {
-      .hero h1 {
-        font-size: 2.5rem;
-      }
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

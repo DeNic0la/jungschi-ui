@@ -1,7 +1,5 @@
 @use 'tailwindcss';
 
-/* You can add global styles to this file, and also import other style files */
-
 @import 'primeicons/primeicons.css';
 
 :root {
@@ -13,36 +11,12 @@ body {
   font-family: var(--p-font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--p-content-background);
   color: var(--p-text-color);
 }
 
-.flex-header h1 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  @apply dark:text-teal-700;
-}
-
-/* Shared Layout Classes */
 .page-container {
-  @apply md:p-2 xl:max-w-9/12 md:my-0 md:mx-auto md:max-w-10/12 w-full sm:px-2;
-
-}
-
-.flex-header {
-  @apply flex md:justify-between items-center justify-around mb-4 mt-1;
-}
-
-.loading-container,
-.error-container {
-  @apply flex justify-center items-center p-2 gap-4;
-}
-
-.error-message {
-  color: var(--p-red-500);
-  background: var(--p-red-50);
-  border: 1px solid var(--p-red-100);
-  padding: 1rem;
-  border-radius: 6px;
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8;
 }
 
 /* Global styles for readonly inputs to ensure high contrast and readability */

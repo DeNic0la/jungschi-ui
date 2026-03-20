@@ -6,48 +6,19 @@ import { RouterLink } from '@angular/router';
   imports: [RouterLink],
   template: `
     <div class="page-container">
-      <h1>Jungschiteam</h1>
-      <p>Willkommen auf der Team-Seite!</p>
+      <h1 class="text-3xl font-bold mb-4">Jungschiteam</h1>
+      <p class="mb-8">Willkommen auf der Team-Seite!</p>
 
-      <div class="team-links">
-        <a routerLink="/team/health-data" class="team-link">
-          <i class="pi pi-heart"></i>
-          <span>Gesundheitsdaten</span>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <a routerLink="/team/health-data"
+           class="flex flex-col items-center gap-4 p-8 bg-surface-50 dark:bg-surface-800 rounded-lg no-underline transition-all hover:-translate-y-1 hover:bg-surface-100 dark:hover:bg-surface-700 group border border-surface-200 dark:border-surface-700">
+          <i class="pi pi-heart text-5xl text-primary transition-colors group-hover:scale-110"></i>
+          <span class="font-semibold text-lg text-surface-900 dark:text-surface-0">Gesundheitsdaten</span>
         </a>
       </div>
     </div>
   `,
-  styles: `
-    .team-links {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-    .team-link {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-      padding: 2rem;
-      background: var(--p-surface-800);
-      border-radius: 8px;
-      text-decoration: none;
-      color: var(--p-surface-0);
-      transition: transform 0.2s, background 0.2s;
-    }
-    .team-link:hover {
-      transform: translateY(-4px);
-      background: var(--p-surface-700);
-    }
-    .team-link i {
-      font-size: 2.5rem;
-      color: var(--p-primary-color);
-    }
-    .team-link span {
-      font-weight: 600;
-    }
-  `,
+  styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TeamComponent {}
