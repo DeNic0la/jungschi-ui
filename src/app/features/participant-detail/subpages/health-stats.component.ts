@@ -204,7 +204,7 @@ export class HealthStatsComponent implements CanComponentDeactivate {
   id = input.required<string>();
 
   protected readonly form = this.fb.group({
-    isHealthy: [true, Validators.required],
+    isHealthy: this.fb.control<null | boolean>(null, Validators.required),
     healthyReason: [''],
     excludedActivities: [''],
   });

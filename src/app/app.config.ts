@@ -1,7 +1,7 @@
 import { providePrimeNG } from 'primeng/config';
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withRouterConfig } from '@angular/router';
 import { MessageService, ConfirmationService } from 'primeng/api';
 
 import {
@@ -79,7 +79,11 @@ export const appConfig: ApplicationConfig = {
       ],
     }),
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes, withComponentInputBinding()),
+    provideRouter(
+      routes,
+      withComponentInputBinding(),
+      withRouterConfig({ paramsInheritanceStrategy: 'always' }),
+    ),
     MessageService,
     ConfirmationService,
   ],

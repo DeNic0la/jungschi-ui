@@ -32,7 +32,10 @@ import { ParticipantService } from '../../shared/services/participant.service';
         <p-card [header]="p.firstname + ' ' + p.lastname">
           <p-tabs [value]="activeTab()">
             <p-tablist>
-              <p-tab [value]="'/participants/' + id()" [routerLink]="['/participants', id()]">
+              <p-tab
+                [value]="'/participants/' + id() + '/overview'"
+                [routerLink]="['/participants', id(), 'overview']"
+              >
                 <i class="pi pi-info-circle mr-2"></i> Übersicht
               </p-tab>
               <p-tab
