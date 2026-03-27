@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'tailwindcss';
 
 @import 'primeicons/primeicons.css';
 
@@ -11,11 +11,17 @@ body {
   font-family: var(--p-font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--p-content-background);
+  color: var(--p-text-color);
+}
+
+.page-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8;
 }
 
 /* Global styles for readonly inputs to ensure high contrast and readability */
 input[type='text'][readonly] {
-  background-color: var(--p-surface-500);
+  background-color: var(--p-surface-100);
   color: var(--p-text-color);
   border: 1px solid var(--p-surface-300);
   cursor: default !important;

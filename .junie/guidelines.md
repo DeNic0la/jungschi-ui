@@ -16,7 +16,10 @@ You are an expert in TypeScript, Angular, and scalable web application developme
   - Use Signals for synchronous state and derived data.
   - Avoid manual `subscribe()` calls; use the `async` pipe or `effect`/`computed` as appropriate.
   - Keep state transformations pure and predictable.
-- Use PrimeNG components and classes.
+- Always use Tailwind CSS for styling and layout.
+- Use PrimeNG components and classes when needed, but prefer Tailwind for custom styling.
+- Ensure all components are responsive by using Tailwind responsive utility classes.
+- Support dark mode using Tailwind `dark:` variant and PrimeNG semantic variables.
 - Always use standalone components over NgModules.
 - **Important:** Must NOT set `standalone: true` inside Angular decorators. It's the default in Angular v20+.
 - Use signals for state management.

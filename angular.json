@@ -31,12 +31,9 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.scss"],
+            "styles": ["src/tailwind.css", "src/styles.scss"],
             "allowedCommonJsDependencies": [
-              "@statsig/session-replay",
-              "@statsig/web-analytics",
-              "@statsig/client-core",
-              "@statsig/js-client"
+              "keycloak-js"
             ]
           },
           "configurations": {

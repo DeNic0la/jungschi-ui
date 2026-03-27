@@ -2,9 +2,9 @@ import { isDevMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideServiceWorker } from '@angular/service-worker';
 import { appConfig } from './app/app.config';
-import { App } from './app/app';
+import { AppComponent } from './app/app.component';
 
-bootstrapApplication(App, {
+bootstrapApplication(AppComponent, {
   ...appConfig,
   providers: [
     ...(appConfig.providers ?? []),
