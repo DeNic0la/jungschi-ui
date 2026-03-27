@@ -41,7 +41,17 @@ This will compile your project and store the build artifacts in the `dist/` dire
 To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
 
 ```bash
-ng test
+pnpm test
+```
+
+For one-off execution or CI, always use:
+
+```bash
+pnpm test:ci
+```
+Or manually add the flag:
+```bash
+pnpm test --watch=false
 ```
 
 ## Running end-to-end tests
@@ -49,7 +59,7 @@ ng test
 For end-to-end (e2e) testing, run:
 
 ```bash
-ng e2e
+pnpm e2e
 ```
 
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.

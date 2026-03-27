@@ -72,6 +72,8 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 ## Testing & Formatting
 
 - Use **Vitest** for unit tests (configured in `package.json`).
+- Always run tests with `pnpm test --watch=false` for one-off checks and in CI.
+- Use `pnpm test:ci` as a shortcut for `ng test --watch=false`.
 - Use **Prettier** for code formatting (printWidth: 100).
 
 ## PrimeNG CSS Color Variables

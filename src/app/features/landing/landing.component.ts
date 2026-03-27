@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import Keycloak from 'keycloak-js';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { Button } from 'primeng/button';
 import { Card } from 'primeng/card';
 
@@ -10,18 +9,17 @@ import { Card } from 'primeng/card';
     <section class="py-20 px-8 text-center bg-primary-50 dark:bg-surface-950 transition-colors">
       <div class="max-w-5xl mx-auto">
         <h1 class="text-4xl sm:text-6xl font-extrabold mb-6 tracking-tight text-surface-900 dark:text-surface-0">
-          Willkommen bei Jungschi
+          Willkommen bei der Jungschi Lager-Anmeldung
         </h1>
         <p class="text-lg sm:text-xl text-surface-600 dark:text-surface-400 mb-10 max-w-2xl mx-auto">
-          Die ultimative Plattform für moderne Web-Erlebnisse. Gebaut mit Angular, Signals und
-          Barrierefreiheit im Blick.
+          Das neue Tool zur Übermittlung von Teilnehmerdaten für unsere Lager.
+          Eltern können sich einmalig anmelden und die Daten für ihre Kinder bequem online erfassen.
+          Bei Nutzung dieses Portals entfällt das Ausfüllen physischer Gesundheits- und Notfallblätter.
         </p>
         <div class="flex gap-4 justify-center flex-wrap">
-          <p-button label="Jetzt loslegen" size="large" (click)="login()" />
           <p-button
             label="Mehr erfahren"
             size="large"
-            severity="secondary"
             (click)="scrollToFeatures()"
           />
         </div>
@@ -30,7 +28,7 @@ import { Card } from 'primeng/card';
 
     <section id="features" class="py-16 px-8 max-w-7xl mx-auto">
       <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 text-surface-900 dark:text-surface-0">
-        Funktionen
+        Ihre Vorteile
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         @for (feature of features(); track feature.title) {
@@ -49,34 +47,25 @@ import { Card } from 'primeng/card';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LandingPageComponent {
-  private readonly keycloak = inject(Keycloak);
-
   protected readonly features = signal([
     {
-      title: 'Hohe Performance',
+      title: 'Zentrale Verwaltung',
       description:
-        'Entwickelt mit Angular Signals für blitzschnelle Reaktivität und optimale Leistung.',
+        'Einmal anmelden und alle Daten für Ihre Kinder bequem an einem Ort erfassen und verwalten.',
     },
     {
-      title: 'Barrierefrei durch Design',
+      title: 'Kein Papierkram',
       description:
-        'Befolgt die WCAG AA Richtlinien, um sicherzustellen, dass jeder Ihre Anwendung nutzen kann.',
+        'Wenn Sie die Daten digital einreichen, müssen Sie kein physisches Gesundheits- oder Notfallblatt mehr ausfüllen.',
     },
     {
-      title: 'Moderner Stack',
+      title: 'Sicher & Aktuell',
       description:
-        'Verwendet die neuesten Angular-Features wie Standalone-Komponenten und Control Flow.',
+        'Ihre Daten sind sicher gespeichert und können jederzeit für zukünftige Lager aktualisiert werden.',
     },
   ]);
 
   protected readonly currentYear = new Date().getFullYear();
-
-  protected login(): void {
-    this.keycloak.login({
-      redirectUri: window.location.origin,
-
-    });
-  }
 
   protected scrollToFeatures(): void {
     document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });

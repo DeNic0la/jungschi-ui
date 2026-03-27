@@ -111,6 +111,7 @@ describe('ProfileComponent', () => {
       firstName: 'Updated',
       lastName: 'User',
       phoneNumber: '987654321',
+      address: 'Updated Address',
     });
 
     await component['saveProfile']();
@@ -120,6 +121,7 @@ describe('ProfileComponent', () => {
       firstName: 'Updated',
       lastName: 'User',
       phoneNumber: '987654321',
+      address: 'Updated Address',
     });
   });
 

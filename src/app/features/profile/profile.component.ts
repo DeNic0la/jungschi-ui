@@ -57,6 +57,11 @@ import { firstValueFrom } from 'rxjs';
               <label for="phoneNumber" class="font-semibold text-surface-900 dark:text-surface-0">
                 Telefonnummer
               </label>
+              <p class="text-sm text-surface-600 dark:text-surface-400">
+                Wir benötigen Ihre Telefonnummer, um Sie im Notfall (falls Ihrem Kind etwas passiert)
+                erreichen zu können. Ohne hinterlegte Telefonnummer können keine Teilnehmer erstellt
+                werden.
+              </p>
               <input
                 pInputText
                 id="phoneNumber"
@@ -64,6 +69,19 @@ import { firstValueFrom } from 'rxjs';
                 type="tel"
                 class="w-full"
               />
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <label for="address" class="font-semibold text-surface-900 dark:text-surface-0">
+                Adresse
+              </label>
+              <textarea
+                pInputText
+                id="address"
+                formControlName="address"
+                rows="3"
+                class="w-full"
+              ></textarea>
             </div>
 
             <div class="flex flex-wrap gap-4 mt-4">
@@ -102,6 +120,7 @@ export class ProfileComponent implements OnInit {
     firstName: [''],
     lastName: [''],
     phoneNumber: [''],
+    address: [''],
   });
 
   protected readonly loading = signal(true);
@@ -117,6 +136,7 @@ export class ProfileComponent implements OnInit {
         firstName: profile.firstName ?? '',
         lastName: profile.lastName ?? '',
         phoneNumber: profile.phoneNumber ?? '',
+        address: profile.address ?? '',
       });
     } catch (err) {
       console.error('Failed to load profile:', err);
@@ -137,6 +157,7 @@ export class ProfileComponent implements OnInit {
         firstName: formValue.firstName,
         lastName: formValue.lastName,
         phoneNumber: formValue.phoneNumber,
+        address: formValue.address,
       };
       await firstValueFrom(this.userService.updateUserProfile(update));
     } catch (err) {

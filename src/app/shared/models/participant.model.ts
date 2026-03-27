@@ -28,5 +28,7 @@ export interface CampStatsDto {
   drugConsent: boolean;
   ahv: string | null;
   krankenkasse: string | null;
+  krankenkassenNr: string | null;
+  medication: string | null;
   sonstiges: string | null;
 }

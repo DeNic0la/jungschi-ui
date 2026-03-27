@@ -15,6 +15,8 @@ export interface TeamParticipantDetailsDto {
     firstName: string;
     lastName: string;
     email: string;
+    phoneNumber: string | null;
+    address: string | null;
   };
   healthStats: {
     isHealthy: boolean;
@@ -26,6 +28,8 @@ export interface TeamParticipantDetailsDto {
     drugConsent: boolean;
     ahv: string | null;
     krankenkasse: string | null;
+    krankenkassenNr: string | null;
+    medication: string | null;
     notes: string | null;
   } | null;
   intoleranceSelections: Array<{

@@ -28,13 +28,21 @@ describe('ParticipantHealthDetailsComponent', () => {
           lastname: 'User',
           dateOfBirth: '1990-01-01',
           lastUpdatedAt: '2021-01-01T12:00:00',
-          user: { firstName: 'Admin', lastName: 'User', email: 'admin@example.com' },
+          user: {
+            firstName: 'Admin',
+            lastName: 'User',
+            email: 'admin@example.com',
+            phoneNumber: '079 123 45 67',
+            address: 'Teststrasse 1',
+          },
           healthStats: { isHealthy: true, healthyReason: null, excludedActivities: null },
           campStats: {
             isTickVaccinated: true,
             drugConsent: true,
             ahv: '123',
             krankenkasse: 'AOK',
+            krankenkassenNr: 'KK123',
+            medication: 'None',
             notes: null,
           },
           intoleranceSelections: [],
@@ -67,13 +75,21 @@ describe('ParticipantHealthDetailsComponent', () => {
       lastname: 'Doe',
       dateOfBirth: '1990-01-01',
       lastUpdatedAt: '2021-01-01T12:00:00',
-      user: { firstName: 'Admin', lastName: 'User', email: 'admin@example.com' },
+      user: {
+        firstName: 'Admin',
+        lastName: 'User',
+        email: 'admin@example.com',
+        phoneNumber: '079 111 22 33',
+        address: 'Some Address',
+      },
       healthStats: { isHealthy: true, healthyReason: null, excludedActivities: null },
       campStats: {
         isTickVaccinated: true,
         drugConsent: true,
         ahv: '123',
         krankenkasse: 'AOK',
+        krankenkassenNr: 'KK123',
+        medication: 'None',
         notes: null,
       },
       intoleranceSelections: [],
@@ -86,8 +102,9 @@ describe('ParticipantHealthDetailsComponent', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
-    const valueElements = fixture.nativeElement.querySelectorAll('.value');
-    expect(valueElements[0].textContent).toContain('John Doe');
+    const element = fixture.nativeElement;
+    expect(element.textContent).toContain('John Doe');
+    expect(element.textContent).toContain('079 111 22 33');
     expect(teamServiceMock.getParticipant).toHaveBeenCalledWith('123');
 
     // Verify JSON view also exists
@@ -102,13 +119,21 @@ describe('ParticipantHealthDetailsComponent', () => {
       lastname: 'Doe',
       dateOfBirth: '1990-01-01',
       lastUpdatedAt: '2021-01-01T12:00:00',
-      user: { firstName: 'Admin', lastName: 'User', email: 'admin@example.com' },
+      user: {
+        firstName: 'Admin',
+        lastName: 'User',
+        email: 'admin@example.com',
+        phoneNumber: '079 123 45 67',
+        address: 'Teststrasse 1',
+      },
       healthStats: { isHealthy: true, healthyReason: null, excludedActivities: null },
       campStats: {
         isTickVaccinated: true,
         drugConsent: true,
         ahv: '123',
         krankenkasse: 'AOK',
+        krankenkassenNr: 'KK123',
+        medication: 'None',
         notes: null,
       },
       intoleranceSelections: [
@@ -132,11 +157,9 @@ describe('ParticipantHealthDetailsComponent', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
-    const label = fixture.nativeElement.querySelector('.item-label');
-    expect(label.textContent).toContain('Erdnussallergie');
-
-    const text = fixture.nativeElement.querySelector('.item-text');
-    expect(text.textContent).toContain('Very dangerous');
+    const element = fixture.nativeElement;
+    expect(element.textContent).toContain('Erdnussallergie');
+    expect(element.textContent).toContain('Very dangerous');
   });
 
   it('should display error message on failure', async () => {
@@ -148,9 +171,8 @@ describe('ParticipantHealthDetailsComponent', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
-    const errorMessage = fixture.nativeElement.querySelector('.error-message');
-    expect(errorMessage).toBeTruthy();
-    expect(errorMessage.textContent).toContain('Fehler beim Laden');
+    const errorMessage = fixture.nativeElement.textContent;
+    expect(errorMessage).toContain('Fehler beim Laden');
   });
 
   it('should handle null healthStats and campStats gracefully', async () => {
@@ -176,14 +198,9 @@ describe('ParticipantHealthDetailsComponent', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
-    const noDataElements = fixture.nativeElement.querySelectorAll('.no-data');
-    expect(noDataElements.length).toBe(2);
-    expect(noDataElements[0].textContent).toContain('Keine Daten vorhanden');
-    expect(noDataElements[1].textContent).toContain('Keine Daten vorhanden');
+    const noDataElements = Array.from(fixture.nativeElement.querySelectorAll('p.italic.text-surface-500')) as HTMLElement[];
+    expect(noDataElements.some(el => el.textContent?.includes('Keine Daten vorhanden'))).toBe(true);
 
-    const emptyIntoleranceMessage = fixture.nativeElement.querySelector(
-      '.full-width p:not(.no-data)',
-    );
-    expect(emptyIntoleranceMessage.textContent).toContain('Keine Einträge vorhanden');
+    expect(fixture.nativeElement.textContent).toContain('Keine Einträge vorhanden');
   });
 });

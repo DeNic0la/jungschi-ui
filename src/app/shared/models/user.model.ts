@@ -5,6 +5,7 @@ export interface UserProfile {
   phoneNumber: string | null;
   firstName?: string | null;
   lastName?: string | null;
+  address?: string | null;
 }
 
 export interface UpdateUserDto {
@@ -12,4 +13,5 @@ export interface UpdateUserDto {
   phoneNumber?: string | null;
   firstName?: string | null;
   lastName?: string | null;
+  address?: string | null;
 }

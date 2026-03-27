@@ -88,4 +88,9 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'impressum',
+    loadComponent: () =>
+      import('./features/impressum/impressum.component').then((m) => m.ImpressumComponent),
+  },
 ];

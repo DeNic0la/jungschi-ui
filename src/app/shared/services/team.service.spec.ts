@@ -1,8 +1,8 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TeamService } from './team.service';
-import { TeamParticipantDto } from '../models/team-participant.model';
+import { TeamParticipantDto, TeamParticipantDetailsDto } from '../models/team-participant.model';
 
 describe('TeamService', () => {
   let service: TeamService;
@@ -41,11 +41,22 @@ describe('TeamService', () => {
   });
 
   it('should fetch a single participant by id', () => {
-    const mockParticipant = {
+    const mockParticipant: TeamParticipantDetailsDto = {
       id: 1,
       firstname: 'John',
       lastname: 'Doe',
-      healthData: 'Some data',
+      dateOfBirth: '2010-01-01',
+      lastUpdatedAt: '2024-01-01T10:00:00',
+      user: {
+        firstName: 'Parent',
+        lastName: 'Doe',
+        email: 'parent@example.com',
+        phoneNumber: '079 123 45 67',
+        address: 'Teststrasse 1, 8000 Zürich',
+      },
+      healthStats: null,
+      campStats: null,
+      intoleranceSelections: [],
     };
 
     service.getParticipant(1).subscribe((participant) => {

@@ -124,6 +124,26 @@ import { Button } from 'primeng/button';
                           {{ p.user.email }}
                         </div>
                       </div>
+                      <div class="flex flex-col gap-1">
+                        <label
+                          class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
+                        >
+                          Telefonnummer
+                        </label>
+                        <div class="font-medium text-surface-900 dark:text-surface-0">
+                          {{ p.user.phoneNumber || '-' }}
+                        </div>
+                      </div>
+                      <div class="flex flex-col gap-1">
+                        <label
+                          class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
+                        >
+                          Adresse
+                        </label>
+                        <div class="font-medium text-surface-900 dark:text-surface-0 whitespace-pre-wrap">
+                          {{ p.user.address || '-' }}
+                        </div>
+                      </div>
                     </div>
                   </p-card>
 
@@ -236,6 +256,26 @@ import { Button } from 'primeng/button';
                           </label>
                           <div class="font-medium text-surface-900 dark:text-surface-0">
                             {{ cs.krankenkasse || '-' }}
+                          </div>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                          <label
+                            class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
+                          >
+                            Krankenkassen-Nummer
+                          </label>
+                          <div class="font-medium text-surface-900 dark:text-surface-0">
+                            {{ cs.krankenkassenNr || '-' }}
+                          </div>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                          <label
+                            class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
+                          >
+                            Medikamente
+                          </label>
+                          <div class="font-medium text-surface-900 dark:text-surface-0 text-sm whitespace-pre-wrap">
+                            {{ cs.medication || 'Keine' }}
                           </div>
                         </div>
                         <div class="flex flex-col gap-1">

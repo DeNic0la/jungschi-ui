@@ -105,6 +105,22 @@ import { CanComponentDeactivate } from '../../../shared/guards/pending-changes.g
           </div>
 
           <div class="field">
+            <label for="krankenkassenNr" class="font-bold">Krankenkassen-Nummer</label>
+            <input pInputText id="krankenkassenNr" formControlName="krankenkassenNr" />
+          </div>
+
+          <div class="field">
+            <label for="medication" class="font-bold">Medikamente</label>
+            <textarea
+              pTextarea
+              id="medication"
+              formControlName="medication"
+              [autoResize]="true"
+              rows="3"
+            ></textarea>
+          </div>
+
+          <div class="field">
             <label for="sonstiges" class="font-bold">Sonstiges</label>
             <textarea
               pTextarea
@@ -189,6 +205,8 @@ export class CampStatsComponent implements CanComponentDeactivate {
     drugConsent: this.fb.control<null | boolean>(null, Validators.required),
     ahv: [''],
     krankenkasse: [''],
+    krankenkassenNr: [''],
+    medication: [''],
     sonstiges: [''],
   });
 

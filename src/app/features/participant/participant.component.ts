@@ -8,8 +8,10 @@ import { Dialog } from 'primeng/dialog';
 import { InputText } from 'primeng/inputtext';
 import { DatePicker } from 'primeng/datepicker';
 import { Toast } from 'primeng/toast';
+import { Message } from 'primeng/message';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { MessageService, ConfirmationService } from 'primeng/api';
+import { UserService } from '../../shared/services/user.service';
 import { ParticipantService } from '../../shared/services/participant.service';
 import { Participant, ParticipantInput } from '../../shared/models/participant.model';
 import { firstValueFrom, fromEvent, map, startWith } from 'rxjs';
@@ -29,6 +31,7 @@ import {StyleClass} from 'primeng/styleclass';
     InputText,
     DatePicker,
     Toast,
+    Message,
     ConfirmDialog,
     Card,
   ],
@@ -46,6 +49,14 @@ import {StyleClass} from 'primeng/styleclass';
           class="w-full sm:w-auto"
         />
       </header>
+
+      @if (userProfile() && !userProfile()?.phoneNumber) {
+        <p-message severity="warn" class="block mb-6" icon="pi pi-exclamation-triangle">
+          Bitte hinterlegen Sie eine Telefonnummer in Ihrem
+          <a routerLink="/profile" class="underline font-bold">Profil</a>, um Teilnehmer erstellen
+          zu können. Wir benötigen diese, um Sie in Notfällen erreichen zu können.
+        </p-message>
+      }
 
       @if (loading()) {
         <div class="flex justify-center items-center py-20">
@@ -215,15 +226,24 @@ import {StyleClass} from 'primeng/styleclass';
 export class ParticipantComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly participantService = inject(ParticipantService);
+  private readonly userService = inject(UserService);
   private readonly messageService = inject(MessageService);
   private readonly confirmationService = inject(ConfirmationService);
 
   protected readonly participants = signal<Participant[]>([]);
+  protected readonly userProfile = this.userService.userProfile;
   protected readonly loading = signal(false);
   protected readonly saving = signal(false);
   protected readonly displayDialog = signal(false);
   protected readonly isEdit = signal(false);
   protected currentId: number | null = null;
+
+  protected readonly isMobile = toSignal(
+    fromEvent(window, 'resize').pipe(
+      map(() => window.innerWidth < 768),
+      startWith(window.innerWidth < 768),
+    ),
+  );
 
   protected readonly participantForm = this.fb.group({
     firstname: ['', Validators.required],
@@ -253,6 +273,16 @@ export class ParticipantComponent implements OnInit {
   }
 
   protected openAddDialog(): void {
+    if (!this.userProfile()?.phoneNumber) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Telefonnummer fehlt',
+        detail:
+          'Bitte hinterlegen Sie eine Telefonnummer in Ihrem Profil, um einen Teilnehmer erstellen zu können. Wir benötigen diese für Notfälle.',
+        life: 10000,
+      });
+      return;
+    }
     this.isEdit.set(false);
     this.currentId = null;
     this.participantForm.reset();

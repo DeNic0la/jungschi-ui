@@ -8,13 +8,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 import { ParticipantComponent } from './participant.component';
 import { ParticipantService } from '../../shared/services/participant.service';
+import { UserService } from '../../shared/services/user.service';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MessageService, ConfirmationService } from 'primeng/api';
+import { signal } from '@angular/core';
 
 describe('ParticipantComponent', () => {
   let participantServiceMock: any;
+  let userServiceMock: any;
 
   beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {
@@ -40,6 +43,10 @@ describe('ParticipantComponent', () => {
       delete: vi.fn().mockReturnValue(of({})),
     };
 
+    userServiceMock = {
+      userProfile: signal({ phoneNumber: '123456789' }),
+    };
+
     await TestBed.configureTestingModule({
       imports: [ParticipantComponent, ReactiveFormsModule],
       providers: [
@@ -54,6 +61,7 @@ describe('ParticipantComponent', () => {
           },
         }),
         { provide: ParticipantService, useValue: participantServiceMock },
+        { provide: UserService, useValue: userServiceMock },
         MessageService,
         ConfirmationService,
       ],
@@ -96,6 +104,24 @@ describe('ParticipantComponent', () => {
 
     expect(component['displayDialog']()).toBe(true);
     expect(component['isEdit']()).toBe(false);
+  });
+
+  it('should not open dialog for adding if phone number is missing', () => {
+    userServiceMock.userProfile.set({ phoneNumber: null });
+    const fixture = TestBed.createComponent(ParticipantComponent);
+    const component = fixture.componentInstance;
+    const messageService = TestBed.inject(MessageService);
+    const addSpy = vi.spyOn(messageService, 'add');
+
+    component['openAddDialog']();
+
+    expect(component['displayDialog']()).toBe(false);
+    expect(addSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        severity: 'warn',
+        summary: 'Telefonnummer fehlt',
+      }),
+    );
   });
 
   it('should open dialog for editing and patch values', () => {

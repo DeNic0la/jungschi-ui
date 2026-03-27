@@ -73,6 +73,11 @@ import { firstValueFrom } from 'rxjs';
       class="p-8 text-center border-t border-surface-200 dark:border-surface-700 text-surface-500 text-sm"
     >
       <p>&copy; {{ currentYear }} Jungschi. Alle Rechte vorbehalten.</p>
+      <nav class="mt-4">
+        <a [routerLink]="['/impressum']" class="hover:text-primary transition-colors cursor-pointer">
+          Impressum
+        </a>
+      </nav>
     </footer>
   `,
   styles: `
