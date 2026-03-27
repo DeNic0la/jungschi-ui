@@ -10,15 +10,15 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       <div class="space-y-8 text-surface-600 dark:text-surface-400">
         <div>
           <h2 class="text-xl font-bold text-surface-900 dark:text-surface-0 mb-2">Kontaktadresse</h2>
-          <p>Jungschi (Platzhalter)</p>
-          <p>Musterstrasse 1</p>
-          <p>1234 Musterhausen</p>
+          <p>Nicola Maria Fioretti</p>
+          <p>Geissensteinring 38</p>
+          <p>6005 Luzern</p>
           <p>Schweiz</p>
         </div>
 
         <div>
           <h2 class="text-xl font-bold text-surface-900 dark:text-surface-0 mb-2">E-Mail</h2>
-          <p>info&#64;example.com</p>
+          <p>jungschi-page&#64;denic0la.ch</p>
         </div>
 
         <div>
@@ -51,7 +51,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
           <h2 class="text-xl font-bold text-surface-900 dark:text-surface-0 mb-2">Urheberrechte</h2>
           <p>
             Die Urheber- und alle anderen Rechte an Inhalten, Bildern, Fotos oder anderen Dateien auf
-            dieser Website, gehören ausschliesslich der Firma Jungschi oder den speziell genannten
+            dieser Website, gehören ausschliesslich der Jungschar der Markuskirche Luzern oder den speziell genannten
             Rechtsinhabern. Für die Reproduktion jeglicher Elemente ist die schriftliche Zustimmung
             der Urheberrechtsträger im Voraus einzuholen.
           </p>
