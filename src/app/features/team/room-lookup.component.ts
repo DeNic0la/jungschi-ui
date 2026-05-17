@@ -55,7 +55,7 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
               <div><strong>Capacity:</strong> {{ foundRoom.maxCapacity ?? '-' }}</div>
               <div>
                 <strong>{{ 'common.fields.gender' | translate }}:</strong>
-                {{ ('common.gender.' + foundRoom.gender) | translate }}
+                {{ 'common.gender.' + foundRoom.gender | translate }}
               </div>
               <div class="sm:col-span-2">
                 <strong>Leaders:</strong>
@@ -97,7 +97,9 @@ export class RoomLookupComponent {
       error: () => {
         this.loading.set(false);
         this.room.set(null);
-        this.error.set(this.translate.instant('features.team.healthDetails.messages.roomLoadError'));
+        this.error.set(
+          this.translate.instant('features.team.healthDetails.messages.roomLoadError'),
+        );
       },
     });
   }
@@ -109,4 +111,3 @@ export class RoomLookupComponent {
       .join(', ');
   }
 }
-

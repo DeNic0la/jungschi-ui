@@ -10,13 +10,31 @@ export const routes: Routes = [
   },
   {
     path: 'profile',
-    loadComponent: () => import('./features/profile/profile.component').then((m) => m.ProfileComponent),
+    loadComponent: () =>
+      import('./features/profile/profile.component').then((m) => m.ProfileComponent),
     canActivate: [authGuard],
   },
   {
     path: 'participants',
     loadComponent: () =>
       import('./features/participant/participant.component').then((m) => m.ParticipantComponent),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'household',
+    loadComponent: () =>
+      import('./features/household/household.component').then((m) => m.HouseholdComponent),
+    canActivate: [authGuard],
+    data: { roles: ['guardian'] },
+  },
+  {
+    path: 'camps',
+    loadComponent: () => import('./features/camps/camps.component').then((m) => m.CampsComponent),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'camps/:campId/signup',
+    loadComponent: () => import('./features/camps/signup.component').then((m) => m.SignupComponent),
     canActivate: [authGuard],
   },
   {
@@ -78,12 +96,17 @@ export const routes: Routes = [
         canDeactivate: [pendingChangesGuard],
       },
       {
-        path: 'camp-stats',
+        path: 'general-data',
         loadComponent: () =>
           import('./features/participant-detail/subpages/camp-stats.component').then(
             (m) => m.CampStatsComponent,
           ),
         canDeactivate: [pendingChangesGuard],
+      },
+      {
+        path: 'camp-stats',
+        redirectTo: 'general-data',
+        pathMatch: 'full',
       },
       {
         path: 'allergy',

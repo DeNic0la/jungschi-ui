@@ -14,4 +14,3 @@ export class RoomService {
     return this.http.get<RoomDto>(`${this.apiUrl}/${id}`);
   }
 }
-

@@ -14,15 +14,15 @@ export class UserService {
   readonly userProfile = this.userProfileSignal.asReadonly();
 
   getUserProfile(): Observable<UserProfile> {
-    return this.http.get<UserProfile>(`${this.apiUrl}/me`).pipe(
-      tap((profile) => this.userProfileSignal.set(profile))
-    );
+    return this.http
+      .get<UserProfile>(`${this.apiUrl}/me`)
+      .pipe(tap((profile) => this.userProfileSignal.set(profile)));
   }
 
   updateUserProfile(update: UpdateUserDto): Observable<UserProfile> {
-    return this.http.put<UserProfile>(`${this.apiUrl}/me`, update).pipe(
-      tap((profile) => this.userProfileSignal.set(profile))
-    );
+    return this.http
+      .put<UserProfile>(`${this.apiUrl}/me`, update)
+      .pipe(tap((profile) => this.userProfileSignal.set(profile)));
   }
 
   getVisibleGuardians(): Observable<GuardianUserDto[]> {

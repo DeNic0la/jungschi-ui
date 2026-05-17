@@ -170,7 +170,9 @@ describe('Participant Subpages', () => {
     const fixture = TestBed.createComponent(CampStatsComponent);
     fixture.componentRef.setInput('id', '1');
     fixture.detectChanges();
-    expect(fixture.debugElement.query(By.css('h2')).nativeElement.textContent).toBe('Lager Daten');
+    expect(fixture.debugElement.query(By.css('h2')).nativeElement.textContent).toBe(
+      'Allgemeine Angaben',
+    );
   });
 
   it('AllergyComponent should show title', () => {

@@ -16,6 +16,8 @@ const TEST_TRANSLATIONS: TranslationObject = {
       rights: '© {{year}} Jungschi. Alle Rechte vorbehalten.',
     },
     nav: {
+      camps: 'Lager',
+      household: 'Haushalt',
       participants: 'Teilnehmer',
       team: 'Team',
     },
@@ -67,7 +69,7 @@ const TEST_TRANSLATIONS: TranslationObject = {
         title: 'Allergien & Lebensmittel-Unverträglichkeiten',
       },
       campStats: {
-        title: 'Lager Daten',
+        title: 'Allgemeine Angaben',
       },
       healthStats: {
         title: 'Gesundheitsinfo',
@@ -75,11 +77,29 @@ const TEST_TRANSLATIONS: TranslationObject = {
       notFound: 'Teilnehmer mit der ID {{id}} konnte nicht gefunden werden.',
       tabs: {
         allergy: 'Allergien & Essen',
-        campStats: 'Lager Daten',
+        campStats: 'Allgemeine Angaben',
         healthStats: 'Gesundheitsinfo',
         overview: 'Übersicht',
       },
       title: 'Teilnehmer-Details',
+    },
+    camps: {
+      actions: {
+        signup: 'Anmelden',
+      },
+      empty: 'Keine Lager vorhanden.',
+      fields: {
+        priceFirst: 'Preis erstes Kind',
+        signupEndDate: 'Anmeldeschluss',
+      },
+      messages: {
+        loadError: 'Lager konnten nicht geladen werden.',
+      },
+      status: {
+        open: 'Anmeldung offen',
+        started: 'Gestartet',
+      },
+      title: 'Lager',
     },
     participants: {
       empty: 'Keine Teilnehmer gefunden.',
@@ -90,6 +110,114 @@ const TEST_TRANSLATIONS: TranslationObject = {
     },
     profile: {
       title: 'Profil',
+    },
+    household: {
+      actions: {
+        addGuardian: 'Hinzufügen',
+        setPrimary: 'Als Hauptkontakt festlegen',
+        setSecondary: 'Als Zweitkontakt festlegen',
+      },
+      contactTypes: {
+        additional: 'Zusätzlich',
+        pending: 'Ausstehend',
+        primary: 'Hauptkontakt',
+        secondary: 'Zweitkontakt',
+      },
+      empty: {
+        guardians: 'Keine Erziehungsberechtigten im Haushalt vorhanden.',
+      },
+      form: {
+        guardianEmail: {
+          label: 'Erziehungsberechtigte per E-Mail hinzufügen',
+        },
+        place: {
+          label: 'Ort',
+        },
+        plz: {
+          label: 'PLZ',
+        },
+        streetAndNumber: {
+          label: 'Strasse und Nummer',
+        },
+      },
+      messages: {
+        addGuardianError: 'Erziehungsberechtigte Person konnte nicht hinzugefügt werden.',
+        contactTypeError: 'Kontaktrolle konnte nicht aktualisiert werden.',
+        loadError: 'Haushalt konnte nicht geladen werden.',
+        removeGuardianError: 'Erziehungsberechtigte Person konnte nicht entfernt werden.',
+        saveError: 'Haushalt konnte nicht gespeichert werden.',
+      },
+      sections: {
+        address: 'Adresse',
+        guardians: 'Erziehungsberechtigte',
+      },
+      title: 'Haushalt',
+    },
+    signup: {
+      actions: {
+        addMedication: 'Medikament hinzufügen',
+        complete: 'Anmeldung abschliessen',
+        saveProgress: 'Zwischenstand speichern',
+      },
+      form: {
+        additionalContactOptionsDuringCamp: {
+          label: 'Zusätzliche Kontaktmöglichkeiten während dem Lager',
+        },
+        bemerkungen: {
+          label: 'Zusätzliche Notizen',
+        },
+        dose: {
+          label: 'Dosierung',
+        },
+        drugConsent: {
+          label: 'Einverständnis zur Medikamentenabgabe',
+        },
+        frequency: {
+          label: 'Häufigkeit',
+        },
+        infoEmail: {
+          label: 'Informationen per E-Mail erhalten',
+        },
+        infosZimmerleitung: {
+          label: 'Informationen für die Zimmerleitung',
+        },
+        medicationName: {
+          label: 'Medikament',
+        },
+        needsHelp: {
+          label: 'Braucht Hilfe',
+        },
+        photoConsent: {
+          label: 'Fotoeinverständnis',
+        },
+        purpose: {
+          label: 'Zweck',
+        },
+        schoolClass: {
+          label: 'Schulklasse während dem Lager',
+        },
+      },
+      messages: {
+        campStarted: 'Dieses Lager hat bereits begonnen. Eine Anmeldung ist nicht mehr möglich.',
+        drugConsentRequired:
+          'Bitte für alle ausgewählten Teilnehmer die Medikamentenabgabe auswählen.',
+        loadError: 'Anmeldedaten konnten nicht geladen werden.',
+        noParticipants: 'Keine Teilnehmer im Haushalt vorhanden.',
+        saveError:
+          'Anmeldung konnte nicht gespeichert werden. Die benötigte Backend-API ist noch nicht verfügbar.',
+        saved: 'Anmeldung gespeichert.',
+        selectParticipant: 'Bitte mindestens einen Teilnehmer auswählen.',
+      },
+      sections: {
+        medication: 'Medikamente im Lager',
+        participants: 'Teilnehmer auswählen',
+        signupData: 'Anmeldedaten',
+        summary: 'Zusammenfassung',
+      },
+      summary: {
+        selectedParticipants: 'Ausgewählte Teilnehmer',
+      },
+      title: 'Lageranmeldung',
     },
     team: {
       healthData: {

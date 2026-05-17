@@ -18,4 +18,3 @@ export class CampService {
     return this.http.get<CampDto>(`${this.apiUrl}/${id}`);
   }
 }
-

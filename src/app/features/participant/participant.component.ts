@@ -98,7 +98,7 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
                     {{ 'common.fields.gender' | translate }}
                   </span>
                   <span class="text-surface-900 dark:text-surface-0 font-medium">
-                    {{ ('common.gender.' + participant.gender) | translate }}
+                    {{ 'common.gender.' + participant.gender | translate }}
                   </span>
                 </div>
                 <div class="flex justify-between text-sm">

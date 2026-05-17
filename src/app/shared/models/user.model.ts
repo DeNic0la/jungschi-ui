@@ -27,4 +27,3 @@ export interface GuardianUserDto {
   primaryContact: boolean;
   secondaryContact: boolean;
 }
-

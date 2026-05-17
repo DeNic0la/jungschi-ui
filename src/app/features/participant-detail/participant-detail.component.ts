@@ -67,8 +67,8 @@ import { TranslatePipe } from '@ngx-translate/core';
                 </span>
               </p-tab>
               <p-tab
-                [value]="'/participants/' + id() + '/camp-stats'"
-                [routerLink]="['/participants', id(), 'camp-stats']"
+                [value]="'/participants/' + id() + '/general-data'"
+                [routerLink]="['/participants', id(), 'general-data']"
               >
                 <i class="pi pi-map mr-2"></i>
                 <span class="hidden sm:inline">

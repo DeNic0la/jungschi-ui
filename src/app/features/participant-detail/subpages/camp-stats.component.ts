@@ -21,8 +21,6 @@ import { ParticipantService } from '../../../shared/services/participant.service
 import { CampStatsDto } from '../../../shared/models/participant.model';
 import { CanComponentDeactivate } from '../../../shared/guards/pending-changes.guard';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { CampService } from '../../../shared/services/camp.service';
-import { CampDto } from '../../../shared/models/camp.model';
 
 @Component({
   selector: 'app-camp-stats',
@@ -39,50 +37,6 @@ import { CampDto } from '../../../shared/models/camp.model';
   template: `
     <section>
       <h2>{{ 'features.participantDetail.campStats.title' | translate }}</h2>
-
-      <div class="camp-list">
-        <h3 class="font-bold">{{ 'features.participantDetail.campStats.availableCamps' | translate }}</h3>
-        @if (camps(); as campEntries) {
-          @if (campEntries.length === 0) {
-            <p class="text-sm italic">{{ 'common.empty.noEntries' | translate }}</p>
-          } @else {
-            <div class="flex flex-col gap-2">
-              @for (camp of campEntries; track camp.id) {
-                <div class="camp-item">
-                  <div class="flex items-center justify-between gap-2">
-                    <div>
-                      <div class="font-bold">{{ camp.title }}</div>
-                      <div class="text-sm">{{ camp.startDate | date: 'dd.MM.yyyy' }} - {{ camp.endDate | date: 'dd.MM.yyyy' }}</div>
-                    </div>
-                    <p-button
-                      [label]="'common.actions.view' | translate"
-                      size="small"
-                      severity="secondary"
-                      (click)="loadCampDetail(camp.id)"
-                    />
-                  </div>
-                </div>
-              }
-            </div>
-          }
-        }
-
-        @if (selectedCampLoading()) {
-          <p-message severity="info" [text]="'common.status.loadingData' | translate" />
-        }
-        @if (selectedCampError(); as campError) {
-          <p-message severity="error" [text]="campError" />
-        }
-        @if (selectedCamp(); as campDetail) {
-          <div class="camp-item">
-            <div class="font-bold">{{ campDetail.title }}</div>
-            <div class="text-sm">{{ campDetail.description || '-' }}</div>
-            <div class="text-sm mt-2">
-              Signup end: {{ campDetail.signupEndDate | date: 'dd.MM.yyyy' }}
-            </div>
-          </div>
-        }
-      </div>
 
       @if (loading()) {
         <div class="loading-container">
@@ -219,18 +173,6 @@ import { CampDto } from '../../../shared/models/camp.model';
       gap: 1.5rem;
       max-width: 800px;
     }
-    .camp-list {
-      margin-bottom: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      max-width: 800px;
-    }
-    .camp-item {
-      border: 1px solid var(--p-content-border-color);
-      border-radius: 0.5rem;
-      padding: 0.75rem;
-    }
     .field {
       display: flex;
       flex-direction: column;
@@ -267,7 +209,6 @@ import { CampDto } from '../../../shared/models/camp.model';
 export class CampStatsComponent implements CanComponentDeactivate {
   private readonly fb = inject(FormBuilder);
   private readonly participantService = inject(ParticipantService);
-  private readonly campService = inject(CampService);
   private readonly translate = inject(TranslateService);
 
   // Router param input (via withComponentInputBinding)
@@ -284,16 +225,6 @@ export class CampStatsComponent implements CanComponentDeactivate {
     foodPreferences: [''],
     notes: [''],
   });
-
-  protected readonly camps = toSignal(
-    this.campService.getAll().pipe(
-      catchError((err) => {
-        console.error('Failed to load camps:', err);
-        return of([] as CampDto[]);
-      }),
-    ),
-    { initialValue: [] as CampDto[] },
-  );
 
   // Load stats declaratively
   private readonly statsResource = toSignal(
@@ -315,9 +246,6 @@ export class CampStatsComponent implements CanComponentDeactivate {
   protected readonly loading = computed(() => this.statsResource() === undefined);
   protected readonly saving = signal(false);
   protected readonly error = signal<string | null>(null);
-  protected readonly selectedCamp = signal<CampDto | null>(null);
-  protected readonly selectedCampLoading = signal(false);
-  protected readonly selectedCampError = signal<string | null>(null);
 
   private readonly savedTrigger = new Subject<boolean>();
   protected readonly saved = toSignal(
@@ -371,22 +299,6 @@ export class CampStatsComponent implements CanComponentDeactivate {
 
   isDirty(): boolean {
     return this.form.dirty;
-  }
-
-  protected loadCampDetail(campId: string): void {
-    this.selectedCampLoading.set(true);
-    this.selectedCampError.set(null);
-    this.campService.getById(campId).subscribe({
-      next: (camp) => {
-        this.selectedCamp.set(camp);
-        this.selectedCampLoading.set(false);
-      },
-      error: (err) => {
-        console.error('Failed to load camp detail:', err);
-        this.selectedCampError.set(this.t('features.participantDetail.campStats.messages.loadError'));
-        this.selectedCampLoading.set(false);
-      },
-    });
   }
 
   private t(key: string): string {

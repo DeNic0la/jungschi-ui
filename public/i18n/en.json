@@ -12,6 +12,8 @@
       "rights": "© {{year}} Jungschi. All rights reserved."
     },
     "nav": {
+      "camps": "Camps",
+      "household": "Household",
       "participants": "Participants",
       "team": "Team"
     }
@@ -183,7 +185,7 @@
       "campStats": {
         "availableCamps": "Available camps",
         "actions": {
-          "save": "Save camp data"
+          "save": "Save general data"
         },
         "form": {
           "ahv": {
@@ -224,9 +226,9 @@
         },
         "messages": {
           "loadError": "Data could not be loaded.",
-          "loading": "Loading camp data..."
+          "loading": "Loading general data..."
         },
-        "title": "Camp data"
+        "title": "General data"
       },
       "healthStats": {
         "confirmDelete": {
@@ -251,17 +253,35 @@
       },
       "notFound": "Participant with ID {{id}} could not be found.",
       "overview": {
-        "campStats": "Camp information",
+        "campStats": "General information",
         "healthStats": "Health information",
         "loadError": "Participant data could not be loaded."
       },
       "tabs": {
         "allergy": "Allergies & food",
-        "campStats": "Camp data",
+        "campStats": "General data",
         "healthStats": "Health information",
         "overview": "Overview"
       },
       "title": "Participant details"
+    },
+    "camps": {
+      "actions": {
+        "signup": "Sign up"
+      },
+      "empty": "No camps available.",
+      "fields": {
+        "priceFirst": "Price first child",
+        "signupEndDate": "Signup deadline"
+      },
+      "messages": {
+        "loadError": "Camps could not be loaded."
+      },
+      "status": {
+        "open": "Signup open",
+        "started": "Started"
+      },
+      "title": "Camps"
     },
     "participants": {
       "actions": {
@@ -321,6 +341,112 @@
         "passwordChangeFailed": "Password change failed."
       },
       "title": "Profile"
+    },
+    "household": {
+      "actions": {
+        "addGuardian": "Add",
+        "setPrimary": "Set as primary contact",
+        "setSecondary": "Set as secondary contact"
+      },
+      "contactTypes": {
+        "additional": "Additional",
+        "pending": "Pending",
+        "primary": "Primary contact",
+        "secondary": "Secondary contact"
+      },
+      "empty": {
+        "guardians": "No guardians are linked to this household."
+      },
+      "form": {
+        "guardianEmail": {
+          "label": "Add guardian by email"
+        },
+        "place": {
+          "label": "Place"
+        },
+        "plz": {
+          "label": "Postal code"
+        },
+        "streetAndNumber": {
+          "label": "Street and number"
+        }
+      },
+      "messages": {
+        "addGuardianError": "Guardian could not be added.",
+        "contactTypeError": "Contact role could not be updated.",
+        "loadError": "Household could not be loaded.",
+        "removeGuardianError": "Guardian could not be removed.",
+        "saveError": "Household could not be saved."
+      },
+      "sections": {
+        "address": "Address",
+        "guardians": "Guardians"
+      },
+      "title": "Household"
+    },
+    "signup": {
+      "actions": {
+        "addMedication": "Add medication",
+        "complete": "Complete signup",
+        "saveProgress": "Save progress"
+      },
+      "form": {
+        "additionalContactOptionsDuringCamp": {
+          "label": "Additional contact options during camp"
+        },
+        "bemerkungen": {
+          "label": "Additional notes"
+        },
+        "dose": {
+          "label": "Dose"
+        },
+        "drugConsent": {
+          "label": "Medication consent"
+        },
+        "frequency": {
+          "label": "Frequency"
+        },
+        "infoEmail": {
+          "label": "Receive information by email"
+        },
+        "infosZimmerleitung": {
+          "label": "Information for room leaders"
+        },
+        "medicationName": {
+          "label": "Medication"
+        },
+        "needsHelp": {
+          "label": "Needs help"
+        },
+        "photoConsent": {
+          "label": "Photo consent"
+        },
+        "purpose": {
+          "label": "Purpose"
+        },
+        "schoolClass": {
+          "label": "School class during camp"
+        }
+      },
+      "messages": {
+        "campStarted": "This camp has already started. Signup is no longer possible.",
+        "drugConsentRequired": "Please choose medication consent for every selected participant.",
+        "loadError": "Signup data could not be loaded.",
+        "noParticipants": "No household participants available.",
+        "saveError": "Signup could not be saved. The required backend API is not available yet.",
+        "saved": "Signup saved.",
+        "selectParticipant": "Please select at least one participant."
+      },
+      "sections": {
+        "medication": "Medication during camp",
+        "participants": "Select participants",
+        "signupData": "Signup data",
+        "summary": "Summary"
+      },
+      "summary": {
+        "selectedParticipants": "Selected participants"
+      },
+      "title": "Camp signup"
     },
     "team": {
       "healthData": {

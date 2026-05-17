@@ -101,6 +101,8 @@ export class AppComponent {
   private readonly translations = toSignal(
     this.translate.stream([
       'app.nav.participants',
+      'app.nav.household',
+      'app.nav.camps',
       'app.nav.team',
       'app.auth.myProfile',
       'app.auth.logout',
@@ -120,6 +122,18 @@ export class AppComponent {
         label: this.t('app.nav.participants'),
         icon: 'pi pi-users',
         routerLink: '/participants',
+      });
+      if (this.keycloak.hasRealmRole('guardian')) {
+        items.push({
+          label: this.t('app.nav.household'),
+          icon: 'pi pi-home',
+          routerLink: '/household',
+        });
+      }
+      items.push({
+        label: this.t('app.nav.camps'),
+        icon: 'pi pi-calendar',
+        routerLink: '/camps',
       });
 
       if (

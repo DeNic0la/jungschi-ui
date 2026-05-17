@@ -112,7 +112,7 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
                           {{ 'common.fields.gender' | translate }}
                         </label>
                         <div class="font-medium text-surface-900 dark:text-surface-0">
-                          {{ ('common.gender.' + p.gender) | translate }}
+                          {{ 'common.gender.' + p.gender | translate }}
                         </div>
                       </div>
                       <div class="flex flex-col gap-1">
@@ -306,7 +306,8 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
                             class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                           >
                             {{
-                              'features.participantDetail.campStats.form.familyDoctor.label' | translate
+                              'features.participantDetail.campStats.form.familyDoctor.label'
+                                | translate
                             }}
                           </label>
                           <div class="font-medium text-surface-900 dark:text-surface-0">
@@ -318,7 +319,8 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
                             class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                           >
                             {{
-                              'features.participantDetail.campStats.form.nationality.label' | translate
+                              'features.participantDetail.campStats.form.nationality.label'
+                                | translate
                             }}
                           </label>
                           <div class="font-medium text-surface-900 dark:text-surface-0">
@@ -330,7 +332,8 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
                             class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                           >
                             {{
-                              'features.participantDetail.campStats.form.nativeLanguage.label' | translate
+                              'features.participantDetail.campStats.form.nativeLanguage.label'
+                                | translate
                             }}
                           </label>
                           <div class="font-medium text-surface-900 dark:text-surface-0">

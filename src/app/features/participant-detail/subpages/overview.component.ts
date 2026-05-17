@@ -25,7 +25,7 @@ import { TranslatePipe } from '@ngx-translate/core';
         </div>
         <div class="detail-item">
           <span class="detail-label">{{ 'common.fields.gender' | translate }}</span>
-          <span class="detail-value">{{ ('common.gender.' + p.gender) | translate }}</span>
+          <span class="detail-value">{{ 'common.gender.' + p.gender | translate }}</span>
         </div>
         <div class="detail-item">
           <span class="detail-label">{{ 'common.fields.lastUpdatedAt' | translate }}</span>

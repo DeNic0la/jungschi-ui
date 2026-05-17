@@ -114,7 +114,7 @@ describe('ParticipantDetailComponent', () => {
     const tabList = fixture.debugElement.query(By.css('p-tablist'));
     expect(tabList.nativeElement.textContent).toContain('Übersicht');
     expect(tabList.nativeElement.textContent).toContain('Gesundheitsinfo');
-    expect(tabList.nativeElement.textContent).toContain('Lager Daten');
+    expect(tabList.nativeElement.textContent).toContain('Allgemeine Angaben');
     expect(tabList.nativeElement.textContent).toContain('Allergien');
     expect(tabList.nativeElement.textContent).toContain('Essen');
   });
