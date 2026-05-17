@@ -29,11 +29,9 @@ export interface HealthStatsDto {
 
 export interface CampStatsDto {
   isTickVaccinated: boolean;
-  drugConsent: boolean;
   ahv: string | null;
   krankenkasse: string | null;
   krankenkassenNr: string | null;
-  medication: string | null;
   familyDoctor: string | null;
   nationality: string | null;
   nativeLanguage: string | null;

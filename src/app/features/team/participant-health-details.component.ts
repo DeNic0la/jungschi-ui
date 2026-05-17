@@ -269,23 +269,6 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
                           <label
                             class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                           >
-                            {{ 'features.team.healthDetails.fields.drugConsent' | translate }}
-                          </label>
-                          <div>
-                            <p-tag
-                              [severity]="cs.drugConsent ? 'success' : 'secondary'"
-                              [value]="
-                                cs.drugConsent
-                                  ? ('common.boolean.yes' | translate)
-                                  : ('common.boolean.no' | translate)
-                              "
-                            />
-                          </div>
-                        </div>
-                        <div class="flex flex-col gap-1">
-                          <label
-                            class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
-                          >
                             {{ 'features.participantDetail.campStats.form.ahv.label' | translate }}
                           </label>
                           <div class="font-medium text-surface-900 dark:text-surface-0">
@@ -316,21 +299,6 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
                           </label>
                           <div class="font-medium text-surface-900 dark:text-surface-0">
                             {{ cs.krankenkassenNr || '-' }}
-                          </div>
-                        </div>
-                        <div class="flex flex-col gap-1">
-                          <label
-                            class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
-                          >
-                            {{
-                              'features.participantDetail.campStats.form.medication.label'
-                                | translate
-                            }}
-                          </label>
-                          <div
-                            class="font-medium text-surface-900 dark:text-surface-0 text-sm whitespace-pre-wrap"
-                          >
-                            {{ cs.medication || ('common.empty.none' | translate) }}
                           </div>
                         </div>
                         <div class="flex flex-col gap-1">

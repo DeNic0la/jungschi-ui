@@ -44,7 +44,6 @@ describe('ProfileComponent', () => {
     userServiceMock = {
       getUserProfile: vi.fn().mockReturnValue(
         of({
-          oidcSubject: 'test-subject',
           username: 'testuser',
           email: 'test@example.com',
           phoneNumber: '123456789',
@@ -55,7 +54,6 @@ describe('ProfileComponent', () => {
       getVisibleGuardians: vi.fn().mockReturnValue(of([])),
       updateUserProfile: vi.fn().mockReturnValue(
         of({
-          oidcSubject: 'test-subject',
           username: 'testuser',
           email: 'test@example.com',
           phoneNumber: '987654321',

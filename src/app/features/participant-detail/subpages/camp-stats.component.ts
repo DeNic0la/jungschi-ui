@@ -120,46 +120,6 @@ import { CampDto } from '../../../shared/models/camp.model';
           </div>
 
           <div class="field">
-            <label id="drug-consent-label" class="font-bold">
-              {{ 'features.participantDetail.campStats.form.drugConsent.label' | translate }}
-            </label>
-            <div
-              class="radio-group vertical"
-              role="radiogroup"
-              aria-labelledby="drug-consent-label"
-            >
-              <div class="flex items-start gap-2">
-                <p-radiobutton
-                  name="drugConsent"
-                  formControlName="drugConsent"
-                  [value]="true"
-                  inputId="drug-consent-yes"
-                />
-                <label for="drug-consent-yes" class="consent-label">
-                  {{
-                    'features.participantDetail.campStats.form.drugConsent.yesDescription'
-                      | translate
-                  }}
-                </label>
-              </div>
-              <div class="flex items-start gap-2">
-                <p-radiobutton
-                  name="drugConsent"
-                  formControlName="drugConsent"
-                  [value]="false"
-                  inputId="drug-consent-no"
-                />
-                <label for="drug-consent-no" class="consent-label">
-                  {{
-                    'features.participantDetail.campStats.form.drugConsent.noDescription'
-                      | translate
-                  }}
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div class="field">
             <label for="ahv" class="font-bold">
               {{ 'features.participantDetail.campStats.form.ahv.label' | translate }}
             </label>
@@ -178,19 +138,6 @@ import { CampDto } from '../../../shared/models/camp.model';
               {{ 'features.participantDetail.campStats.form.krankenkassenNr.label' | translate }}
             </label>
             <input pInputText id="krankenkassenNr" formControlName="krankenkassenNr" />
-          </div>
-
-          <div class="field">
-            <label for="medication" class="font-bold">
-              {{ 'features.participantDetail.campStats.form.medication.label' | translate }}
-            </label>
-            <textarea
-              pTextarea
-              id="medication"
-              formControlName="medication"
-              [autoResize]="true"
-              rows="3"
-            ></textarea>
           </div>
 
           <div class="field">
@@ -328,11 +275,9 @@ export class CampStatsComponent implements CanComponentDeactivate {
 
   protected readonly form = this.fb.group({
     isTickVaccinated: this.fb.control<null | boolean>(null, Validators.required),
-    drugConsent: this.fb.control<null | boolean>(null, Validators.required),
     ahv: [''],
     krankenkasse: [''],
     krankenkassenNr: [''],
-    medication: [''],
     familyDoctor: [''],
     nationality: [''],
     nativeLanguage: [''],

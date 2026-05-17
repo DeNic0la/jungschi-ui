@@ -1,6 +1,5 @@
 export interface UserProfile {
   id?: string;
-  oidcSubject: string;
   username: string;
   email: string;
   phoneNumber: string | null;
