@@ -14,6 +14,7 @@ import Aura from '@primeuix/themes/aura';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { signal } from '@angular/core';
+import { provideTranslateTesting } from '../../shared/testing/translate-testing';
 
 describe('ParticipantComponent', () => {
   let participantServiceMock: any;
@@ -60,6 +61,7 @@ describe('ParticipantComponent', () => {
             },
           },
         }),
+        provideTranslateTesting(),
         { provide: ParticipantService, useValue: participantServiceMock },
         { provide: UserService, useValue: userServiceMock },
         MessageService,

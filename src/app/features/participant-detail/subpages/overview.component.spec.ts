@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 import { ParticipantOverviewComponent } from './overview.component';
 import { ParticipantService } from '../../../shared/services/participant.service';
 import { By } from '@angular/platform-browser';
+import { provideTranslateTesting } from '../../../shared/testing/translate-testing';
 
 describe('ParticipantOverviewComponent', () => {
   let participantServiceMock: any;
@@ -41,6 +42,7 @@ describe('ParticipantOverviewComponent', () => {
       providers: [
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: ParticipantService, useValue: participantServiceMock },
+        provideTranslateTesting(),
       ],
     }).compileComponents();
   });

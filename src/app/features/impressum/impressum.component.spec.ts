@@ -4,11 +4,13 @@ import { describe, it, expect } from 'vitest';
  */
 import { TestBed } from '@angular/core/testing';
 import { ImpressumComponent } from './impressum.component';
+import { provideTranslateTesting } from '../../shared/testing/translate-testing';
 
 describe('ImpressumComponent', () => {
   it('should create the component', async () => {
     await TestBed.configureTestingModule({
       imports: [ImpressumComponent],
+      providers: [provideTranslateTesting()],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(ImpressumComponent);
@@ -19,6 +21,7 @@ describe('ImpressumComponent', () => {
   it('should render the title', async () => {
     await TestBed.configureTestingModule({
       imports: [ImpressumComponent],
+      providers: [provideTranslateTesting()],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(ImpressumComponent);

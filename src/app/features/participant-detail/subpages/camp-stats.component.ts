@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal, untracked } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+  untracked,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
@@ -11,6 +20,7 @@ import { Message } from 'primeng/message';
 import { ParticipantService } from '../../../shared/services/participant.service';
 import { CampStatsDto } from '../../../shared/models/participant.model';
 import { CanComponentDeactivate } from '../../../shared/guards/pending-changes.guard';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-camp-stats',
@@ -22,19 +32,25 @@ import { CanComponentDeactivate } from '../../../shared/guards/pending-changes.g
     TextareaModule,
     RadioButton,
     Message,
+    TranslatePipe,
   ],
   template: `
     <section>
-      <h2>Lager Daten</h2>
+      <h2>{{ 'features.participantDetail.campStats.title' | translate }}</h2>
 
       @if (loading()) {
         <div class="loading-container">
-          <p-message severity="info" text="Lagerdaten werden geladen..." />
+          <p-message
+            severity="info"
+            [text]="'features.participantDetail.campStats.messages.loading' | translate"
+          />
         </div>
       } @else {
         <form [formGroup]="form" (ngSubmit)="save()" class="camp-stats-form">
           <div class="field">
-            <label id="vaccinated-label" class="font-bold">Zecken Impfung gemacht</label>
+            <label id="vaccinated-label" class="font-bold">
+              {{ 'features.participantDetail.campStats.form.tickVaccinated.label' | translate }}
+            </label>
             <div class="radio-group" role="radiogroup" aria-labelledby="vaccinated-label">
               <div class="flex items-center gap-2">
                 <p-radiobutton
@@ -43,7 +59,7 @@ import { CanComponentDeactivate } from '../../../shared/guards/pending-changes.g
                   [value]="true"
                   inputId="vaccinated-yes"
                 />
-                <label for="vaccinated-yes">Ja</label>
+                <label for="vaccinated-yes">{{ 'common.boolean.yes' | translate }}</label>
               </div>
               <div class="flex items-center gap-2">
                 <p-radiobutton
@@ -52,14 +68,14 @@ import { CanComponentDeactivate } from '../../../shared/guards/pending-changes.g
                   [value]="false"
                   inputId="vaccinated-no"
                 />
-                <label for="vaccinated-no">Nein</label>
+                <label for="vaccinated-no">{{ 'common.boolean.no' | translate }}</label>
               </div>
             </div>
           </div>
 
           <div class="field">
             <label id="drug-consent-label" class="font-bold">
-              Einverständnis zur Medikamentenabgabe
+              {{ 'features.participantDetail.campStats.form.drugConsent.label' | translate }}
             </label>
             <div
               class="radio-group vertical"
@@ -74,8 +90,10 @@ import { CanComponentDeactivate } from '../../../shared/guards/pending-changes.g
                   inputId="drug-consent-yes"
                 />
                 <label for="drug-consent-yes" class="consent-label">
-                  Ja, die Lagerleitung darf meinem Kind bei leichten Schmerzen Medikamente
-                  verabreichen (z.B. Dafalgan) oder Crème auftragen (z.B. Bepanthen)
+                  {{
+                    'features.participantDetail.campStats.form.drugConsent.yesDescription'
+                      | translate
+                  }}
                 </label>
               </div>
               <div class="flex items-start gap-2">
@@ -86,31 +104,40 @@ import { CanComponentDeactivate } from '../../../shared/guards/pending-changes.g
                   inputId="drug-consent-no"
                 />
                 <label for="drug-consent-no" class="consent-label">
-                  Nein, ich möchte nicht, dass die Lagerleitung meinem Kind bei einem kleinen
-                  Unfall/Krankheit leichte Medikamente (z.B. Dafalgan, Bepanthen) verabreicht. Ich
-                  möchte in diesem Fall zuerst telefonisch informiert werden.
+                  {{
+                    'features.participantDetail.campStats.form.drugConsent.noDescription'
+                      | translate
+                  }}
                 </label>
               </div>
             </div>
           </div>
 
           <div class="field">
-            <label for="ahv" class="font-bold">AHV Nummer</label>
+            <label for="ahv" class="font-bold">
+              {{ 'features.participantDetail.campStats.form.ahv.label' | translate }}
+            </label>
             <input pInputText id="ahv" formControlName="ahv" placeholder="756.xxxx.xxxx.xx" />
           </div>
 
           <div class="field">
-            <label for="krankenkasse" class="font-bold">Krankenkasse</label>
+            <label for="krankenkasse" class="font-bold">
+              {{ 'features.participantDetail.campStats.form.krankenkasse.label' | translate }}
+            </label>
             <input pInputText id="krankenkasse" formControlName="krankenkasse" />
           </div>
 
           <div class="field">
-            <label for="krankenkassenNr" class="font-bold">Krankenkassen-Nummer</label>
+            <label for="krankenkassenNr" class="font-bold">
+              {{ 'features.participantDetail.campStats.form.krankenkassenNr.label' | translate }}
+            </label>
             <input pInputText id="krankenkassenNr" formControlName="krankenkassenNr" />
           </div>
 
           <div class="field">
-            <label for="medication" class="font-bold">Medikamente</label>
+            <label for="medication" class="font-bold">
+              {{ 'features.participantDetail.campStats.form.medication.label' | translate }}
+            </label>
             <textarea
               pTextarea
               id="medication"
@@ -121,7 +148,9 @@ import { CanComponentDeactivate } from '../../../shared/guards/pending-changes.g
           </div>
 
           <div class="field">
-            <label for="sonstiges" class="font-bold">Sonstiges</label>
+            <label for="sonstiges" class="font-bold">
+              {{ 'features.participantDetail.campStats.form.notes.label' | translate }}
+            </label>
             <textarea
               pTextarea
               id="sonstiges"
@@ -133,14 +162,17 @@ import { CanComponentDeactivate } from '../../../shared/guards/pending-changes.g
 
           <div class="form-actions">
             <p-button
-              label="Lagerdaten speichern"
+              [label]="'features.participantDetail.campStats.actions.save' | translate"
               type="submit"
               [loading]="saving()"
               icon="pi pi-save"
               [disabled]="form.pristine || form.invalid || saving()"
             />
             @if (saved()) {
-              <p-message severity="success" text="Erfolgreich gespeichert!" />
+              <p-message
+                severity="success"
+                [text]="'common.status.savedSuccessfully' | translate"
+              />
             }
             @if (error(); as err) {
               <p-message severity="error" [text]="err" />
@@ -196,6 +228,7 @@ import { CanComponentDeactivate } from '../../../shared/guards/pending-changes.g
 export class CampStatsComponent implements CanComponentDeactivate {
   private readonly fb = inject(FormBuilder);
   private readonly participantService = inject(ParticipantService);
+  private readonly translate = inject(TranslateService);
 
   // Router param input (via withComponentInputBinding)
   id = input.required<string>();
@@ -219,7 +252,7 @@ export class CampStatsComponent implements CanComponentDeactivate {
         return this.participantService.getCampStats(numId).pipe(
           catchError((err) => {
             console.error('Failed to load camp stats:', err);
-            this.error.set('Daten konnten nicht geladen werden.');
+            this.error.set(this.t('features.participantDetail.campStats.messages.loadError'));
             return of(null);
           }),
         );
@@ -276,12 +309,16 @@ export class CampStatsComponent implements CanComponentDeactivate {
       error: (err) => {
         console.error('Failed to update camp stats:', err);
         this.saving.set(false);
-        this.error.set('Speichern fehlgeschlagen.');
+        this.error.set(this.t('common.status.saveFailed'));
       },
     });
   }
 
   isDirty(): boolean {
     return this.form.dirty;
+  }
+
+  private t(key: string): string {
+    return this.translate.instant(key);
   }
 }

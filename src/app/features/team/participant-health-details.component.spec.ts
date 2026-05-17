@@ -4,6 +4,7 @@ import { TeamService } from '../../shared/services/team.service';
 import { of, throwError } from 'rxjs';
 import { provideRouter } from '@angular/router';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { provideTranslateTesting } from '../../shared/testing/translate-testing';
 
 describe('ParticipantHealthDetailsComponent', () => {
   let component: ParticipantHealthDetailsComponent;
@@ -55,6 +56,7 @@ describe('ParticipantHealthDetailsComponent', () => {
       providers: [
         { provide: TeamService, useValue: teamServiceMock },
         provideRouter([]),
+        provideTranslateTesting(),
       ],
     }).compileComponents();
 
@@ -198,8 +200,12 @@ describe('ParticipantHealthDetailsComponent', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
-    const noDataElements = Array.from(fixture.nativeElement.querySelectorAll('p.italic.text-surface-500')) as HTMLElement[];
-    expect(noDataElements.some(el => el.textContent?.includes('Keine Daten vorhanden'))).toBe(true);
+    const noDataElements = Array.from(
+      fixture.nativeElement.querySelectorAll('p.italic.text-surface-500'),
+    ) as HTMLElement[];
+    expect(noDataElements.some((el) => el.textContent?.includes('Keine Daten vorhanden'))).toBe(
+      true,
+    );
 
     expect(fixture.nativeElement.textContent).toContain('Keine Einträge vorhanden');
   });

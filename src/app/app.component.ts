@@ -6,7 +6,7 @@ import {
   signal,
   computed,
 } from '@angular/core';
-import {RouterLink, RouterOutlet} from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import {
   KEYCLOAK_EVENT_SIGNAL,
   KeycloakEventType,
@@ -19,12 +19,13 @@ import { Button } from 'primeng/button';
 import { Menu } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { UserService } from './shared/services/user.service';
-import { UserProfile } from './shared/models/user.model';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Menubar, Button, Menu, RouterLink],
+  imports: [RouterOutlet, Menubar, Button, Menu, RouterLink, TranslatePipe],
   template: `
     <header class="sticky top-0 z-50 shadow-sm">
       <p-menubar [model]="menuItems()" styleClass="border-0 rounded-none px-4 sm:px-8 py-3">
@@ -42,22 +43,22 @@ import { firstValueFrom } from 'rxjs';
               <p-button
                 severity="secondary"
                 (click)="userMenu.toggle($event)"
-                aria-label="Benutzermenü"
+                [attr.aria-label]="'app.auth.userMenu' | translate"
               >
                 <div class="flex items-center gap-2">
                   <i class="pi pi-user"></i>
                   <span class="max-w-[150px] truncate hidden sm:inline">
-                    {{ userProfile()?.username ?? 'Profil' }}
+                    {{ userProfile()?.username ?? ('app.auth.profileFallback' | translate) }}
                   </span>
                 </div>
               </p-button>
               <p-menu #userMenu [model]="userMenuItems()" [popup]="true" appendTo="body" />
             } @else {
               <p-button
-                label="Anmelden"
+                [label]="'app.auth.login' | translate"
                 icon="pi pi-sign-in"
                 (click)="login()"
-                aria-label="Anmelden"
+                [attr.aria-label]="'app.auth.login' | translate"
               />
             }
           </div>
@@ -72,10 +73,13 @@ import { firstValueFrom } from 'rxjs';
     <footer
       class="p-8 text-center border-t border-surface-200 dark:border-surface-700 text-surface-500 text-sm"
     >
-      <p>&copy; {{ currentYear }} Jungschi. Alle Rechte vorbehalten.</p>
+      <p>{{ 'app.footer.rights' | translate: { year: currentYear } }}</p>
       <nav class="mt-4">
-        <a [routerLink]="['/impressum']" class="hover:text-primary transition-colors cursor-pointer">
-          Impressum
+        <a
+          [routerLink]="['/impressum']"
+          class="hover:text-primary transition-colors cursor-pointer"
+        >
+          {{ 'app.footer.impressum' | translate }}
         </a>
       </nav>
     </footer>
@@ -93,7 +97,16 @@ export class AppComponent {
   private readonly keycloak = inject(Keycloak);
   private readonly keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
   private readonly userService = inject(UserService);
-
+  private readonly translate = inject(TranslateService);
+  private readonly translations = toSignal(
+    this.translate.stream([
+      'app.nav.participants',
+      'app.nav.team',
+      'app.auth.myProfile',
+      'app.auth.logout',
+    ]) as Observable<Record<string, string>>,
+    { initialValue: {} as Record<string, string> },
+  );
 
   protected readonly isLoggedIn = signal(false);
   protected readonly userProfile = this.userService.userProfile;
@@ -104,14 +117,14 @@ export class AppComponent {
 
     if (this.isLoggedIn()) {
       items.push({
-        label: 'Teilnehmer',
+        label: this.t('app.nav.participants'),
         icon: 'pi pi-users',
         routerLink: '/participants',
       });
 
       if (this.keycloak.hasRealmRole('Jungschiteam')) {
         items.push({
-          label: 'Team',
+          label: this.t('app.nav.team'),
           icon: 'pi pi-id-card',
           routerLink: '/team',
         });
@@ -123,12 +136,12 @@ export class AppComponent {
 
   protected readonly userMenuItems = computed<MenuItem[]>(() => [
     {
-      label: 'Mein Profil',
+      label: this.t('app.auth.myProfile'),
       icon: 'pi pi-user',
       routerLink: '/profile',
     },
     {
-      label: 'Abmelden',
+      label: this.t('app.auth.logout'),
       icon: 'pi pi-sign-out',
       command: () => this.logout(),
     },
@@ -154,8 +167,9 @@ export class AppComponent {
 
     effect(() => {
       if (this.isLoggedIn()) {
-        firstValueFrom(this.userService.getUserProfile())
-          .catch((err) => console.error('Failed to load user profile in app', err));
+        firstValueFrom(this.userService.getUserProfile()).catch((err) =>
+          console.error('Failed to load user profile in app', err),
+        );
       }
     });
   }
@@ -173,5 +187,9 @@ export class AppComponent {
 
   protected logout(): void {
     this.keycloak.logout({ redirectUri: window.location.origin });
+  }
+
+  private t(key: string): string {
+    return this.translations()[key] ?? this.translate.instant(key);
   }
 }

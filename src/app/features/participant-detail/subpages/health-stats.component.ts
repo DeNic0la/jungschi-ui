@@ -21,7 +21,7 @@ import { ConfirmationService } from 'primeng/api';
 import { ParticipantService } from '../../../shared/services/participant.service';
 import { HealthStatsDto } from '../../../shared/models/participant.model';
 import { CanComponentDeactivate } from '../../../shared/guards/pending-changes.guard';
-import { ActivatedRoute } from '@angular/router';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-health-stats',
@@ -33,16 +33,17 @@ import { ActivatedRoute } from '@angular/router';
     RadioButton,
     Message,
     ConfirmDialog,
+    TranslatePipe,
   ],
   template: `
     <section>
       <p-confirmdialog />
-      <h2>Gesundheitsinfo</h2>
+      <h2>{{ 'features.participantDetail.healthStats.title' | translate }}</h2>
 
       @if (loading()) {
         <div class="loading-container">
           <i class="pi pi-spin pi-spinner spinner-icon" aria-hidden="true"></i>
-          <span class="sr-only">Laden...</span>
+          <span class="sr-only">{{ 'common.status.loading' | translate }}</span>
         </div>
       } @else if (error()) {
         <p-message severity="error" [text]="error()!" />
@@ -50,8 +51,7 @@ import { ActivatedRoute } from '@angular/router';
         <form [formGroup]="form" (ngSubmit)="save()" class="health-form">
           <div class="field">
             <label id="healthy-label">
-              Ist Ihr Kind normal Sportlich belastbar, gesund und kann ohne Einschränkungen am
-              Programm teilnehmen?
+              {{ 'features.participantDetail.healthStats.form.isHealthy.label' | translate }}
             </label>
             <div class="radio-group" role="radiogroup" aria-labelledby="healthy-label">
               <div class="flex items-center gap-2">
@@ -61,7 +61,7 @@ import { ActivatedRoute } from '@angular/router';
                   [value]="true"
                   inputId="healthy-yes"
                 ></p-radiobutton>
-                <label for="healthy-yes">Ja</label>
+                <label for="healthy-yes">{{ 'common.boolean.yes' | translate }}</label>
               </div>
               <div class="flex items-center gap-2">
                 <p-radiobutton
@@ -70,14 +70,16 @@ import { ActivatedRoute } from '@angular/router';
                   [value]="false"
                   inputId="healthy-no"
                 ></p-radiobutton>
-                <label for="healthy-no">Nein</label>
+                <label for="healthy-no">{{ 'common.boolean.no' | translate }}</label>
               </div>
             </div>
           </div>
 
           @if (isHealthyValue() === false) {
             <div class="field">
-              <label for="healthyReason">Falls nein, bitte hier beschreiben</label>
+              <label for="healthyReason">
+                {{ 'features.participantDetail.healthStats.form.healthyReason.label' | translate }}
+              </label>
               <textarea
                 pTextarea
                 id="healthyReason"
@@ -89,7 +91,9 @@ import { ActivatedRoute } from '@angular/router';
 
             <div class="field">
               <label for="excludedActivities">
-                An welchem Programm/Programmarten kann ihr Kind nicht teilnehmen
+                {{
+                  'features.participantDetail.healthStats.form.excludedActivities.label' | translate
+                }}
               </label>
               <textarea
                 pTextarea
@@ -103,7 +107,7 @@ import { ActivatedRoute } from '@angular/router';
 
           <div class="form-actions">
             <p-button
-              label="Speichern"
+              [label]="'common.actions.save' | translate"
               type="submit"
               [loading]="saving()"
               icon="pi pi-save"
@@ -112,7 +116,7 @@ import { ActivatedRoute } from '@angular/router';
 
             <p-button
               id="delete-btn"
-              label="Löschen"
+              [label]="'common.actions.delete' | translate"
               type="button"
               severity="danger"
               class="hidden"
@@ -123,7 +127,7 @@ import { ActivatedRoute } from '@angular/router';
             />
 
             @if (saved()) {
-              <p-message severity="success" text="Gespeichert!" />
+              <p-message severity="success" [text]="'common.status.saved' | translate" />
             }
           </div>
         </form>
@@ -198,7 +202,7 @@ import { ActivatedRoute } from '@angular/router';
 export class HealthStatsComponent implements CanComponentDeactivate {
   private readonly fb = inject(FormBuilder);
   private readonly participantService = inject(ParticipantService);
-  private readonly route = inject(ActivatedRoute);
+  private readonly translate = inject(TranslateService);
 
   // Participant ID from route (via withComponentInputBinding)
   id = input.required<string>();
@@ -222,7 +226,7 @@ export class HealthStatsComponent implements CanComponentDeactivate {
         return this.participantService.getHealthStats(numId).pipe(
           catchError((err) => {
             console.error('Failed to load health stats:', err);
-            this.error.set('Daten konnten nicht geladen werden.');
+            this.error.set(this.t('features.participantDetail.healthStats.messages.loadError'));
             return of(null);
           }),
         );
@@ -301,16 +305,18 @@ export class HealthStatsComponent implements CanComponentDeactivate {
       error: (err) => {
         console.error('Failed to update health stats:', err);
         this.saving.set(false);
-        this.error.set('Speichern fehlgeschlagen.');
+        this.error.set(this.t('common.status.saveFailed'));
       },
     });
   }
 
   protected delete(): void {
     this.confirmationService.confirm({
-      message: 'Möchten Sie alle Gesundheitsinfos löschen und auf "Gesund" zurücksetzen?',
-      header: 'Löschen bestätigen',
+      message: this.t('features.participantDetail.healthStats.confirmDelete.message'),
+      header: this.t('features.participantDetail.healthStats.confirmDelete.header'),
       icon: 'pi pi-exclamation-triangle',
+      acceptLabel: this.t('common.actions.delete'),
+      rejectLabel: this.t('common.actions.cancel'),
       accept: () => {
         this.form.patchValue({
           isHealthy: true,
@@ -326,5 +332,9 @@ export class HealthStatsComponent implements CanComponentDeactivate {
   // Used by CanDeactivate guard
   isDirty(): boolean {
     return this.form.dirty;
+  }
+
+  private t(key: string): string {
+    return this.translate.instant(key);
   }
 }

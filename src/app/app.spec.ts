@@ -13,6 +13,7 @@ import { UserService } from './shared/services/user.service';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideTranslateTesting } from './shared/testing/translate-testing';
 
 describe('AppComponent', () => {
   let keycloakMock: any;
@@ -62,6 +63,7 @@ describe('AppComponent', () => {
             },
           },
         }),
+        provideTranslateTesting(),
         { provide: Keycloak, useValue: keycloakMock },
         { provide: KEYCLOAK_EVENT_SIGNAL, useValue: keycloakSignal },
         { provide: UserService, useValue: userServiceMock },

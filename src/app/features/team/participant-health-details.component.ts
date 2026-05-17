@@ -4,12 +4,13 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { JsonPipe, DatePipe } from '@angular/common';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { TeamService } from '../../shared/services/team.service';
-import { getSeverityColor, getSeverityLabel } from '../../shared/models/intolerance-selection.model';
+import { getSeverityColor } from '../../shared/models/intolerance-selection.model';
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from 'primeng/tabs';
 import { Card } from 'primeng/card';
 import { Divider } from 'primeng/divider';
 import { Tag } from 'primeng/tag';
 import { Button } from 'primeng/button';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-participant-health-details',
@@ -26,13 +27,18 @@ import { Button } from 'primeng/button';
     Divider,
     Tag,
     Button,
+    TranslatePipe,
   ],
   template: `
     <div class="page-container">
-      <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-        <h1 class="text-3xl font-bold text-surface-900 dark:text-surface-0">Gesundheitsdetails</h1>
+      <header
+        class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8"
+      >
+        <h1 class="text-3xl font-bold text-surface-900 dark:text-surface-0">
+          {{ 'features.team.healthDetails.title' | translate }}
+        </h1>
         <p-button
-          label="Zurück zur Liste"
+          [label]="'features.participantDetail.actions.backToList' | translate"
           icon="pi pi-arrow-left"
           routerLink="/team/health-data"
           severity="secondary"
@@ -44,7 +50,9 @@ import { Button } from 'primeng/button';
         @if (isLoading()) {
           <div class="flex justify-center items-center py-10 gap-2">
             <i class="pi pi-spin pi-spinner text-2xl text-primary" aria-hidden="true"></i>
-            <span class="text-surface-600 dark:text-surface-400">Lade Daten...</span>
+            <span class="text-surface-600 dark:text-surface-400">
+              {{ 'common.status.loadingData' | translate }}
+            </span>
           </div>
         } @else if (error()) {
           <div
@@ -56,8 +64,10 @@ import { Button } from 'primeng/button';
         } @else if (participant(); as p) {
           <p-tabs value="0">
             <p-tablist>
-              <p-tab value="0">Strukturiert</p-tab>
-              <p-tab value="1">Raw JSON</p-tab>
+              <p-tab value="0">{{
+                'features.team.healthDetails.tabs.structured' | translate
+              }}</p-tab>
+              <p-tab value="1">{{ 'features.team.healthDetails.tabs.rawJson' | translate }}</p-tab>
             </p-tablist>
             <p-tabpanels>
               <p-tabpanel value="0">
@@ -69,7 +79,9 @@ import { Button } from 'primeng/button';
                         class="p-5 font-bold text-lg border-b border-surface-200 dark:border-surface-700 flex items-center"
                       >
                         <i class="pi pi-user mr-3 text-primary"></i>
-                        <span>Teilnehmer & Account</span>
+                        <span>{{
+                          'features.team.healthDetails.sections.participantAccount' | translate
+                        }}</span>
                       </div>
                     </ng-template>
                     <div class="flex flex-col gap-4 p-5">
@@ -77,7 +89,7 @@ import { Button } from 'primeng/button';
                         <label
                           class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                         >
-                          Name
+                          {{ 'common.fields.name' | translate }}
                         </label>
                         <div class="font-medium text-surface-900 dark:text-surface-0">
                           {{ p.firstname }} {{ p.lastname }}
@@ -87,7 +99,7 @@ import { Button } from 'primeng/button';
                         <label
                           class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                         >
-                          Geburtsdatum
+                          {{ 'common.fields.dateOfBirth' | translate }}
                         </label>
                         <div class="font-medium text-surface-900 dark:text-surface-0">
                           {{ p.dateOfBirth | date: 'dd.MM.yyyy' }}
@@ -97,7 +109,7 @@ import { Button } from 'primeng/button';
                         <label
                           class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                         >
-                          Letztes Update
+                          {{ 'common.fields.lastUpdatedAt' | translate }}
                         </label>
                         <div class="font-medium text-surface-900 dark:text-surface-0">
                           {{ p.lastUpdatedAt | date: 'dd.MM.yyyy HH:mm' }}
@@ -108,7 +120,7 @@ import { Button } from 'primeng/button';
                         <label
                           class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                         >
-                          Account
+                          {{ 'features.team.healthDetails.fields.account' | translate }}
                         </label>
                         <div class="font-medium text-surface-900 dark:text-surface-0">
                           {{ p.user.firstName }} {{ p.user.lastName }}
@@ -118,7 +130,7 @@ import { Button } from 'primeng/button';
                         <label
                           class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                         >
-                          E-Mail
+                          {{ 'common.fields.email' | translate }}
                         </label>
                         <div class="font-medium text-surface-900 dark:text-surface-0">
                           {{ p.user.email }}
@@ -128,7 +140,7 @@ import { Button } from 'primeng/button';
                         <label
                           class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                         >
-                          Telefonnummer
+                          {{ 'common.fields.phoneNumber' | translate }}
                         </label>
                         <div class="font-medium text-surface-900 dark:text-surface-0">
                           {{ p.user.phoneNumber || '-' }}
@@ -138,9 +150,11 @@ import { Button } from 'primeng/button';
                         <label
                           class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                         >
-                          Adresse
+                          {{ 'common.fields.address' | translate }}
                         </label>
-                        <div class="font-medium text-surface-900 dark:text-surface-0 whitespace-pre-wrap">
+                        <div
+                          class="font-medium text-surface-900 dark:text-surface-0 whitespace-pre-wrap"
+                        >
                           {{ p.user.address || '-' }}
                         </div>
                       </div>
@@ -154,7 +168,9 @@ import { Button } from 'primeng/button';
                         class="p-5 font-bold text-lg border-b border-surface-200 dark:border-surface-700 flex items-center"
                       >
                         <i class="pi pi-heart mr-3 text-primary"></i>
-                        <span>Gesundheitsstatus</span>
+                        <span>{{
+                          'features.team.healthDetails.sections.healthStatus' | translate
+                        }}</span>
                       </div>
                     </ng-template>
                     <div class="flex flex-col gap-4 p-5">
@@ -163,12 +179,16 @@ import { Button } from 'primeng/button';
                           <label
                             class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                           >
-                            Gesund
+                            {{ 'features.team.healthDetails.fields.healthy' | translate }}
                           </label>
                           <div>
                             <p-tag
                               [severity]="hs.isHealthy ? 'success' : 'danger'"
-                              [value]="hs.isHealthy ? 'Ja' : 'Nein'"
+                              [value]="
+                                hs.isHealthy
+                                  ? ('common.boolean.yes' | translate)
+                                  : ('common.boolean.no' | translate)
+                              "
                             />
                           </div>
                         </div>
@@ -177,7 +197,7 @@ import { Button } from 'primeng/button';
                             <label
                               class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                             >
-                              Grund
+                              {{ 'features.team.healthDetails.fields.reason' | translate }}
                             </label>
                             <div class="font-medium text-surface-900 dark:text-surface-0">
                               {{ hs.healthyReason }}
@@ -188,14 +208,18 @@ import { Button } from 'primeng/button';
                           <label
                             class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                           >
-                            Eingeschränkte Aktivitäten
+                            {{
+                              'features.team.healthDetails.fields.excludedActivities' | translate
+                            }}
                           </label>
                           <div class="font-medium text-surface-900 dark:text-surface-0">
-                            {{ hs.excludedActivities || 'Keine' }}
+                            {{ hs.excludedActivities || ('common.empty.none' | translate) }}
                           </div>
                         </div>
                       } @else {
-                        <p class="italic text-surface-500">Keine Daten vorhanden.</p>
+                        <p class="italic text-surface-500">
+                          {{ 'common.empty.noData' | translate }}
+                        </p>
                       }
                     </div>
                   </p-card>
@@ -207,7 +231,9 @@ import { Button } from 'primeng/button';
                         class="p-5 font-bold text-lg border-b border-surface-200 dark:border-surface-700 flex items-center"
                       >
                         <i class="pi pi-map mr-3 text-primary"></i>
-                        <span>Lager-Informationen</span>
+                        <span>{{
+                          'features.team.healthDetails.sections.campInfo' | translate
+                        }}</span>
                       </div>
                     </ng-template>
                     <div class="flex flex-col gap-4 p-5">
@@ -216,12 +242,16 @@ import { Button } from 'primeng/button';
                           <label
                             class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                           >
-                            Zeckenimpfung
+                            {{ 'features.team.healthDetails.fields.tickVaccination' | translate }}
                           </label>
                           <div>
                             <p-tag
                               [severity]="cs.isTickVaccinated ? 'success' : 'secondary'"
-                              [value]="cs.isTickVaccinated ? 'Ja' : 'Nein'"
+                              [value]="
+                                cs.isTickVaccinated
+                                  ? ('common.boolean.yes' | translate)
+                                  : ('common.boolean.no' | translate)
+                              "
                             />
                           </div>
                         </div>
@@ -229,12 +259,16 @@ import { Button } from 'primeng/button';
                           <label
                             class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                           >
-                            Medikamentenabgabe
+                            {{ 'features.team.healthDetails.fields.drugConsent' | translate }}
                           </label>
                           <div>
                             <p-tag
                               [severity]="cs.drugConsent ? 'success' : 'secondary'"
-                              [value]="cs.drugConsent ? 'Ja' : 'Nein'"
+                              [value]="
+                                cs.drugConsent
+                                  ? ('common.boolean.yes' | translate)
+                                  : ('common.boolean.no' | translate)
+                              "
                             />
                           </div>
                         </div>
@@ -242,7 +276,7 @@ import { Button } from 'primeng/button';
                           <label
                             class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                           >
-                            AHV-Nummer
+                            {{ 'features.participantDetail.campStats.form.ahv.label' | translate }}
                           </label>
                           <div class="font-medium text-surface-900 dark:text-surface-0">
                             {{ cs.ahv || '-' }}
@@ -252,7 +286,10 @@ import { Button } from 'primeng/button';
                           <label
                             class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                           >
-                            Krankenkasse
+                            {{
+                              'features.participantDetail.campStats.form.krankenkasse.label'
+                                | translate
+                            }}
                           </label>
                           <div class="font-medium text-surface-900 dark:text-surface-0">
                             {{ cs.krankenkasse || '-' }}
@@ -262,7 +299,10 @@ import { Button } from 'primeng/button';
                           <label
                             class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                           >
-                            Krankenkassen-Nummer
+                            {{
+                              'features.participantDetail.campStats.form.krankenkassenNr.label'
+                                | translate
+                            }}
                           </label>
                           <div class="font-medium text-surface-900 dark:text-surface-0">
                             {{ cs.krankenkassenNr || '-' }}
@@ -272,24 +312,31 @@ import { Button } from 'primeng/button';
                           <label
                             class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                           >
-                            Medikamente
+                            {{
+                              'features.participantDetail.campStats.form.medication.label'
+                                | translate
+                            }}
                           </label>
-                          <div class="font-medium text-surface-900 dark:text-surface-0 text-sm whitespace-pre-wrap">
-                            {{ cs.medication || 'Keine' }}
+                          <div
+                            class="font-medium text-surface-900 dark:text-surface-0 text-sm whitespace-pre-wrap"
+                          >
+                            {{ cs.medication || ('common.empty.none' | translate) }}
                           </div>
                         </div>
                         <div class="flex flex-col gap-1">
                           <label
                             class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                           >
-                            Bemerkungen
+                            {{ 'features.team.healthDetails.fields.remarks' | translate }}
                           </label>
                           <div class="font-medium text-surface-900 dark:text-surface-0 text-sm">
-                            {{ cs.notes || 'Keine' }}
+                            {{ cs.notes || ('common.empty.none' | translate) }}
                           </div>
                         </div>
                       } @else {
-                        <p class="italic text-surface-500">Keine Daten vorhanden.</p>
+                        <p class="italic text-surface-500">
+                          {{ 'common.empty.noData' | translate }}
+                        </p>
                       }
                     </div>
                   </p-card>
@@ -301,12 +348,16 @@ import { Button } from 'primeng/button';
                         class="p-5 font-bold text-lg border-b border-surface-200 dark:border-surface-700 flex items-center"
                       >
                         <i class="pi pi-exclamation-circle mr-3 text-primary"></i>
-                        <span>Allergien & Unverträglichkeiten</span>
+                        <span>{{
+                          'features.team.healthDetails.sections.allergies' | translate
+                        }}</span>
                       </div>
                     </ng-template>
                     <div class="p-5">
                       @if (p.intoleranceSelections.length === 0) {
-                        <p class="italic text-surface-500">Keine Einträge vorhanden.</p>
+                        <p class="italic text-surface-500">
+                          {{ 'common.empty.noEntries' | translate }}
+                        </p>
                       } @else {
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                           @for (item of p.intoleranceSelections; track item.id) {
@@ -319,13 +370,11 @@ import { Button } from 'primeng/button';
                                 </span>
                                 <p-tag
                                   [severity]="getSeverityColor(item.severity)"
-                                  [value]="getSeverityLabel(item.severity)"
+                                  [value]="getSeverityKey(item.severity) | translate"
                                 />
                               </div>
                               @if (item.customText) {
-                                <div
-                                  class="text-sm text-surface-600 dark:text-surface-400 italic"
-                                >
+                                <div class="text-sm text-surface-600 dark:text-surface-400 italic">
                                   {{ item.customText }}
                                 </div>
                               }
@@ -354,6 +403,7 @@ import { Button } from 'primeng/button';
 })
 export class ParticipantHealthDetailsComponent {
   private readonly teamService = inject(TeamService);
+  private readonly translate = inject(TranslateService);
   id = input.required<string>();
 
   error = signal<string | null>(null);
@@ -371,7 +421,9 @@ export class ParticipantHealthDetailsComponent {
           catchError((err) => {
             console.error('Failed to load participant data:', err);
             this.isLoading.set(false);
-            this.error.set('Fehler beim Laden der Teilnehmerdaten.');
+            this.error.set(
+              this.translate.instant('features.team.healthDetails.messages.loadError'),
+            );
             return of(null);
           }),
         ),
@@ -380,5 +432,17 @@ export class ParticipantHealthDetailsComponent {
   );
 
   protected readonly getSeverityColor = getSeverityColor;
-  protected readonly getSeverityLabel = getSeverityLabel;
+
+  protected getSeverityKey(severity: string | null): string {
+    switch (severity) {
+      case 'LIFE_THREATENING':
+        return 'common.severity.lifeThreatening';
+      case 'STRONG':
+        return 'common.severity.strong';
+      case 'AFFECTED':
+        return 'common.severity.affected';
+      default:
+        return 'common.status.unknown';
+    }
+  }
 }

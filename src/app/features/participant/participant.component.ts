@@ -17,7 +17,7 @@ import { Participant, ParticipantInput } from '../../shared/models/participant.m
 import { firstValueFrom, fromEvent, map, startWith } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Card } from 'primeng/card';
-import {StyleClass} from 'primeng/styleclass';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-participant',
@@ -34,16 +34,21 @@ import {StyleClass} from 'primeng/styleclass';
     Message,
     ConfirmDialog,
     Card,
+    TranslatePipe,
   ],
   template: `
     <div class="page-container">
       <p-toast />
       <p-confirmdialog />
 
-      <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-        <h1 class="text-3xl font-bold text-surface-900 dark:text-surface-0">Teilnehmer</h1>
+      <header
+        class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8"
+      >
+        <h1 class="text-3xl font-bold text-surface-900 dark:text-surface-0">
+          {{ 'features.participants.title' | translate }}
+        </h1>
         <p-button
-          label="Neuer Teilnehmer"
+          [label]="'features.participants.actions.new' | translate"
           icon="pi pi-plus"
           (click)="openAddDialog()"
           class="w-full sm:w-auto"
@@ -52,9 +57,11 @@ import {StyleClass} from 'primeng/styleclass';
 
       @if (userProfile() && !userProfile()?.phoneNumber) {
         <p-message severity="warn" class="block mb-6" icon="pi pi-exclamation-triangle">
-          Bitte hinterlegen Sie eine Telefonnummer in Ihrem
-          <a routerLink="/profile" class="underline font-bold">Profil</a>, um Teilnehmer erstellen
-          zu können. Wir benötigen diese, um Sie in Notfällen erreichen zu können.
+          {{ 'features.participants.phoneMissingBanner.beforeProfile' | translate }}
+          <a routerLink="/profile" class="underline font-bold">
+            {{ 'features.profile.title' | translate }}
+          </a>
+          {{ 'features.participants.phoneMissingBanner.afterProfile' | translate }}
         </p-message>
       }
 
@@ -65,13 +72,12 @@ import {StyleClass} from 'primeng/styleclass';
       } @else {
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           @for (participant of participants(); track participant.id) {
-            <p-card
-              class="hover:shadow-lg transition-shadow cursor-pointer"
-            >
+            <p-card class="hover:shadow-lg transition-shadow cursor-pointer">
               <ng-template #header>
                 <div
                   [routerLink]="['/participants', participant.id]"
-                  class="px-6 pt-6 pb-2 border-b border-surface-200 dark:border-surface-700">
+                  class="px-6 pt-6 pb-2 border-b border-surface-200 dark:border-surface-700"
+                >
                   <span class="text-xl font-bold text-primary block">
                     {{ participant.firstname }} {{ participant.lastname }}
                   </span>
@@ -80,13 +86,17 @@ import {StyleClass} from 'primeng/styleclass';
 
               <div class="flex flex-col gap-3 m-4">
                 <div class="flex justify-between text-sm">
-                  <span class="text-surface-500 dark:text-surface-400">Geburtsdatum:</span>
+                  <span class="text-surface-500 dark:text-surface-400">
+                    {{ 'features.participants.card.dateOfBirth' | translate }}
+                  </span>
                   <span class="text-surface-900 dark:text-surface-0 font-medium">
                     {{ participant.dateOfBirth | date: 'dd.MM.yyyy' }}
                   </span>
                 </div>
                 <div class="flex justify-between text-sm">
-                  <span class="text-surface-500 dark:text-surface-400">Zuletzt aktualisiert:</span>
+                  <span class="text-surface-500 dark:text-surface-400">
+                    {{ 'features.participants.card.lastUpdated' | translate }}
+                  </span>
                   <span class="text-surface-900 dark:text-surface-0 font-medium">
                     {{ participant.lastUpdatedAt | date: 'dd.MM.yyyy HH:mm' }}
                   </span>
@@ -97,37 +107,40 @@ import {StyleClass} from 'primeng/styleclass';
                     [rounded]="true"
                     severity="info"
                     [routerLink]="['/participants', participant.id]"
-                    aria-label="Anzeigen"
+                    [attr.aria-label]="'common.actions.view' | translate"
                   />
                   <p-button
                     icon="pi pi-pencil"
                     [rounded]="true"
                     severity="secondary"
                     (click)="openEditDialog(participant)"
-                    aria-label="Bearbeiten"
+                    [attr.aria-label]="'common.actions.edit' | translate"
                   />
                   <p-button
                     icon="pi pi-trash"
                     [rounded]="true"
                     severity="danger"
                     (click)="confirmDelete(participant)"
-                    aria-label="Löschen"
+                    [attr.aria-label]="'common.actions.delete' | translate"
                   />
                 </div>
               </div>
-
-
             </p-card>
           } @empty {
             <div class="col-span-full text-center py-20 text-surface-500 italic">
-              Keine Teilnehmer gefunden.
+              {{ 'features.participants.empty' | translate }}
             </div>
           }
         </div>
       }
 
       <p-dialog
-        [header]="isEdit() ? 'Teilnehmer bearbeiten' : 'Neuer Teilnehmer'"
+        [header]="
+          (isEdit()
+            ? 'features.participants.dialog.editTitle'
+            : 'features.participants.dialog.createTitle'
+          ) | translate
+        "
         [(visible)]="displayDialog"
         [modal]="true"
         [breakpoints]="{ '960px': '75vw', '640px': '90vw' }"
@@ -140,7 +153,9 @@ import {StyleClass} from 'primeng/styleclass';
           class="flex flex-col gap-5 pt-4"
         >
           <div class="flex flex-col gap-2">
-            <label for="firstname" class="font-semibold text-sm">Vorname</label>
+            <label for="firstname" class="font-semibold text-sm">
+              {{ 'common.fields.firstName' | translate }}
+            </label>
             <input
               pInputText
               id="firstname"
@@ -151,12 +166,19 @@ import {StyleClass} from 'primeng/styleclass';
             @if (
               participantForm.get('firstname')?.invalid && participantForm.get('firstname')?.touched
             ) {
-              <small class="text-red-500 text-xs">Vorname ist erforderlich.</small>
+              <small class="text-red-500 text-xs">
+                {{
+                  'common.validation.requiredField'
+                    | translate: { field: ('common.fields.firstName' | translate) }
+                }}
+              </small>
             }
           </div>
 
           <div class="flex flex-col gap-2">
-            <label for="lastname" class="font-semibold text-sm">Nachname</label>
+            <label for="lastname" class="font-semibold text-sm">
+              {{ 'common.fields.lastName' | translate }}
+            </label>
             <input
               pInputText
               id="lastname"
@@ -167,12 +189,19 @@ import {StyleClass} from 'primeng/styleclass';
             @if (
               participantForm.get('lastname')?.invalid && participantForm.get('lastname')?.touched
             ) {
-              <small class="text-red-500 text-xs">Nachname ist erforderlich.</small>
+              <small class="text-red-500 text-xs">
+                {{
+                  'common.validation.requiredField'
+                    | translate: { field: ('common.fields.lastName' | translate) }
+                }}
+              </small>
             }
           </div>
 
           <div class="flex flex-col gap-2">
-            <label for="dateOfBirthInput" class="font-semibold text-sm">Geburtsdatum</label>
+            <label for="dateOfBirthInput" class="font-semibold text-sm">
+              {{ 'common.fields.dateOfBirth' | translate }}
+            </label>
             <p-datepicker
               id="dateOfBirth"
               formControlName="dateOfBirth"
@@ -186,19 +215,24 @@ import {StyleClass} from 'primeng/styleclass';
               participantForm.get('dateOfBirth')?.invalid &&
               participantForm.get('dateOfBirth')?.touched
             ) {
-              <small class="text-red-500 text-xs">Geburtsdatum ist erforderlich.</small>
+              <small class="text-red-500 text-xs">
+                {{
+                  'common.validation.requiredField'
+                    | translate: { field: ('common.fields.dateOfBirth' | translate) }
+                }}
+              </small>
             }
           </div>
 
           <div class="flex justify-end gap-3 mt-4">
             <p-button
-              label="Abbrechen"
+              [label]="'common.actions.cancel' | translate"
               severity="secondary"
               type="button"
               (click)="closeDialog()"
             />
             <p-button
-              label="Speichern"
+              [label]="'common.actions.save' | translate"
               [loading]="saving()"
               type="submit"
               [disabled]="participantForm.invalid"
@@ -229,6 +263,7 @@ export class ParticipantComponent implements OnInit {
   private readonly userService = inject(UserService);
   private readonly messageService = inject(MessageService);
   private readonly confirmationService = inject(ConfirmationService);
+  private readonly translate = inject(TranslateService);
 
   protected readonly participants = signal<Participant[]>([]);
   protected readonly userProfile = this.userService.userProfile;
@@ -264,8 +299,8 @@ export class ParticipantComponent implements OnInit {
       console.error('Failed to load participants', err);
       this.messageService.add({
         severity: 'error',
-        summary: 'Fehler',
-        detail: 'Teilnehmer konnten nicht geladen werden.',
+        summary: this.t('common.status.error'),
+        detail: this.t('features.participants.messages.loadError'),
       });
     } finally {
       this.loading.set(false);
@@ -276,9 +311,8 @@ export class ParticipantComponent implements OnInit {
     if (!this.userProfile()?.phoneNumber) {
       this.messageService.add({
         severity: 'warn',
-        summary: 'Telefonnummer fehlt',
-        detail:
-          'Bitte hinterlegen Sie eine Telefonnummer in Ihrem Profil, um einen Teilnehmer erstellen zu können. Wir benötigen diese für Notfälle.',
+        summary: this.t('features.participants.messages.phoneMissingSummary'),
+        detail: this.t('features.participants.messages.phoneMissingDetail'),
         life: 10000,
       });
       return;
@@ -322,15 +356,15 @@ export class ParticipantComponent implements OnInit {
         await firstValueFrom(this.participantService.update(this.currentId, input));
         this.messageService.add({
           severity: 'success',
-          summary: 'Erfolg',
-          detail: 'Teilnehmer aktualisiert.',
+          summary: this.t('common.status.success'),
+          detail: this.t('features.participants.messages.updated'),
         });
       } else {
         await firstValueFrom(this.participantService.create(input));
         this.messageService.add({
           severity: 'success',
-          summary: 'Erfolg',
-          detail: 'Teilnehmer erstellt.',
+          summary: this.t('common.status.success'),
+          detail: this.t('features.participants.messages.created'),
         });
       }
       this.closeDialog();
@@ -339,8 +373,8 @@ export class ParticipantComponent implements OnInit {
       console.error('Failed to save participant', err);
       this.messageService.add({
         severity: 'error',
-        summary: 'Fehler',
-        detail: 'Teilnehmer konnte nicht gespeichert werden.',
+        summary: this.t('common.status.error'),
+        detail: this.t('features.participants.messages.saveError'),
       });
     } finally {
       this.saving.set(false);
@@ -349,27 +383,30 @@ export class ParticipantComponent implements OnInit {
 
   protected confirmDelete(participant: Participant): void {
     this.confirmationService.confirm({
-      message: `Möchten Sie ${participant.firstname} ${participant.lastname} wirklich löschen?`,
-      header: 'Löschen bestätigen',
+      message: this.t('features.participants.confirmDelete.message', {
+        firstName: participant.firstname,
+        lastName: participant.lastname,
+      }),
+      header: this.t('features.participants.confirmDelete.header'),
       icon: 'pi pi-exclamation-triangle',
-      acceptLabel: 'Löschen',
-      rejectLabel: 'Abbrechen',
+      acceptLabel: this.t('common.actions.delete'),
+      rejectLabel: this.t('common.actions.cancel'),
       acceptButtonStyleClass: 'p-button-danger',
       accept: async () => {
         try {
           await firstValueFrom(this.participantService.delete(participant.id));
           this.messageService.add({
             severity: 'success',
-            summary: 'Erfolg',
-            detail: 'Teilnehmer gelöscht.',
+            summary: this.t('common.status.success'),
+            detail: this.t('features.participants.messages.deleted'),
           });
           await this.loadParticipants();
         } catch (err) {
           console.error('Failed to delete participant', err);
           this.messageService.add({
             severity: 'error',
-            summary: 'Fehler',
-            detail: 'Teilnehmer konnte nicht gelöscht werden.',
+            summary: this.t('common.status.error'),
+            detail: this.t('features.participants.messages.deleteError'),
           });
         }
       },
@@ -381,5 +418,9 @@ export class ParticipantComponent implements OnInit {
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day}`;
+  }
+
+  private t(key: string, params?: Record<string, unknown>): string {
+    return this.translate.instant(key, params);
   }
 }

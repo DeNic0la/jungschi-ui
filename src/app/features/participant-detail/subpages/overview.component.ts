@@ -2,33 +2,35 @@ import { ChangeDetectionStrategy, Component, computed, inject, input } from '@an
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { catchError, map, of, switchMap, Observable, filter } from 'rxjs';
+import { catchError, map, of, switchMap, filter } from 'rxjs';
 import { Checkbox } from 'primeng/checkbox';
 import { ParticipantService } from '../../../shared/services/participant.service';
 import { CanComponentDeactivate } from '../../../shared/guards/pending-changes.guard';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-participant-overview',
-  imports: [CommonModule, Checkbox, FormsModule],
+  imports: [CommonModule, Checkbox, FormsModule, TranslatePipe],
   template: `
     @if (loading()) {
       <div class="loading-container">
         <i class="pi pi-spin pi-spinner spinner-icon" aria-hidden="true"></i>
-        <span class="sr-only">Laden...</span>
+        <span class="sr-only">{{ 'common.status.loading' | translate }}</span>
       </div>
     } @else if (participant(); as p) {
       <div class="detail-grid mt-4">
         <div class="detail-item">
-          <span class="detail-label">Geburtsdatum</span>
+          <span class="detail-label">{{ 'common.fields.dateOfBirth' | translate }}</span>
           <span class="detail-value">{{ p.dateOfBirth | date: 'dd.MM.yyyy' }}</span>
         </div>
         <div class="detail-item">
-          <span class="detail-label">Zuletzt aktualisiert</span>
+          <span class="detail-label">{{ 'common.fields.lastUpdatedAt' | translate }}</span>
           <span class="detail-value">{{ p.lastUpdatedAt | date: 'dd.MM.yyyy HH:mm' }}</span>
         </div>
         <div class="detail-item">
-          <span class="detail-label">Gesundheitsangaben</span>
+          <span class="detail-label">{{
+            'features.participantDetail.overview.healthStats' | translate
+          }}</span>
           <span class="detail-value">
             <p-checkbox
               inputId="health-stats-completed"
@@ -36,12 +38,14 @@ import { CanComponentDeactivate } from '../../../shared/guards/pending-changes.g
               [ngModel]="p.healthStats"
               [readonly]="true"
               size="large"
-              label="Vollständig"
             />
+            <label for="health-stats-completed">{{ 'common.status.complete' | translate }}</label>
           </span>
         </div>
         <div class="detail-item">
-          <span class="detail-label">Lagerangaben</span>
+          <span class="detail-label">{{
+            'features.participantDetail.overview.campStats' | translate
+          }}</span>
           <span class="detail-value">
             <p-checkbox
               inputId="camp-stats-completed"
@@ -49,13 +53,13 @@ import { CanComponentDeactivate } from '../../../shared/guards/pending-changes.g
               [ngModel]="p.campStats"
               [readonly]="true"
               size="large"
-              label="Vollständig"
             />
+            <label for="camp-stats-completed">{{ 'common.status.complete' | translate }}</label>
           </span>
         </div>
       </div>
     } @else {
-      <p>Teilnehmerdaten konnten nicht geladen werden.</p>
+      <p>{{ 'features.participantDetail.overview.loadError' | translate }}</p>
     }
   `,
   styles: `

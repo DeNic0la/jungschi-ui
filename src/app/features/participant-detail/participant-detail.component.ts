@@ -7,16 +7,31 @@ import { Button } from 'primeng/button';
 import { Tabs, TabList, Tab } from 'primeng/tabs';
 import { RouterLink, RouterOutlet, Router } from '@angular/router';
 import { ParticipantService } from '../../shared/services/participant.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-participant-detail',
-  imports: [CommonModule, Card, Button, Tabs, TabList, Tab, RouterLink, RouterOutlet],
+  imports: [
+    CommonModule,
+    Card,
+    Button,
+    Tabs,
+    TabList,
+    Tab,
+    RouterLink,
+    RouterOutlet,
+    TranslatePipe,
+  ],
   template: `
     <div class="page-container">
-      <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-        <h1 class="text-3xl font-bold text-surface-900 dark:text-surface-0">Teilnehmer-Details</h1>
+      <header
+        class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8"
+      >
+        <h1 class="text-3xl font-bold text-surface-900 dark:text-surface-0">
+          {{ 'features.participantDetail.title' | translate }}
+        </h1>
         <p-button
-          label="Zurück zur Liste"
+          [label]="'features.participantDetail.actions.backToList' | translate"
           icon="pi pi-arrow-left"
           [routerLink]="['/participants']"
           severity="secondary"
@@ -27,7 +42,7 @@ import { ParticipantService } from '../../shared/services/participant.service';
       @if (loading()) {
         <div class="flex justify-center items-center py-20">
           <i class="pi pi-spin pi-spinner text-4xl text-primary" aria-hidden="true"></i>
-          <span class="sr-only">Laden...</span>
+          <span class="sr-only">{{ 'common.status.loading' | translate }}</span>
         </div>
       } @else if (participant(); as p) {
         <p-card [header]="p.firstname + ' ' + p.lastname">
@@ -38,28 +53,36 @@ import { ParticipantService } from '../../shared/services/participant.service';
                 [routerLink]="['/participants', id(), 'overview']"
               >
                 <i class="pi pi-info-circle mr-2"></i>
-                <span class="hidden sm:inline">Übersicht</span>
+                <span class="hidden sm:inline">
+                  {{ 'features.participantDetail.tabs.overview' | translate }}
+                </span>
               </p-tab>
               <p-tab
                 [value]="'/participants/' + id() + '/health-stats'"
                 [routerLink]="['/participants', id(), 'health-stats']"
               >
                 <i class="pi pi-heart mr-2"></i>
-                <span class="hidden sm:inline">Gesundheitsinfo</span>
+                <span class="hidden sm:inline">
+                  {{ 'features.participantDetail.tabs.healthStats' | translate }}
+                </span>
               </p-tab>
               <p-tab
                 [value]="'/participants/' + id() + '/camp-stats'"
                 [routerLink]="['/participants', id(), 'camp-stats']"
               >
                 <i class="pi pi-map mr-2"></i>
-                <span class="hidden sm:inline">Lager Daten</span>
+                <span class="hidden sm:inline">
+                  {{ 'features.participantDetail.tabs.campStats' | translate }}
+                </span>
               </p-tab>
               <p-tab
                 [value]="'/participants/' + id() + '/allergy'"
                 [routerLink]="['/participants', id(), 'allergy']"
               >
                 <i class="pi pi-exclamation-triangle mr-2"></i>
-                <span class="hidden sm:inline">Allergien & Essen</span>
+                <span class="hidden sm:inline">
+                  {{ 'features.participantDetail.tabs.allergy' | translate }}
+                </span>
               </p-tab>
             </p-tablist>
           </p-tabs>
@@ -68,12 +91,12 @@ import { ParticipantService } from '../../shared/services/participant.service';
           </div>
         </p-card>
       } @else {
-        <p-card header="Fehler">
+        <p-card [header]="'common.status.error' | translate">
           <p class="mb-4 text-surface-600 dark:text-surface-400">
-            Teilnehmer mit der ID {{ id() }} konnte nicht gefunden werden.
+            {{ 'features.participantDetail.notFound' | translate: { id: id() } }}
           </p>
           <p-button
-            label="Zurück zur Liste"
+            [label]="'features.participantDetail.actions.backToList' | translate"
             icon="pi pi-arrow-left"
             [routerLink]="['/participants']"
           />
@@ -81,9 +104,7 @@ import { ParticipantService } from '../../shared/services/participant.service';
       }
     </div>
   `,
-  styles: `
-
-  `,
+  styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ParticipantDetailComponent {

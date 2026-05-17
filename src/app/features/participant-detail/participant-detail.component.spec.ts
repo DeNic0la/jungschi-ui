@@ -11,6 +11,7 @@ import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { By } from '@angular/platform-browser';
+import { provideTranslateTesting } from '../../shared/testing/translate-testing';
 
 describe('ParticipantDetailComponent', () => {
   let participantServiceMock: any;
@@ -66,6 +67,7 @@ describe('ParticipantDetailComponent', () => {
             },
           },
         }),
+        provideTranslateTesting(),
         { provide: ParticipantService, useValue: participantServiceMock },
       ],
     }).compileComponents();
@@ -135,8 +137,7 @@ describe('ParticipantDetailComponent', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
-    const errorCard = fixture.debugElement.query(By.css('p-card[header="Fehler"]'));
-    expect(errorCard).toBeTruthy();
-    expect(errorCard.nativeElement.textContent).toContain('999');
+    expect(fixture.nativeElement.textContent).toContain('Fehler');
+    expect(fixture.nativeElement.textContent).toContain('999');
   });
 });

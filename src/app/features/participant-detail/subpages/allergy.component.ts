@@ -11,7 +11,6 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { toSignal, toObservable } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, ParamMap } from '@angular/router';
 import { map, switchMap, of, filter, forkJoin, catchError, Observable } from 'rxjs';
 
 import { AutoComplete } from 'primeng/autocomplete';
@@ -25,9 +24,15 @@ import { Tag } from 'primeng/tag';
 import { GlobalDefinitionsService } from '../../../shared/services/global-definitions.service';
 import { GlobalDefinitionDto } from '../../../shared/models/global-definition.model';
 import { ParticipantService } from '../../../shared/services/participant.service';
-import { IntoleranceSelectionDto, Severity, getSeverityColor, getSeverityLabel, getSeverityCSSColor } from '../../../shared/models/intolerance-selection.model';
+import {
+  IntoleranceSelectionDto,
+  Severity,
+  getSeverityColor,
+  getSeverityCSSColor,
+} from '../../../shared/models/intolerance-selection.model';
 import { CanComponentDeactivate } from '../../../shared/guards/pending-changes.guard';
 import { PrimeTemplate } from 'primeng/api';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 interface IntoleranceItem {
   intoleranceId: number | null;
@@ -52,26 +57,34 @@ interface IntoleranceItem {
     Card,
     Tag,
     PrimeTemplate,
+    TranslatePipe,
   ],
   template: `
     <section>
-      <h2>Allergien & Lebensmittel-Unverträglichkeiten</h2>
+      <h2>{{ 'features.participantDetail.allergy.title' | translate }}</h2>
 
       @if (loading()) {
         <div class="loading-container">
           <i class="pi pi-spin pi-spinner spinner-icon" aria-hidden="true"></i>
-          <span class="sr-only">Laden...</span>
+          <span class="sr-only">{{ 'common.status.loading' | translate }}</span>
         </div>
       } @else {
         <div class="content-container">
-          <!-- Add New Section -->
           <p-card class="add-section-card">
             <div class="card-header">
-              <h3 class="m-0"><i class="pi pi-plus-circle mr-2"></i>Neue hinzufügen</h3>
+              <h3 class="m-0">
+                <i class="pi pi-plus-circle mr-2"></i>
+                {{ 'features.participantDetail.allergy.addSection.title' | translate }}
+              </h3>
             </div>
             <div class="grid-layout mt-4">
               <div class="field">
-                <label for="searchAllergies">Allergien suchen</label>
+                <label for="searchAllergies">
+                  {{
+                    'features.participantDetail.allergy.addSection.searchAllergies.label'
+                      | translate
+                  }}
+                </label>
                 <p-autocomplete
                   inputId="searchAllergies"
                   [formControl]="searchControl"
@@ -82,14 +95,25 @@ interface IntoleranceItem {
                   (onSelect)="addAllergy($event)"
                   optionLabel="definitionValue"
                   [fluid]="true"
-                  placeholder="Z.B. Pollen, Hausstaub..."
-                  ariaLabel="Allergien suchen"
+                  [placeholder]="
+                    'features.participantDetail.allergy.addSection.searchAllergies.placeholder'
+                      | translate
+                  "
+                  [ariaLabel]="
+                    'features.participantDetail.allergy.addSection.searchAllergies.label'
+                      | translate
+                  "
                 >
                 </p-autocomplete>
               </div>
 
               <div class="field">
-                <label for="searchFoodIntolerances">Lebensmittel-Unverträglichkeiten suchen</label>
+                <label for="searchFoodIntolerances">
+                  {{
+                    'features.participantDetail.allergy.addSection.searchFoodIntolerances.label'
+                      | translate
+                  }}
+                </label>
                 <p-autocomplete
                   inputId="searchFoodIntolerances"
                   [formControl]="searchControl"
@@ -100,8 +124,14 @@ interface IntoleranceItem {
                   (onSelect)="addFoodIntolerance($event)"
                   optionLabel="definitionValue"
                   [fluid]="true"
-                  placeholder="Z.B. Laktose, Gluten..."
-                  ariaLabel="Lebensmittel-Unverträglichkeiten suchen"
+                  [placeholder]="
+                    'features.participantDetail.allergy.addSection.searchFoodIntolerances.placeholder'
+                      | translate
+                  "
+                  [ariaLabel]="
+                    'features.participantDetail.allergy.addSection.searchFoodIntolerances.label'
+                      | translate
+                  "
                 />
               </div>
             </div>
@@ -109,23 +139,29 @@ interface IntoleranceItem {
             @if (!items().some((i) => i.intoleranceId === null)) {
               <div class="add-custom-container">
                 <p-button
-                  label="Eigene Allergie hinzufügen"
+                  [label]="'features.participantDetail.allergy.actions.addCustom' | translate"
                   icon="pi pi-plus"
                   [text]="true"
                   (click)="addCustomItem()"
-                  ariaLabel="Benutzerdefinierte Allergie hinzufügen"
+                  [ariaLabel]="
+                    'features.participantDetail.allergy.actions.addCustomAria' | translate
+                  "
                 />
               </div>
             }
           </p-card>
 
-          <!-- Current Selections List -->
           @if (items().length > 0) {
             <div class="selections-section">
               <div class="flex justify-between items-center mb-2">
-                <h3 class="m-0">Aktuelle Einträge</h3>
+                <h3 class="m-0">
+                  {{ 'features.participantDetail.allergy.currentEntries.title' | translate }}
+                </h3>
                 <p-tag
-                  [value]="items().length + (items().length === 1 ? ' Eintrag' : ' Einträge')"
+                  [value]="
+                    'features.participantDetail.allergy.currentEntries.count'
+                      | translate: { count: items().length }
+                  "
                   severity="secondary"
                 />
               </div>
@@ -142,10 +178,22 @@ interface IntoleranceItem {
                         [style.color]="getSeverityCSSColor(item.severity)"
                       ></i>
                       <h4 class="m-0">
-                        {{ item.isCustom ? item.notes || item.label : item.label }}
+                        {{
+                          item.isCustom
+                            ? item.notes ||
+                              ('features.participantDetail.allergy.customDefaultLabel' | translate)
+                            : item.label
+                        }}
                       </h4>
                       @if (item.isCustom) {
-                        <p-tag value="Eigener Eintrag" severity="contrast" [rounded]="true" />
+                        <p-tag
+                          [value]="
+                            'features.participantDetail.allergy.currentEntries.customTag'
+                              | translate
+                          "
+                          severity="contrast"
+                          [rounded]="true"
+                        />
                       }
                     </div>
                     <p-button
@@ -154,20 +202,28 @@ interface IntoleranceItem {
                       [text]="true"
                       [rounded]="true"
                       (click)="removeItem($index)"
-                      ariaLabel="Entfernen"
+                      [ariaLabel]="'common.actions.remove' | translate"
                     />
                   </div>
 
                   <div class="card-content">
                     <div class="field">
-                      <label [for]="'severity-' + $index">Schweregrad</label>
+                      <label [for]="'severity-' + $index">
+                        {{
+                          'features.participantDetail.allergy.currentEntries.severity.label'
+                            | translate
+                        }}
+                      </label>
                       <p-select
                         [inputId]="'severity-' + $index"
                         [options]="severityOptions"
                         [(ngModel)]="item.severity"
-                        optionLabel="label"
+                        optionLabel="labelKey"
                         optionValue="value"
-                        placeholder="Schweregrad wählen"
+                        [placeholder]="
+                          'features.participantDetail.allergy.currentEntries.severity.placeholder'
+                            | translate
+                        "
                         [fluid]="true"
                         (onChange)="markDirty()"
                       >
@@ -176,21 +232,29 @@ interface IntoleranceItem {
                             <div class="flex items-center gap-2">
                               <p-tag
                                 [severity]="getSeverityColor(selectedOption.value)"
-                                [value]="selectedOption.label"
+                                [value]="selectedOption.labelKey | translate"
                               />
                             </div>
                           }
                         </ng-template>
                         <ng-template pTemplate="option" let-option>
                           <div class="flex items-center gap-2">
-                            <p-tag [severity]="getSeverityColor(option.value)" [value]="option.label" />
+                            <p-tag
+                              [severity]="getSeverityColor(option.value)"
+                              [value]="option.labelKey | translate"
+                            />
                           </div>
                         </ng-template>
                       </p-select>
                     </div>
 
                     <div class="field">
-                      <label [for]="'notes-' + $index">Notizen & Details</label>
+                      <label [for]="'notes-' + $index">
+                        {{
+                          'features.participantDetail.allergy.currentEntries.notes.label'
+                            | translate
+                        }}
+                      </label>
                       <textarea
                         pTextarea
                         [id]="'notes-' + $index"
@@ -198,7 +262,10 @@ interface IntoleranceItem {
                         (ngModelChange)="markDirty()"
                         [autoResize]="true"
                         rows="2"
-                        placeholder="Z.B. Notfallmedikation, Symptome..."
+                        [placeholder]="
+                          'features.participantDetail.allergy.currentEntries.notes.placeholder'
+                            | translate
+                        "
                       ></textarea>
                     </div>
                   </div>
@@ -209,16 +276,14 @@ interface IntoleranceItem {
             <div class="empty-state">
               <i class="pi pi-info-circle text-4xl mb-3 opacity-50"></i>
               <p>
-                Keine Einträge vorhanden. Nutzen Sie die Suche oben, um Allergien oder
-                Unverträglichkeiten hinzuzufügen.
+                {{ 'features.participantDetail.allergy.empty' | translate }}
               </p>
             </div>
           }
 
-          <!-- Save Actions -->
           <div class="form-actions sticky-actions">
             <p-button
-              label="Änderungen speichern"
+              [label]="'features.participantDetail.allergy.actions.saveChanges' | translate"
               type="button"
               (click)="save()"
               [loading]="saving()"
@@ -228,7 +293,10 @@ interface IntoleranceItem {
             />
 
             @if (saved()) {
-              <p-message severity="success" text="Erfolgreich gespeichert!" />
+              <p-message
+                severity="success"
+                [text]="'common.status.savedSuccessfully' | translate"
+              />
             }
             @if (error(); as err) {
               <p-message severity="error" [text]="err" />
@@ -367,6 +435,7 @@ interface IntoleranceItem {
 export class AllergyComponent implements CanComponentDeactivate {
   private readonly globalDefinitionsService = inject(GlobalDefinitionsService);
   private readonly participantService = inject(ParticipantService);
+  private readonly translate = inject(TranslateService);
 
   // Participant ID from route (via withComponentInputBinding)
   id = input.required<string>();
@@ -410,9 +479,9 @@ export class AllergyComponent implements CanComponentDeactivate {
 
   // Severity options
   protected readonly severityOptions = [
-    { label: 'Betroffen', value: 'AFFECTED' as Severity },
-    { label: 'Stark', value: 'STRONG' as Severity },
-    { label: 'Lebensbedrohlich', value: 'LIFE_THREATENING' as Severity },
+    { labelKey: 'common.severity.affected', value: 'AFFECTED' as Severity },
+    { labelKey: 'common.severity.strong', value: 'STRONG' as Severity },
+    { labelKey: 'common.severity.lifeThreatening', value: 'LIFE_THREATENING' as Severity },
   ];
 
   // Status signals
@@ -423,7 +492,6 @@ export class AllergyComponent implements CanComponentDeactivate {
 
   loading = computed(() => this.initialSelections() === undefined);
 
-  protected readonly getSeverityLabel = getSeverityLabel;
   protected readonly getSeverityColor = getSeverityColor;
   protected readonly getSeverityCSSColor = getSeverityCSSColor;
 
@@ -443,8 +511,8 @@ export class AllergyComponent implements CanComponentDeactivate {
 
             return {
               intoleranceId: sel.intoleranceId,
-              definitionValue: definition?.definitionValue ?? 'Unbekannt',
-              label: definition?.label ?? sel.customText ?? 'Unbekannt',
+              definitionValue: definition?.definitionValue ?? this.t('common.status.unknown'),
+              label: definition?.label ?? sel.customText ?? this.t('common.status.unknown'),
               severity: sel.severity,
               notes: sel.customText,
               isCustom: !definition,
@@ -521,7 +589,7 @@ export class AllergyComponent implements CanComponentDeactivate {
       ...items,
       {
         intoleranceId: null,
-        label: 'Neuer eigener Eintrag',
+        label: '',
         definitionValue: 'CUSTOM',
         severity: null,
         notes: '',
@@ -600,9 +668,13 @@ export class AllergyComponent implements CanComponentDeactivate {
       },
       error: (err) => {
         this.saving.set(false);
-        this.error.set('Fehler beim Speichern');
+        this.error.set(this.t('common.status.saveError'));
         console.error(err);
       },
     });
+  }
+
+  private t(key: string): string {
+    return this.translate.instant(key);
   }
 }
