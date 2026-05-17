@@ -29,6 +29,7 @@ const TEST_TRANSLATIONS: TranslationObject = {
       delete: 'Löschen',
       edit: 'Bearbeiten',
       remove: 'Entfernen',
+      refresh: 'Aktualisieren',
       save: 'Speichern',
       search: 'Suchen...',
       view: 'Anzeigen',
@@ -157,8 +158,11 @@ const TEST_TRANSLATIONS: TranslationObject = {
       actions: {
         addMedication: 'Medikament hinzufügen',
         complete: 'Anmeldung abschliessen',
+        reopen: 'Anmeldung bearbeiten',
         saveProgress: 'Zwischenstand speichern',
       },
+      confirmReopenApproved:
+        'Diese Anmeldung wurde bereits bestätigt. Wenn Sie sie wieder bearbeiten, wird die Anmeldung zurückgezogen und muss den Anmeldeprozess erneut durchlaufen.',
       form: {
         additionalContactOptionsDuringCamp: {
           label: 'Zusätzliche Kontaktmöglichkeiten während dem Lager',
@@ -203,6 +207,7 @@ const TEST_TRANSLATIONS: TranslationObject = {
           'Bitte für alle ausgewählten Teilnehmer die Medikamentenabgabe auswählen.',
         loadError: 'Anmeldedaten konnten nicht geladen werden.',
         noParticipants: 'Keine Teilnehmer im Haushalt vorhanden.',
+        reopenError: 'Anmeldung konnte nicht zur Bearbeitung geöffnet werden.',
         saveError:
           'Anmeldung konnte nicht gespeichert werden. Die benötigte Backend-API ist noch nicht verfügbar.',
         saved: 'Anmeldung gespeichert.',
@@ -217,6 +222,11 @@ const TEST_TRANSLATIONS: TranslationObject = {
       summary: {
         selectedParticipants: 'Ausgewählte Teilnehmer',
       },
+      states: {
+        APPROVED: 'Bestätigt',
+        COMPLETED: 'Eingereicht',
+        IN_PROGRESS: 'In Bearbeitung',
+      },
       title: 'Lageranmeldung',
     },
     team: {
@@ -228,6 +238,43 @@ const TEST_TRANSLATIONS: TranslationObject = {
           loadError: 'Fehler beim Laden der Teilnehmerdaten.',
         },
         title: 'Gesundheitsdetails',
+      },
+      roomManagement: {
+        empty: 'Keine Zimmer für dieses Lager vorhanden.',
+        fields: {
+          camp: 'Lager',
+          gender: 'Geschlecht',
+          leaders: 'Zimmerleitung',
+          maxCapacity: 'Maximale Belegung',
+          name: 'Zimmername',
+        },
+        form: {
+          create: 'Zimmer erstellen',
+          edit: 'Zimmer bearbeiten',
+        },
+        messages: {
+          loadError: 'Zimmer konnten nicht geladen oder gespeichert werden.',
+        },
+        title: 'Zimmer verwalten',
+      },
+      signups: {
+        actions: {
+          approve: 'Bestätigen',
+          reject: 'Zur Korrektur zurückgeben',
+          saveFeedback: 'Rückmeldung speichern',
+        },
+        empty: 'Keine Anmeldungen für dieses Lager vorhanden.',
+        fields: {
+          camp: 'Lager',
+          feedback: 'Rückmeldung',
+          household: 'Haushalt',
+          room: 'Zimmer',
+        },
+        messages: {
+          loadError: 'Anmeldungen konnten nicht geladen oder aktualisiert werden.',
+        },
+        signupTitle: 'Anmeldung #{{id}}',
+        title: 'Lageranmeldungen',
       },
       title: 'Jungschiteam',
       welcome: 'Willkommen auf der Team-Seite!',

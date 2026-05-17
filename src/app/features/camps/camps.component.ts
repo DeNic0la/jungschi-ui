@@ -1,15 +1,18 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { catchError, of } from 'rxjs';
+import { catchError, forkJoin, of } from 'rxjs';
+import Keycloak from 'keycloak-js';
 import { Button } from 'primeng/button';
 import { Card } from 'primeng/card';
 import { Message } from 'primeng/message';
 import { Tag } from 'primeng/tag';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CampDto } from '../../shared/models/camp.model';
+import { SignupState } from '../../shared/models/signup.model';
 import { CampService } from '../../shared/services/camp.service';
+import { SignupService } from '../../shared/services/signup.service';
 
 @Component({
   selector: 'app-camps',
@@ -46,6 +49,12 @@ import { CampService } from '../../shared/services/camp.service';
                       : ('features.camps.status.open' | translate)
                   "
                 />
+                @if (signupState(camp.id); as state) {
+                  <p-tag
+                    [severity]="signupStateSeverity(state)"
+                    [value]="signupStateLabel(state) | translate"
+                  />
+                }
               </div>
 
               @if (camp.description) {
@@ -89,8 +98,11 @@ import { CampService } from '../../shared/services/camp.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CampsComponent {
+  private readonly keycloak = inject(Keycloak, { optional: true });
   private readonly campService = inject(CampService);
+  private readonly signupService = inject(SignupService);
   protected loadError = () => false;
+  protected readonly signupStates = signal<Record<string, SignupState>>({});
 
   protected readonly camps = toSignal(
     this.campService.getAll().pipe(
@@ -102,9 +114,47 @@ export class CampsComponent {
     { initialValue: [] as CampDto[] },
   );
 
+  constructor() {
+    effect(() => {
+      const camps = this.camps();
+      if (!this.keycloak?.hasRealmRole('guardian') || camps.length === 0) {
+        this.signupStates.set({});
+        return;
+      }
+
+      forkJoin(
+        camps.map((camp) =>
+          this.signupService.getForCamp(camp.id).pipe(catchError(() => of(null))),
+        ),
+      ).subscribe((signups) => {
+        this.signupStates.set(
+          Object.fromEntries(
+            signups
+              .filter((signup) => signup !== null)
+              .map((signup) => [signup.campId, signup.state]),
+          ),
+        );
+      });
+    });
+  }
+
   protected hasStarted(camp: CampDto): boolean {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     return new Date(`${camp.startDate}T00:00:00`) <= today;
+  }
+
+  protected signupState(campId: string): SignupState | null {
+    return this.signupStates()[campId] ?? null;
+  }
+
+  protected signupStateLabel(state: SignupState): string {
+    return `features.signup.states.${state}`;
+  }
+
+  protected signupStateSeverity(state: SignupState): 'success' | 'warn' | 'info' {
+    if (state === 'APPROVED') return 'success';
+    if (state === 'COMPLETED') return 'info';
+    return 'warn';
   }
 }

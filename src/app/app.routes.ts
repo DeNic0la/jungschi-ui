@@ -51,6 +51,20 @@ export const routes: Routes = [
     data: { roles: ['Jungschiteam', 'ADMIN', 'Sanitaet'] },
   },
   {
+    path: 'team/signups',
+    loadComponent: () =>
+      import('./features/team/camp-signups.component').then((m) => m.CampSignupsComponent),
+    canActivate: [authGuard],
+    data: { roles: ['Jungschiteam', 'ADMIN'] },
+  },
+  {
+    path: 'team/room-management',
+    loadComponent: () =>
+      import('./features/team/room-management.component').then((m) => m.RoomManagementComponent),
+    canActivate: [authGuard],
+    data: { roles: ['ADMIN'] },
+  },
+  {
     path: 'team/health-data',
     loadComponent: () =>
       import('./features/team/health-data.component').then((m) => m.HealthDataComponent),

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { GuardianUserDto, UserProfile, UpdateUserDto } from '../models/user.model';
+import { GuardianUserDto, TeamUserDto, UserProfile, UpdateUserDto } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +27,10 @@ export class UserService {
 
   getVisibleGuardians(): Observable<GuardianUserDto[]> {
     return this.http.get<GuardianUserDto[]>(`${this.apiUrl}/guardians`);
+  }
+
+  getTeamUsers(): Observable<TeamUserDto[]> {
+    return this.http.get<TeamUserDto[]>(`${this.apiUrl}/team`);
   }
 
   clearProfile(): void {

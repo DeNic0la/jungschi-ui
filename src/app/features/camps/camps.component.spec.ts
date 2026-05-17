@@ -14,6 +14,7 @@ import { CampService } from '../../shared/services/camp.service';
 import { ParticipantService } from '../../shared/services/participant.service';
 import { SignupService } from '../../shared/services/signup.service';
 import { provideTranslateTesting } from '../../shared/testing/translate-testing';
+import Keycloak from 'keycloak-js';
 
 const futureCamp = {
   id: 'summer-2027',
@@ -53,7 +54,9 @@ describe('CampsComponent', () => {
         provideAnimationsAsync(),
         providePrimeNG({ theme: { preset: Aura } }),
         provideTranslateTesting(),
+        { provide: Keycloak, useValue: { hasRealmRole: () => false } },
         { provide: CampService, useValue: { getAll: vi.fn().mockReturnValue(of([futureCamp])) } },
+        { provide: SignupService, useValue: { getForCamp: vi.fn().mockReturnValue(of(null)) } },
       ],
     }).compileComponents();
 

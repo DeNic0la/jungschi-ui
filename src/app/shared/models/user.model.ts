@@ -27,3 +27,12 @@ export interface GuardianUserDto {
   primaryContact: boolean;
   secondaryContact: boolean;
 }
+
+export interface TeamUserDto {
+  id: string;
+  username: string;
+  email: string;
+  firstName: string | null;
+  lastName: string | null;
+  pictureUrl: string | null;
+}

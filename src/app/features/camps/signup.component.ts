@@ -18,6 +18,7 @@ import { Card } from 'primeng/card';
 import { Checkbox } from 'primeng/checkbox';
 import { InputText } from 'primeng/inputtext';
 import { Message } from 'primeng/message';
+import { Tag } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { CampDto } from '../../shared/models/camp.model';
@@ -25,6 +26,7 @@ import { Participant } from '../../shared/models/participant.model';
 import {
   CampParticipantMedicationInput,
   CampParticipantSignupInput,
+  SignupDto,
   SignupInput,
 } from '../../shared/models/signup.model';
 import { CampService } from '../../shared/services/camp.service';
@@ -50,6 +52,7 @@ interface CampParticipantDraft {
     Checkbox,
     InputText,
     Message,
+    Tag,
     TextareaModule,
     TranslatePipe,
   ],
@@ -66,6 +69,13 @@ interface CampParticipantDraft {
             <p class="text-surface-600 dark:text-surface-300 mt-2 mb-0">
               {{ selectedCamp.title }}
             </p>
+            @if (currentSignup(); as signup) {
+              <p-tag
+                class="inline-flex mt-3"
+                [value]="stateLabel(signup.state)"
+                [severity]="stateSeverity(signup.state)"
+              />
+            }
           }
         </div>
         <p-button
@@ -88,14 +98,24 @@ interface CampParticipantDraft {
               <p-card [header]="'features.signup.sections.signupData' | translate">
                 <div class="flex flex-col gap-4">
                   <div class="flex items-center gap-3">
-                    <p-checkbox inputId="photoConsent" [binary]="true" [(ngModel)]="photoConsent" />
+                    <p-checkbox
+                      inputId="photoConsent"
+                      [binary]="true"
+                      [(ngModel)]="photoConsent"
+                      [disabled]="!isEditable()"
+                    />
                     <label for="photoConsent">
                       {{ 'features.signup.form.photoConsent.label' | translate }}
                     </label>
                   </div>
 
                   <div class="flex items-center gap-3">
-                    <p-checkbox inputId="infoEmail" [binary]="true" [(ngModel)]="infoEmail" />
+                    <p-checkbox
+                      inputId="infoEmail"
+                      [binary]="true"
+                      [(ngModel)]="infoEmail"
+                      [disabled]="!isEditable()"
+                    />
                     <label for="infoEmail">
                       {{ 'features.signup.form.infoEmail.label' | translate }}
                     </label>
@@ -113,10 +133,15 @@ interface CampParticipantDraft {
                       [(ngModel)]="additionalContactOptionsDuringCamp"
                       rows="3"
                       [autoResize]="true"
+                      [disabled]="!isEditable()"
                     ></textarea>
                   </div>
                 </div>
               </p-card>
+
+              @if (currentSignup()?.feedback) {
+                <p-message severity="warn" [text]="currentSignup()!.feedback!" />
+              }
 
               <p-card [header]="'features.signup.sections.participants' | translate">
                 <div class="flex flex-col gap-5">
@@ -130,6 +155,7 @@ interface CampParticipantDraft {
                           [binary]="true"
                           [ngModel]="isSelected(participant.id)"
                           (ngModelChange)="setParticipantSelected(participant, $event)"
+                          [disabled]="!isEditable()"
                         />
                         <div class="flex-1 min-w-0">
                           <label
@@ -157,6 +183,7 @@ interface CampParticipantDraft {
                               (ngModelChange)="
                                 updateParticipantDraft(participant.id, { schoolClass: $event })
                               "
+                              [disabled]="!isEditable()"
                             />
                           </div>
 
@@ -171,6 +198,7 @@ interface CampParticipantDraft {
                               (ngModelChange)="
                                 updateParticipantDraft(participant.id, { drugConsent: $event })
                               "
+                              [disabled]="!isEditable()"
                             >
                               <option [ngValue]="null">
                                 {{ 'common.actions.select' | translate }}
@@ -199,6 +227,7 @@ interface CampParticipantDraft {
                               "
                               rows="2"
                               [autoResize]="true"
+                              [disabled]="!isEditable()"
                             ></textarea>
                           </div>
 
@@ -215,6 +244,7 @@ interface CampParticipantDraft {
                               "
                               rows="2"
                               [autoResize]="true"
+                              [disabled]="!isEditable()"
                             ></textarea>
                           </div>
                         </div>
@@ -230,6 +260,7 @@ interface CampParticipantDraft {
                               size="small"
                               severity="secondary"
                               (click)="addMedication(participant.id)"
+                              [disabled]="!isEditable()"
                             />
                           </div>
 
@@ -251,6 +282,7 @@ interface CampParticipantDraft {
                                 [placeholder]="
                                   'features.signup.form.medicationName.label' | translate
                                 "
+                                [disabled]="!isEditable()"
                               />
                               <input
                                 pInputText
@@ -259,6 +291,7 @@ interface CampParticipantDraft {
                                   updateMedication(participant.id, $index, { dose: $event })
                                 "
                                 [placeholder]="'features.signup.form.dose.label' | translate"
+                                [disabled]="!isEditable()"
                               />
                               <input
                                 pInputText
@@ -267,6 +300,7 @@ interface CampParticipantDraft {
                                   updateMedication(participant.id, $index, { frequency: $event })
                                 "
                                 [placeholder]="'features.signup.form.frequency.label' | translate"
+                                [disabled]="!isEditable()"
                               />
                               <input
                                 pInputText
@@ -275,6 +309,7 @@ interface CampParticipantDraft {
                                   updateMedication(participant.id, $index, { purpose: $event })
                                 "
                                 [placeholder]="'features.signup.form.purpose.label' | translate"
+                                [disabled]="!isEditable()"
                               />
                               <div class="flex items-center gap-3">
                                 <p-checkbox
@@ -286,6 +321,7 @@ interface CampParticipantDraft {
                                       needsHelp: $event,
                                     })
                                   "
+                                  [disabled]="!isEditable()"
                                 />
                                 <label [for]="'needsHelp-' + participant.id + '-' + $index">
                                   {{ 'features.signup.form.needsHelp.label' | translate }}
@@ -299,6 +335,7 @@ interface CampParticipantDraft {
                                   [text]="true"
                                   (click)="removeMedication(participant.id, $index)"
                                   [attr.aria-label]="'common.actions.remove' | translate"
+                                  [disabled]="!isEditable()"
                                 />
                               </div>
                             </div>
@@ -343,7 +380,7 @@ interface CampParticipantDraft {
                     [label]="'features.signup.actions.saveProgress' | translate"
                     icon="pi pi-save"
                     [loading]="submitting()"
-                    [disabled]="!canSubmit() || submitting()"
+                    [disabled]="!isEditable() || !canSubmit() || submitting()"
                     (click)="save(false)"
                     styleClass="w-full"
                   />
@@ -351,10 +388,21 @@ interface CampParticipantDraft {
                     [label]="'features.signup.actions.complete' | translate"
                     icon="pi pi-check"
                     [loading]="submitting()"
-                    [disabled]="!canSubmit() || submitting()"
+                    [disabled]="!isEditable() || !canSubmit() || submitting()"
                     (click)="save(true)"
                     styleClass="w-full"
                   />
+                  @if (canReopen()) {
+                    <p-button
+                      [label]="'features.signup.actions.reopen' | translate"
+                      icon="pi pi-pencil"
+                      severity="warn"
+                      [loading]="submitting()"
+                      [disabled]="submitting()"
+                      (click)="reopen()"
+                      styleClass="w-full"
+                    />
+                  }
                 </div>
               </p-card>
             </aside>
@@ -378,6 +426,7 @@ export class SignupComponent {
   protected infoEmail = true;
   protected additionalContactOptionsDuringCamp = '';
   protected readonly selectedParticipants = signal<Record<number, CampParticipantDraft>>({});
+  protected readonly currentSignup = signal<SignupDto | null>(null);
   protected readonly submitting = signal(false);
   protected readonly saveError = signal<string | null>(null);
   protected readonly saved = signal(false);
@@ -438,6 +487,7 @@ export class SignupComponent {
   constructor() {
     effect(() => {
       const signup = this.existingSignup();
+      this.currentSignup.set(signup ?? null);
       if (!signup) {
         return;
       }
@@ -466,6 +516,30 @@ export class SignupComponent {
 
   protected canSubmit(): boolean {
     return this.validationError() === null && !this.loadError();
+  }
+
+  protected isEditable(): boolean {
+    const state = this.currentSignup()?.state;
+    return state !== 'COMPLETED' && state !== 'APPROVED';
+  }
+
+  protected canReopen(): boolean {
+    const state = this.currentSignup()?.state;
+    return state === 'COMPLETED' || state === 'APPROVED';
+  }
+
+  protected stateLabel(state: SignupDto['state']): string {
+    return this.t(`features.signup.states.${state}`);
+  }
+
+  protected stateSeverity(state: SignupDto['state']): 'success' | 'warn' | 'info' {
+    if (state === 'APPROVED') {
+      return 'success';
+    }
+    if (state === 'COMPLETED') {
+      return 'info';
+    }
+    return 'warn';
   }
 
   protected hasStarted(camp: CampDto): boolean {
@@ -560,7 +634,8 @@ export class SignupComponent {
         ),
       )
       .subscribe({
-        next: () => {
+        next: (signup) => {
+          this.currentSignup.set(signup);
           this.submitting.set(false);
           this.saved.set(true);
         },
@@ -571,8 +646,35 @@ export class SignupComponent {
       });
   }
 
+  protected reopen(): void {
+    const signup = this.currentSignup();
+    if (!signup || this.submitting()) {
+      return;
+    }
+    if (
+      signup.state === 'APPROVED' &&
+      !window.confirm(this.t('features.signup.confirmReopenApproved'))
+    ) {
+      return;
+    }
+
+    this.submitting.set(true);
+    this.saveError.set(null);
+    this.saved.set(false);
+    this.signupService.reopen(signup.id).subscribe({
+      next: (updated) => {
+        this.currentSignup.set(updated);
+        this.submitting.set(false);
+      },
+      error: () => {
+        this.submitting.set(false);
+        this.saveError.set(this.t('features.signup.messages.reopenError'));
+      },
+    });
+  }
+
   private buildPayload(): SignupInput | null {
-    if (!this.canSubmit()) {
+    if (!this.canSubmit() || !this.isEditable()) {
       return null;
     }
 

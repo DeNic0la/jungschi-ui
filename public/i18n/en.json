@@ -25,6 +25,7 @@
       "delete": "Delete",
       "edit": "Edit",
       "remove": "Remove",
+      "refresh": "Refresh",
       "save": "Save",
       "select": "Select...",
       "search": "Search...",
@@ -388,8 +389,10 @@
       "actions": {
         "addMedication": "Add medication",
         "complete": "Complete signup",
+        "reopen": "Edit signup",
         "saveProgress": "Save progress"
       },
+      "confirmReopenApproved": "This signup has already been approved. If you edit it again, the signup will be cancelled and must go through the signup process again.",
       "form": {
         "additionalContactOptionsDuringCamp": {
           "label": "Additional contact options during camp"
@@ -433,6 +436,7 @@
         "drugConsentRequired": "Please choose medication consent for every selected participant.",
         "loadError": "Signup data could not be loaded.",
         "noParticipants": "No household participants available.",
+        "reopenError": "Signup could not be reopened for editing.",
         "saveError": "Signup could not be saved. The required backend API is not available yet.",
         "saved": "Signup saved.",
         "selectParticipant": "Please select at least one participant."
@@ -445,6 +449,11 @@
       },
       "summary": {
         "selectedParticipants": "Selected participants"
+      },
+      "states": {
+        "APPROVED": "Approved",
+        "COMPLETED": "Submitted",
+        "IN_PROGRESS": "In progress"
       },
       "title": "Camp signup"
     },
@@ -487,6 +496,43 @@
       },
       "roomLookup": {
         "title": "Room lookup"
+      },
+      "roomManagement": {
+        "empty": "No rooms exist for this camp.",
+        "fields": {
+          "camp": "Camp",
+          "gender": "Gender",
+          "leaders": "Room leaders",
+          "maxCapacity": "Maximum capacity",
+          "name": "Room name"
+        },
+        "form": {
+          "create": "Create room",
+          "edit": "Edit room"
+        },
+        "messages": {
+          "loadError": "Rooms could not be loaded or saved."
+        },
+        "title": "Manage rooms"
+      },
+      "signups": {
+        "actions": {
+          "approve": "Approve",
+          "reject": "Return for correction",
+          "saveFeedback": "Save feedback"
+        },
+        "empty": "No signups exist for this camp.",
+        "fields": {
+          "camp": "Camp",
+          "feedback": "Feedback",
+          "household": "Household",
+          "room": "Room"
+        },
+        "messages": {
+          "loadError": "Signups could not be loaded or updated."
+        },
+        "signupTitle": "Signup #{{id}}",
+        "title": "Camp signups"
       },
       "title": "Jungschi team",
       "welcome": "Welcome to the team page!"

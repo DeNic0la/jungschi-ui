@@ -25,6 +25,14 @@ export interface RoomDto {
   campId: string | null;
   name: string;
   maxCapacity: number | null;
-  gender: Gender;
+  gender: Gender | null;
   leaders: RoomLeaderDto[];
+}
+
+export interface RoomInput {
+  campId: string;
+  name: string;
+  maxCapacity: number | null;
+  gender: Gender | null;
+  leaderEmails: string[];
 }
