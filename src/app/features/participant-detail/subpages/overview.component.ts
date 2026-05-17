@@ -24,6 +24,10 @@ import { TranslatePipe } from '@ngx-translate/core';
           <span class="detail-value">{{ p.dateOfBirth | date: 'dd.MM.yyyy' }}</span>
         </div>
         <div class="detail-item">
+          <span class="detail-label">{{ 'common.fields.gender' | translate }}</span>
+          <span class="detail-value">{{ ('common.gender.' + p.gender) | translate }}</span>
+        </div>
+        <div class="detail-item">
           <span class="detail-label">{{ 'common.fields.lastUpdatedAt' | translate }}</span>
           <span class="detail-value">{{ p.lastUpdatedAt | date: 'dd.MM.yyyy HH:mm' }}</span>
         </div>

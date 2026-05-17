@@ -1,8 +1,12 @@
+import { Gender } from './participant.model';
+
 export interface TeamParticipantDto {
   id: number;
   firstname: string;
   lastname: string;
   dateOfBirth: string;
+  gender: Gender;
+  lastUpdatedAt: string;
 }
 
 export interface TeamParticipantDetailsDto {
@@ -10,6 +14,7 @@ export interface TeamParticipantDetailsDto {
   firstname: string;
   lastname: string;
   dateOfBirth: string;
+  gender: Gender;
   lastUpdatedAt: string;
   user: {
     firstName: string;
@@ -30,6 +35,10 @@ export interface TeamParticipantDetailsDto {
     krankenkasse: string | null;
     krankenkassenNr: string | null;
     medication: string | null;
+    familyDoctor: string | null;
+    nationality: string | null;
+    nativeLanguage: string | null;
+    foodPreferences: string | null;
     notes: string | null;
   } | null;
   intoleranceSelections: Array<{

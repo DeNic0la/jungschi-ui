@@ -1,5 +1,7 @@
 # AGENTS.md
 
+For cross-repo AI policy, MCP tooling, and commit restrictions, read the parent `../AGENTS.md` first. This file covers frontend-specific conventions.
+
 ## Project Snapshot
 - Angular 21 standalone app with route-level lazy loaded components and no NgModules (see `src/app/app.routes.ts`).
 - Main UI stack is PrimeNG + Tailwind; app-wide layout utility lives in `.page-container` in `src/styles.scss`.
@@ -41,4 +43,5 @@
 - Service worker is enabled only outside dev mode (`src/main.ts`) and uses `ngsw-config.json`.
 - Docker image is multi-stage: build with Node+pnpm, serve static files via unprivileged nginx on port 8080 (`Dockerfile`).
 - PrimeNG theme customization is centralized in `src/app/app.config.ts` (`definePreset(Aura, ...)`).
+- Available MCP context from the parent workspace includes `context7` for current Angular/PrimeNG/Tailwind docs and `playwright` for UI checks. Do not write MCP credentials or machine-local tool config into this submodule.
 

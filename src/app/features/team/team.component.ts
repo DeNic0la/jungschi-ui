@@ -20,6 +20,16 @@ import { TranslatePipe } from '@ngx-translate/core';
             {{ 'features.team.healthData.title' | translate }}
           </span>
         </a>
+
+        <a
+          routerLink="/team/rooms"
+          class="flex flex-col items-center gap-4 p-8 bg-surface-50 dark:bg-surface-800 rounded-lg no-underline transition-all hover:-translate-y-1 hover:bg-surface-100 dark:hover:bg-surface-700 group border border-surface-200 dark:border-surface-700"
+        >
+          <i class="pi pi-home text-5xl text-primary transition-colors group-hover:scale-110"></i>
+          <span class="font-semibold text-lg text-surface-900 dark:text-surface-0">
+            {{ 'features.team.roomLookup.title' | translate }}
+          </span>
+        </a>
       </div>
     </div>
   `,

@@ -105,7 +105,7 @@ import { TranslatePipe } from '@ngx-translate/core';
         </ng-template>
         <ng-template #emptymessage>
           <tr>
-            <td colspan="4">{{ 'features.participants.empty' | translate }}</td>
+            <td colspan="5">{{ 'features.participants.empty' | translate }}</td>
           </tr>
         </ng-template>
       </p-table>

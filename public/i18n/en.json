@@ -24,6 +24,7 @@
       "edit": "Edit",
       "remove": "Remove",
       "save": "Save",
+      "select": "Select...",
       "search": "Search...",
       "view": "View"
     },
@@ -41,10 +42,16 @@
       "dateOfBirth": "Date of birth",
       "email": "Email",
       "firstName": "First name",
+      "gender": "Gender",
       "lastName": "Last name",
       "lastUpdatedAt": "Last updated",
       "name": "Name",
       "phoneNumber": "Phone number"
+    },
+    "gender": {
+      "else": "Other",
+      "female": "Female",
+      "male": "Male"
     },
     "severity": {
       "affected": "Affected",
@@ -174,6 +181,7 @@
         "title": "Allergies & food intolerances"
       },
       "campStats": {
+        "availableCamps": "Available camps",
         "actions": {
           "save": "Save camp data"
         },
@@ -186,6 +194,12 @@
             "noDescription": "No, I do not want the camp leaders to give my child light medication (e.g. Dafalgan, Bepanthen) in case of a small accident/illness. I want to be informed by phone first in this case.",
             "yesDescription": "Yes, the camp leaders may give my child medication for mild pain (e.g. Dafalgan) or apply cream (e.g. Bepanthen)."
           },
+          "familyDoctor": {
+            "label": "Family doctor"
+          },
+          "foodPreferences": {
+            "label": "Food preferences"
+          },
           "krankenkasse": {
             "label": "Health insurance"
           },
@@ -194,6 +208,12 @@
           },
           "medication": {
             "label": "Medication"
+          },
+          "nationality": {
+            "label": "Nationality"
+          },
+          "nativeLanguage": {
+            "label": "Native language"
           },
           "notes": {
             "label": "Other"
@@ -281,6 +301,11 @@
         "changePassword": "Change password",
         "manageAccount": "Manage account"
       },
+      "guardians": {
+        "primary": "Primary contact",
+        "secondary": "Secondary contact",
+        "title": "Visible guardians"
+      },
       "form": {
         "phoneNumber": {
           "help": "We need your phone number so we can reach you in an emergency (if something happens to your child). Participants cannot be created without a saved phone number."
@@ -318,7 +343,9 @@
           "tickVaccination": "Tick vaccination"
         },
         "messages": {
-          "loadError": "Error loading participant data."
+          "loadError": "Error loading participant data.",
+          "roomInvalidId": "Please provide a valid room ID.",
+          "roomLoadError": "Room could not be loaded."
         },
         "sections": {
           "allergies": "Allergies & intolerances",
@@ -331,6 +358,9 @@
           "structured": "Structured"
         },
         "title": "Health details"
+      },
+      "roomLookup": {
+        "title": "Room lookup"
       },
       "title": "Jungschi team",
       "welcome": "Welcome to the team page!"

@@ -23,14 +23,21 @@ export const routes: Routes = [
     path: 'team',
     loadComponent: () => import('./features/team/team.component').then((m) => m.TeamComponent),
     canActivate: [authGuard],
-    data: { roles: ['Jungschiteam'] },
+    data: { roles: ['Jungschiteam', 'ADMIN', 'Sanitaet'] },
+  },
+  {
+    path: 'team/rooms',
+    loadComponent: () =>
+      import('./features/team/room-lookup.component').then((m) => m.RoomLookupComponent),
+    canActivate: [authGuard],
+    data: { roles: ['Jungschiteam', 'ADMIN', 'Sanitaet'] },
   },
   {
     path: 'team/health-data',
     loadComponent: () =>
       import('./features/team/health-data.component').then((m) => m.HealthDataComponent),
     canActivate: [authGuard],
-    data: { roles: ['Jungschiteam'] },
+    data: { roles: ['Jungschiteam', 'ADMIN', 'Sanitaet'] },
   },
   {
     path: 'team/health-data/:id/details',
@@ -39,7 +46,7 @@ export const routes: Routes = [
         (m) => m.ParticipantHealthDetailsComponent,
       ),
     canActivate: [authGuard],
-    data: { roles: ['Jungschiteam'] },
+    data: { roles: ['Jungschiteam', 'ADMIN', 'Sanitaet'] },
   },
   {
     path: 'participants/:id',

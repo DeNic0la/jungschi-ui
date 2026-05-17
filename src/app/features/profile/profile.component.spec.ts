@@ -52,6 +52,7 @@ describe('ProfileComponent', () => {
           lastName: 'User',
         }),
       ),
+      getVisibleGuardians: vi.fn().mockReturnValue(of([])),
       updateUserProfile: vi.fn().mockReturnValue(
         of({
           oidcSubject: 'test-subject',

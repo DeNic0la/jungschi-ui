@@ -13,7 +13,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { UserService } from '../../shared/services/user.service';
 import { ParticipantService } from '../../shared/services/participant.service';
-import { Participant, ParticipantInput } from '../../shared/models/participant.model';
+import { Gender, Participant, ParticipantInput } from '../../shared/models/participant.model';
 import { firstValueFrom, fromEvent, map, startWith } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Card } from 'primeng/card';
@@ -91,6 +91,14 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
                   </span>
                   <span class="text-surface-900 dark:text-surface-0 font-medium">
                     {{ participant.dateOfBirth | date: 'dd.MM.yyyy' }}
+                  </span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-surface-500 dark:text-surface-400">
+                    {{ 'common.fields.gender' | translate }}
+                  </span>
+                  <span class="text-surface-900 dark:text-surface-0 font-medium">
+                    {{ ('common.gender.' + participant.gender) | translate }}
                   </span>
                 </div>
                 <div class="flex justify-between text-sm">
@@ -199,6 +207,26 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
           </div>
 
           <div class="flex flex-col gap-2">
+            <label for="gender" class="font-semibold text-sm">
+              {{ 'common.fields.gender' | translate }}
+            </label>
+            <select id="gender" formControlName="gender" class="p-inputtext p-component w-full">
+              <option [ngValue]="null" disabled>{{ 'common.actions.select' | translate }}</option>
+              <option value="male">{{ 'common.gender.male' | translate }}</option>
+              <option value="female">{{ 'common.gender.female' | translate }}</option>
+              <option value="else">{{ 'common.gender.else' | translate }}</option>
+            </select>
+            @if (participantForm.get('gender')?.invalid && participantForm.get('gender')?.touched) {
+              <small class="text-red-500 text-xs">
+                {{
+                  'common.validation.requiredField'
+                    | translate: { field: ('common.fields.gender' | translate) }
+                }}
+              </small>
+            }
+          </div>
+
+          <div class="flex flex-col gap-2">
             <label for="dateOfBirthInput" class="font-semibold text-sm">
               {{ 'common.fields.dateOfBirth' | translate }}
             </label>
@@ -283,6 +311,7 @@ export class ParticipantComponent implements OnInit {
   protected readonly participantForm = this.fb.group({
     firstname: ['', Validators.required],
     lastname: ['', Validators.required],
+    gender: [null as Gender | null, Validators.required],
     dateOfBirth: [null as Date | null, Validators.required],
   });
 
@@ -320,6 +349,7 @@ export class ParticipantComponent implements OnInit {
     this.isEdit.set(false);
     this.currentId = null;
     this.participantForm.reset();
+    this.participantForm.patchValue({ gender: null });
     this.displayDialog.set(true);
   }
 
@@ -329,6 +359,7 @@ export class ParticipantComponent implements OnInit {
     this.participantForm.patchValue({
       firstname: participant.firstname,
       lastname: participant.lastname,
+      gender: participant.gender,
       dateOfBirth: new Date(participant.dateOfBirth),
     });
     this.displayDialog.set(true);
@@ -348,6 +379,7 @@ export class ParticipantComponent implements OnInit {
     const input: ParticipantInput = {
       firstname: formValue.firstname!,
       lastname: formValue.lastname!,
+      gender: formValue.gender!,
       dateOfBirth: this.formatDate(formValue.dateOfBirth!),
     };
 

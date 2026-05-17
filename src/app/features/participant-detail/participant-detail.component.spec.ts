@@ -49,6 +49,7 @@ describe('ParticipantDetailComponent', () => {
           firstname: 'John',
           lastname: 'Doe',
           dateOfBirth: '1990-01-01',
+          gender: 'male',
           lastUpdatedAt: '2026-03-19T00:00:00',
         }),
       ),
@@ -85,6 +86,7 @@ describe('ParticipantDetailComponent', () => {
       firstname: 'Max',
       lastname: 'Mustermann',
       dateOfBirth: '2010-05-20',
+      gender: 'male',
       lastUpdatedAt: '2026-03-19T10:00:00',
     };
     participantServiceMock.get.mockReturnValue(of(mockParticipant));

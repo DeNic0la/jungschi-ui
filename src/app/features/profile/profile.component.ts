@@ -9,6 +9,7 @@ import { Message } from 'primeng/message';
 import { UserService } from '../../shared/services/user.service';
 import { firstValueFrom } from 'rxjs';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { GuardianUserDto } from '../../shared/models/user.model';
 
 @Component({
   selector: 'app-profile',
@@ -110,6 +111,32 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
               />
             </div>
           </form>
+
+          <div class="mt-8">
+            <h3 class="text-xl font-semibold mb-4">
+              {{ 'features.profile.guardians.title' | translate }}
+            </h3>
+            @if (guardians().length === 0) {
+              <p class="text-surface-500 italic">{{ 'common.empty.noEntries' | translate }}</p>
+            } @else {
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                @for (guardian of guardians(); track guardian.id) {
+                  <div class="p-4 border border-surface-200 dark:border-surface-700 rounded-lg">
+                    <div class="font-semibold">{{ fullName(guardian) }}</div>
+                    <div class="text-sm text-surface-600 dark:text-surface-300">{{ guardian.email }}</div>
+                    <div class="text-xs mt-2">
+                      @if (guardian.primaryContact) {
+                        <span class="mr-2">{{ 'features.profile.guardians.primary' | translate }}</span>
+                      }
+                      @if (guardian.secondaryContact) {
+                        <span>{{ 'features.profile.guardians.secondary' | translate }}</span>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
         }
       </p-panel>
     </div>
@@ -135,10 +162,12 @@ export class ProfileComponent implements OnInit {
   protected readonly loading = signal(true);
   protected readonly saving = signal(false);
   protected readonly error = signal<string | null>(null);
+  protected readonly guardians = signal<GuardianUserDto[]>([]);
 
   async ngOnInit(): Promise<void> {
     try {
       const profile = await firstValueFrom(this.userService.getUserProfile());
+      const guardians = await firstValueFrom(this.userService.getVisibleGuardians());
       this.profileForm.patchValue({
         username: profile.username ?? '',
         email: profile.email ?? '',
@@ -147,6 +176,7 @@ export class ProfileComponent implements OnInit {
         phoneNumber: profile.phoneNumber ?? '',
         address: profile.address ?? '',
       });
+      this.guardians.set(guardians);
     } catch (err) {
       console.error('Failed to load profile:', err);
       this.error.set(this.t('features.profile.status.loadError'));
@@ -199,5 +229,12 @@ export class ProfileComponent implements OnInit {
 
   private t(key: string): string {
     return this.translate.instant(key);
+  }
+
+  protected fullName(guardian: GuardianUserDto): string {
+    const firstName = guardian.firstName ?? '';
+    const lastName = guardian.lastName ?? '';
+    const name = `${firstName} ${lastName}`.trim();
+    return name.length > 0 ? name : guardian.username;
   }
 }

@@ -24,6 +24,7 @@
       "edit": "Bearbeiten",
       "remove": "Entfernen",
       "save": "Speichern",
+      "select": "Auswählen...",
       "search": "Suchen...",
       "view": "Anzeigen"
     },
@@ -41,10 +42,16 @@
       "dateOfBirth": "Geburtsdatum",
       "email": "E-Mail",
       "firstName": "Vorname",
+      "gender": "Geschlecht",
       "lastName": "Nachname",
       "lastUpdatedAt": "Zuletzt aktualisiert",
       "name": "Name",
       "phoneNumber": "Telefonnummer"
+    },
+    "gender": {
+      "else": "Divers",
+      "female": "Weiblich",
+      "male": "Männlich"
     },
     "severity": {
       "affected": "Betroffen",
@@ -174,6 +181,7 @@
         "title": "Allergien & Lebensmittel-Unverträglichkeiten"
       },
       "campStats": {
+        "availableCamps": "Verfügbare Lager",
         "actions": {
           "save": "Lagerdaten speichern"
         },
@@ -186,6 +194,12 @@
             "noDescription": "Nein, ich möchte nicht, dass die Lagerleitung meinem Kind bei einem kleinen Unfall/Krankheit leichte Medikamente (z.B. Dafalgan, Bepanthen) verabreicht. Ich möchte in diesem Fall zuerst telefonisch informiert werden.",
             "yesDescription": "Ja, die Lagerleitung darf meinem Kind bei leichten Schmerzen Medikamente verabreichen (z.B. Dafalgan) oder Crème auftragen (z.B. Bepanthen)"
           },
+          "familyDoctor": {
+            "label": "Hausarzt"
+          },
+          "foodPreferences": {
+            "label": "Essenspräferenzen"
+          },
           "krankenkasse": {
             "label": "Krankenkasse"
           },
@@ -194,6 +208,12 @@
           },
           "medication": {
             "label": "Medikamente"
+          },
+          "nationality": {
+            "label": "Nationalität"
+          },
+          "nativeLanguage": {
+            "label": "Muttersprache"
           },
           "notes": {
             "label": "Sonstiges"
@@ -281,6 +301,11 @@
         "changePassword": "Passwort ändern",
         "manageAccount": "Account verwalten"
       },
+      "guardians": {
+        "primary": "Hauptkontakt",
+        "secondary": "Zweitkontakt",
+        "title": "Sichtbare Erziehungsberechtigte"
+      },
       "form": {
         "phoneNumber": {
           "help": "Wir benötigen Ihre Telefonnummer, um Sie im Notfall (falls Ihrem Kind etwas passiert) erreichen zu können. Ohne hinterlegte Telefonnummer können keine Teilnehmer erstellt werden."
@@ -318,7 +343,9 @@
           "tickVaccination": "Zeckenimpfung"
         },
         "messages": {
-          "loadError": "Fehler beim Laden der Teilnehmerdaten."
+          "loadError": "Fehler beim Laden der Teilnehmerdaten.",
+          "roomInvalidId": "Bitte eine gültige Zimmer-ID angeben.",
+          "roomLoadError": "Zimmer konnte nicht geladen werden."
         },
         "sections": {
           "allergies": "Allergien & Unverträglichkeiten",
@@ -331,6 +358,9 @@
           "structured": "Strukturiert"
         },
         "title": "Gesundheitsdetails"
+      },
+      "roomLookup": {
+        "title": "Zimmersuche"
       },
       "title": "Jungschiteam",
       "welcome": "Willkommen auf der Team-Seite!"

@@ -64,7 +64,14 @@ describe('HealthDataComponent', () => {
 
   it('should load participants on init', async () => {
     const mockParticipants = [
-      { id: 1, firstname: 'John', lastname: 'Doe', dateOfBirth: '1990-01-01' },
+      {
+        id: 1,
+        firstname: 'John',
+        lastname: 'Doe',
+        dateOfBirth: '1990-01-01',
+        gender: 'male',
+        lastUpdatedAt: '2024-01-01T00:00:00',
+      },
     ];
     teamServiceMock.getAllParticipants.mockReturnValue(of(mockParticipants));
 

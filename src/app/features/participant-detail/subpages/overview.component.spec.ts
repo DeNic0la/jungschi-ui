@@ -22,6 +22,7 @@ describe('ParticipantOverviewComponent', () => {
           firstname: 'John',
           lastname: 'Doe',
           dateOfBirth: '1990-01-01',
+          gender: 'male',
           lastUpdatedAt: '2026-03-19T00:00:00',
           healthStats: true,
           campStats: false,

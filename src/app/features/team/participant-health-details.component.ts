@@ -109,6 +109,16 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
                         <label
                           class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
                         >
+                          {{ 'common.fields.gender' | translate }}
+                        </label>
+                        <div class="font-medium text-surface-900 dark:text-surface-0">
+                          {{ ('common.gender.' + p.gender) | translate }}
+                        </div>
+                      </div>
+                      <div class="flex flex-col gap-1">
+                        <label
+                          class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
+                        >
                           {{ 'common.fields.lastUpdatedAt' | translate }}
                         </label>
                         <div class="font-medium text-surface-900 dark:text-surface-0">
@@ -321,6 +331,55 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
                             class="font-medium text-surface-900 dark:text-surface-0 text-sm whitespace-pre-wrap"
                           >
                             {{ cs.medication || ('common.empty.none' | translate) }}
+                          </div>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                          <label
+                            class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
+                          >
+                            {{
+                              'features.participantDetail.campStats.form.familyDoctor.label' | translate
+                            }}
+                          </label>
+                          <div class="font-medium text-surface-900 dark:text-surface-0">
+                            {{ cs.familyDoctor || '-' }}
+                          </div>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                          <label
+                            class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
+                          >
+                            {{
+                              'features.participantDetail.campStats.form.nationality.label' | translate
+                            }}
+                          </label>
+                          <div class="font-medium text-surface-900 dark:text-surface-0">
+                            {{ cs.nationality || '-' }}
+                          </div>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                          <label
+                            class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
+                          >
+                            {{
+                              'features.participantDetail.campStats.form.nativeLanguage.label' | translate
+                            }}
+                          </label>
+                          <div class="font-medium text-surface-900 dark:text-surface-0">
+                            {{ cs.nativeLanguage || '-' }}
+                          </div>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                          <label
+                            class="text-xs uppercase tracking-wider text-surface-500 font-semibold"
+                          >
+                            {{
+                              'features.participantDetail.campStats.form.foodPreferences.label'
+                                | translate
+                            }}
+                          </label>
+                          <div class="font-medium text-surface-900 dark:text-surface-0 text-sm">
+                            {{ cs.foodPreferences || ('common.empty.none' | translate) }}
                           </div>
                         </div>
                         <div class="flex flex-col gap-1">

@@ -122,7 +122,11 @@ export class AppComponent {
         routerLink: '/participants',
       });
 
-      if (this.keycloak.hasRealmRole('Jungschiteam')) {
+      if (
+        this.keycloak.hasRealmRole('Jungschiteam') ||
+        this.keycloak.hasRealmRole('ADMIN') ||
+        this.keycloak.hasRealmRole('Sanitaet')
+      ) {
         items.push({
           label: this.t('app.nav.team'),
           icon: 'pi pi-id-card',
