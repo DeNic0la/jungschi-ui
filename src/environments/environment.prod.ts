@@ -3,6 +3,6 @@ export const environment = {
   keycloak: {
     url: 'https://keycloak.denic0la.ch',
     realm: 'jungschi',
-    clientId: 'jungschi-ui',
+    clientId: 'frontend-app',
   },
 };
