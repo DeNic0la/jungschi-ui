@@ -28,6 +28,7 @@ describe('ParticipantService', () => {
         firstname: 'John',
         lastname: 'Doe',
         dateOfBirth: '1990-01-01',
+        gender: 'male',
         lastUpdatedAt: '2026-03-19T00:00:00',
       },
     ];
@@ -47,6 +48,7 @@ describe('ParticipantService', () => {
       firstname: 'John',
       lastname: 'Doe',
       dateOfBirth: '1990-01-01',
+      gender: 'male',
       lastUpdatedAt: '2026-03-19T00:00:00',
     };
 
@@ -64,6 +66,7 @@ describe('ParticipantService', () => {
       firstname: 'Jane',
       lastname: 'Doe',
       dateOfBirth: '1995-05-05',
+      gender: 'female',
     };
     const response: Participant = { ...input, id: 2, lastUpdatedAt: '2026-03-19T01:00:00' };
 
@@ -82,6 +85,7 @@ describe('ParticipantService', () => {
       firstname: 'Jane',
       lastname: 'Smith',
       dateOfBirth: '1995-05-05',
+      gender: 'female',
     };
     const response: Participant = { ...input, id: 2, lastUpdatedAt: '2026-03-19T02:00:00' };
 

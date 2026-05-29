@@ -15,5 +15,5 @@ export const authGuard = createAuthGuard(async (route, state, authData) => {
     return true;
   }
 
-  return requiredRoles.every((role) => authData.keycloak.hasRealmRole(role));
+  return requiredRoles.some((role) => authData.keycloak.hasRealmRole(role));
 });

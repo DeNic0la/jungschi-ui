@@ -11,6 +11,7 @@ import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { By } from '@angular/platform-browser';
+import { provideTranslateTesting } from '../../shared/testing/translate-testing';
 
 describe('ParticipantDetailComponent', () => {
   let participantServiceMock: any;
@@ -48,6 +49,7 @@ describe('ParticipantDetailComponent', () => {
           firstname: 'John',
           lastname: 'Doe',
           dateOfBirth: '1990-01-01',
+          gender: 'male',
           lastUpdatedAt: '2026-03-19T00:00:00',
         }),
       ),
@@ -66,6 +68,7 @@ describe('ParticipantDetailComponent', () => {
             },
           },
         }),
+        provideTranslateTesting(),
         { provide: ParticipantService, useValue: participantServiceMock },
       ],
     }).compileComponents();
@@ -83,6 +86,7 @@ describe('ParticipantDetailComponent', () => {
       firstname: 'Max',
       lastname: 'Mustermann',
       dateOfBirth: '2010-05-20',
+      gender: 'male',
       lastUpdatedAt: '2026-03-19T10:00:00',
     };
     participantServiceMock.get.mockReturnValue(of(mockParticipant));
@@ -110,7 +114,7 @@ describe('ParticipantDetailComponent', () => {
     const tabList = fixture.debugElement.query(By.css('p-tablist'));
     expect(tabList.nativeElement.textContent).toContain('Übersicht');
     expect(tabList.nativeElement.textContent).toContain('Gesundheitsinfo');
-    expect(tabList.nativeElement.textContent).toContain('Lager Daten');
+    expect(tabList.nativeElement.textContent).toContain('Allgemeine Angaben');
     expect(tabList.nativeElement.textContent).toContain('Allergien');
     expect(tabList.nativeElement.textContent).toContain('Essen');
   });
@@ -135,8 +139,7 @@ describe('ParticipantDetailComponent', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
-    const errorCard = fixture.debugElement.query(By.css('p-card[header="Fehler"]'));
-    expect(errorCard).toBeTruthy();
-    expect(errorCard.nativeElement.textContent).toContain('999');
+    expect(fixture.nativeElement.textContent).toContain('Fehler');
+    expect(fixture.nativeElement.textContent).toContain('999');
   });
 });

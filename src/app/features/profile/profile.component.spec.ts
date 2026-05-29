@@ -13,6 +13,7 @@ import { UserService } from '../../shared/services/user.service';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideTranslateTesting } from '../../shared/testing/translate-testing';
 
 describe('ProfileComponent', () => {
   let keycloakMock: any;
@@ -43,7 +44,6 @@ describe('ProfileComponent', () => {
     userServiceMock = {
       getUserProfile: vi.fn().mockReturnValue(
         of({
-          oidcSubject: 'test-subject',
           username: 'testuser',
           email: 'test@example.com',
           phoneNumber: '123456789',
@@ -51,9 +51,9 @@ describe('ProfileComponent', () => {
           lastName: 'User',
         }),
       ),
+      getVisibleGuardians: vi.fn().mockReturnValue(of([])),
       updateUserProfile: vi.fn().mockReturnValue(
         of({
-          oidcSubject: 'test-subject',
           username: 'testuser',
           email: 'test@example.com',
           phoneNumber: '987654321',
@@ -76,6 +76,7 @@ describe('ProfileComponent', () => {
             },
           },
         }),
+        provideTranslateTesting(),
         { provide: Keycloak, useValue: keycloakMock },
         { provide: UserService, useValue: userServiceMock },
       ],

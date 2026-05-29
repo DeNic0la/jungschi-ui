@@ -32,9 +32,7 @@
               }
             ],
             "styles": ["src/tailwind.css", "src/styles.scss"],
-            "allowedCommonJsDependencies": [
-              "keycloak-js"
-            ]
+            "allowedCommonJsDependencies": ["keycloak-js"]
           },
           "configurations": {
             "production": {

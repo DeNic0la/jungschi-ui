@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 import { ParticipantOverviewComponent } from './overview.component';
 import { ParticipantService } from '../../../shared/services/participant.service';
 import { By } from '@angular/platform-browser';
+import { provideTranslateTesting } from '../../../shared/testing/translate-testing';
 
 describe('ParticipantOverviewComponent', () => {
   let participantServiceMock: any;
@@ -21,6 +22,7 @@ describe('ParticipantOverviewComponent', () => {
           firstname: 'John',
           lastname: 'Doe',
           dateOfBirth: '1990-01-01',
+          gender: 'male',
           lastUpdatedAt: '2026-03-19T00:00:00',
           healthStats: true,
           campStats: false,
@@ -41,6 +43,7 @@ describe('ParticipantOverviewComponent', () => {
       providers: [
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: ParticipantService, useValue: participantServiceMock },
+        provideTranslateTesting(),
       ],
     }).compileComponents();
   });

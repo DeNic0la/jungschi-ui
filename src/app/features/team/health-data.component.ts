@@ -16,16 +16,30 @@ import { CommonModule } from '@angular/common';
 import { TeamService } from '../../shared/services/team.service';
 import { TeamParticipantDto } from '../../shared/models/team-participant.model';
 import { firstValueFrom } from 'rxjs';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-health-data',
-  imports: [CommonModule, RouterLink, TableModule, InputText, IconField, InputIcon, Button],
+  imports: [
+    CommonModule,
+    RouterLink,
+    TableModule,
+    InputText,
+    IconField,
+    InputIcon,
+    Button,
+    TranslatePipe,
+  ],
   template: `
     <div class="page-container">
-      <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-        <h1 class="text-3xl font-bold text-surface-900 dark:text-surface-0">Gesundheitsdaten</h1>
+      <header
+        class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8"
+      >
+        <h1 class="text-3xl font-bold text-surface-900 dark:text-surface-0">
+          {{ 'features.team.healthData.title' | translate }}
+        </h1>
         <p-button
-          label="Zurück"
+          [label]="'common.actions.back' | translate"
           icon="pi pi-arrow-left"
           routerLink="/team"
           severity="secondary"
@@ -41,7 +55,7 @@ import { firstValueFrom } from 'rxjs';
         [globalFilterFields]="['firstname', 'lastname']"
         [rowHover]="true"
         dataKey="id"
-        currentPageReportTemplate="Zeige {first} bis {last} von {totalRecords} Teilnehmern"
+        [currentPageReportTemplate]="'features.team.healthData.table.pageReport' | translate"
         [showCurrentPageReport]="true"
         [loading]="loading()"
       >
@@ -53,7 +67,7 @@ import { firstValueFrom } from 'rxjs';
                 pInputText
                 type="text"
                 (input)="onGlobalFilter($event)"
-                placeholder="Suchen..."
+                [placeholder]="'common.actions.search' | translate"
                 class="w-full"
               />
             </p-iconfield>
@@ -61,10 +75,16 @@ import { firstValueFrom } from 'rxjs';
         </ng-template>
         <ng-template #header>
           <tr>
-            <th pSortableColumn="firstname">Vorname <p-sortIcon field="firstname" /></th>
-            <th pSortableColumn="lastname">Nachname <p-sortIcon field="lastname" /></th>
-            <th pSortableColumn="dateOfBirth">Geburtsdatum <p-sortIcon field="dateOfBirth" /></th>
-            <th style="width: 8rem">Aktionen</th>
+            <th pSortableColumn="firstname">
+              {{ 'common.fields.firstName' | translate }} <p-sortIcon field="firstname" />
+            </th>
+            <th pSortableColumn="lastname">
+              {{ 'common.fields.lastName' | translate }} <p-sortIcon field="lastname" />
+            </th>
+            <th pSortableColumn="dateOfBirth">
+              {{ 'common.fields.dateOfBirth' | translate }} <p-sortIcon field="dateOfBirth" />
+            </th>
+            <th style="width: 8rem">{{ 'common.table.actions' | translate }}</th>
           </tr>
         </ng-template>
         <ng-template #body let-participant>
@@ -78,14 +98,14 @@ import { firstValueFrom } from 'rxjs';
                 [rounded]="true"
                 severity="info"
                 [routerLink]="['/team/health-data', participant.id, 'details']"
-                aria-label="Details anzeigen"
+                [attr.aria-label]="'features.team.healthData.actions.showDetails' | translate"
               />
             </td>
           </tr>
         </ng-template>
         <ng-template #emptymessage>
           <tr>
-            <td colspan="4">Keine Teilnehmer gefunden.</td>
+            <td colspan="5">{{ 'features.participants.empty' | translate }}</td>
           </tr>
         </ng-template>
       </p-table>

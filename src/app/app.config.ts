@@ -17,7 +17,9 @@ import Aura from '@primeuix/themes/aura';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { environment } from '../environments/environment';
-import {definePreset} from '@primeuix/themes';
+import { definePreset } from '@primeuix/themes';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 const AuroraPurple = definePreset(Aura, {
   semantic: {
@@ -32,14 +34,22 @@ const AuroraPurple = definePreset(Aura, {
       700: '{purple.700}',
       800: '{purple.800}',
       900: '{purple.900}',
-      950: '{purple.950}'
-    }
-  }
+      950: '{purple.950}',
+    },
+  },
 });
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(withInterceptors([includeBearerTokenInterceptor])),
+    provideTranslateService({
+      fallbackLang: 'de',
+      lang: 'de',
+      loader: provideTranslateHttpLoader({
+        prefix: '/i18n/',
+        suffix: '.json',
+      }),
+    }),
     providePrimeNG({
       theme: {
         preset: AuroraPurple,
@@ -47,8 +57,8 @@ export const appConfig: ApplicationConfig = {
           darkModeSelector: 'system',
           cssLayer: {
             name: 'primeng',
-            order: 'theme, base, primeng'
-          }
+            order: 'theme, base, primeng',
+          },
         },
       },
     }),

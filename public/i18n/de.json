@@ -1,0 +1,603 @@
+{
+  "app": {
+    "auth": {
+      "login": "Anmelden",
+      "logout": "Abmelden",
+      "myProfile": "Mein Profil",
+      "profileFallback": "Profil",
+      "userMenu": "Benutzermenü"
+    },
+    "footer": {
+      "impressum": "Impressum",
+      "rights": "© {{year}} Jungschi. Alle Rechte vorbehalten."
+    },
+    "nav": {
+      "camps": "Lager",
+      "household": "Haushalt",
+      "participants": "Teilnehmer",
+      "team": "Team"
+    }
+  },
+  "common": {
+    "actions": {
+      "back": "Zurück",
+      "cancel": "Abbrechen",
+      "delete": "Löschen",
+      "edit": "Bearbeiten",
+      "remove": "Entfernen",
+      "refresh": "Aktualisieren",
+      "save": "Speichern",
+      "select": "Auswählen...",
+      "search": "Suchen...",
+      "view": "Anzeigen"
+    },
+    "boolean": {
+      "no": "Nein",
+      "yes": "Ja"
+    },
+    "empty": {
+      "noData": "Keine Daten vorhanden.",
+      "noEntries": "Keine Einträge vorhanden.",
+      "none": "Keine"
+    },
+    "fields": {
+      "address": "Adresse",
+      "dateOfBirth": "Geburtsdatum",
+      "email": "E-Mail",
+      "firstName": "Vorname",
+      "gender": "Geschlecht",
+      "lastName": "Nachname",
+      "lastUpdatedAt": "Zuletzt aktualisiert",
+      "name": "Name",
+      "phoneNumber": "Telefonnummer"
+    },
+    "gender": {
+      "else": "Divers",
+      "female": "Weiblich",
+      "male": "Männlich"
+    },
+    "severity": {
+      "affected": "Betroffen",
+      "lifeThreatening": "Lebensbedrohlich",
+      "strong": "Stark"
+    },
+    "status": {
+      "actionFailed": "Aktion fehlgeschlagen.",
+      "complete": "Vollständig",
+      "error": "Fehler",
+      "loading": "Laden...",
+      "loadingData": "Lade Daten...",
+      "saveError": "Fehler beim Speichern",
+      "saveFailed": "Speichern fehlgeschlagen.",
+      "saved": "Gespeichert!",
+      "savedSuccessfully": "Erfolgreich gespeichert!",
+      "success": "Erfolg",
+      "unknown": "Unbekannt"
+    },
+    "table": {
+      "actions": "Aktionen"
+    },
+    "validation": {
+      "requiredField": "{{field}} ist erforderlich."
+    }
+  },
+  "global_definitions": {
+    "cashew": "Cashewallergie",
+    "ei": "Hühnerei-Allergie",
+    "erdnuss": "Erdnussallergie",
+    "fisch": "Fischallergie",
+    "fruktose": "Fruktoseintoleranz",
+    "gluten": "Glutenunverträglichkeit / Zöliakie",
+    "haselnuss": "Haselnussallergie",
+    "hausstaub": "Hausstaubmilbenallergie",
+    "histamin": "Histaminintoleranz",
+    "honig": "Honigallergie / Unverträglicheit",
+    "insektengift": "Insektengiftallergie",
+    "krebstiere": "Krebstierallergie",
+    "laktose": "Laktoseintoleranz",
+    "latex": "Latexallergie",
+    "lupine": "Lupinenallergie",
+    "mandel": "Mandelallergie",
+    "medikamente": "Medikamentenallergie",
+    "milch": "Milchallergie",
+    "nickel": "Nickelallergie",
+    "nuesse": "Schalenfruchtallergie / Nussallergie",
+    "parfum": "Duftstoffallergie",
+    "penicillin": "Penicillinallergie",
+    "pistazie": "Pistazienallergie",
+    "pollen": "Pollenallergie",
+    "schimmel": "Schimmelpilzallergie",
+    "schwefeldioxid": "Schwefeldioxid-/Sulfitempfindlichkeit",
+    "sellerie": "Sellerieallergie",
+    "senf": "Senfallergie",
+    "sesam": "Sesamallergie",
+    "soja": "Sojaallergie",
+    "sonne": "Sonnenallergie",
+    "steinobst": "Allergie auf Steinobst",
+    "tierhaare": "Tierhaarallergie",
+    "vegan": "Vegan",
+    "vegi": "Vegetarisch",
+    "walnuss": "Walnussallergie",
+    "weichtiere": "Weichtierallergie",
+    "weizen": "Weizenallergie",
+    "zitrus": "Zitrusfruchtallergie"
+  },
+  "features": {
+    "landing": {
+      "features": {
+        "centralManagement": {
+          "description": "Einmal anmelden und alle Daten für Ihre Kinder bequem an einem Ort erfassen und verwalten.",
+          "title": "Zentrale Verwaltung"
+        },
+        "noPaperwork": {
+          "description": "Wenn Sie die Daten digital einreichen, müssen Sie kein physisches Gesundheits- oder Notfallblatt mehr ausfüllen.",
+          "title": "Kein Papierkram"
+        },
+        "secureCurrent": {
+          "description": "Ihre Daten sind sicher gespeichert und können jederzeit für zukünftige Lager aktualisiert werden.",
+          "title": "Sicher & Aktuell"
+        },
+        "title": "Ihre Vorteile"
+      },
+      "hero": {
+        "body": "Das neue Tool zur Übermittlung von Teilnehmerdaten für unsere Lager. Eltern können sich einmalig anmelden und die Daten für ihre Kinder bequem online erfassen. Bei Nutzung dieses Portals entfällt das Ausfüllen physischer Gesundheits- und Notfallblätter.",
+        "learnMore": "Mehr erfahren",
+        "title": "Willkommen bei der Jungschi Lager-Anmeldung"
+      }
+    },
+    "participantDetail": {
+      "actions": {
+        "backToList": "Zurück zur Liste"
+      },
+      "allergy": {
+        "actions": {
+          "addCustom": "Eigene Allergie hinzufügen",
+          "addCustomAria": "Benutzerdefinierte Allergie hinzufügen",
+          "saveChanges": "Änderungen speichern"
+        },
+        "addSection": {
+          "searchAllergies": {
+            "label": "Allergien suchen",
+            "placeholder": "Z.B. Pollen, Hausstaub..."
+          },
+          "searchFoodIntolerances": {
+            "label": "Lebensmittel-Unverträglichkeiten suchen",
+            "placeholder": "Z.B. Laktose, Gluten..."
+          },
+          "title": "Neue hinzufügen"
+        },
+        "currentEntries": {
+          "count": "{{count}} Einträge",
+          "customTag": "Eigener Eintrag",
+          "notes": {
+            "label": "Notizen & Details",
+            "placeholder": "Z.B. Notfallmedikation, Symptome..."
+          },
+          "severity": {
+            "label": "Schweregrad",
+            "placeholder": "Schweregrad wählen"
+          },
+          "title": "Aktuelle Einträge"
+        },
+        "customDefaultLabel": "Neuer eigener Eintrag",
+        "empty": "Keine Einträge vorhanden. Nutzen Sie die Suche oben, um Allergien oder Unverträglichkeiten hinzuzufügen.",
+        "title": "Allergien & Lebensmittel-Unverträglichkeiten"
+      },
+      "campStats": {
+        "availableCamps": "Verfügbare Lager",
+        "actions": {
+          "save": "Allgemeine Angaben speichern"
+        },
+        "form": {
+          "ahv": {
+            "label": "AHV Nummer"
+          },
+          "drugConsent": {
+            "label": "Einverständnis zur Medikamentenabgabe",
+            "noDescription": "Nein, ich möchte nicht, dass die Lagerleitung meinem Kind bei einem kleinen Unfall/Krankheit leichte Medikamente (z.B. Dafalgan, Bepanthen) verabreicht. Ich möchte in diesem Fall zuerst telefonisch informiert werden.",
+            "yesDescription": "Ja, die Lagerleitung darf meinem Kind bei leichten Schmerzen Medikamente verabreichen (z.B. Dafalgan) oder Crème auftragen (z.B. Bepanthen)"
+          },
+          "familyDoctor": {
+            "label": "Hausarzt"
+          },
+          "foodPreferences": {
+            "label": "Essenspräferenzen"
+          },
+          "krankenkasse": {
+            "label": "Krankenkasse"
+          },
+          "krankenkassenNr": {
+            "label": "Krankenkassen-Nummer"
+          },
+          "medication": {
+            "label": "Medikamente"
+          },
+          "nationality": {
+            "label": "Nationalität"
+          },
+          "nativeLanguage": {
+            "label": "Muttersprache"
+          },
+          "notes": {
+            "label": "Sonstiges"
+          },
+          "tickVaccinated": {
+            "label": "Zecken Impfung gemacht"
+          }
+        },
+        "messages": {
+          "loadError": "Daten konnten nicht geladen werden.",
+          "loading": "Allgemeine Angaben werden geladen..."
+        },
+        "title": "Allgemeine Angaben"
+      },
+      "healthStats": {
+        "confirmDelete": {
+          "header": "Löschen bestätigen",
+          "message": "Möchten Sie alle Gesundheitsinfos löschen und auf \"Gesund\" zurücksetzen?"
+        },
+        "form": {
+          "excludedActivities": {
+            "label": "An welchem Programm/Programmarten kann ihr Kind nicht teilnehmen"
+          },
+          "healthyReason": {
+            "label": "Falls nein, bitte hier beschreiben"
+          },
+          "isHealthy": {
+            "label": "Ist Ihr Kind normal Sportlich belastbar, gesund und kann ohne Einschränkungen am Programm teilnehmen?"
+          }
+        },
+        "messages": {
+          "loadError": "Daten konnten nicht geladen werden."
+        },
+        "title": "Gesundheitsinfo"
+      },
+      "notFound": "Teilnehmer mit der ID {{id}} konnte nicht gefunden werden.",
+      "overview": {
+        "campStats": "Allgemeine Angaben",
+        "healthStats": "Gesundheitsangaben",
+        "loadError": "Teilnehmerdaten konnten nicht geladen werden."
+      },
+      "tabs": {
+        "allergy": "Allergien & Essen",
+        "campStats": "Allgemeine Angaben",
+        "healthStats": "Gesundheitsinfo",
+        "overview": "Übersicht"
+      },
+      "title": "Teilnehmer-Details"
+    },
+    "camps": {
+      "actions": {
+        "signup": "Anmelden"
+      },
+      "empty": "Keine Lager vorhanden.",
+      "fields": {
+        "priceFirst": "Preis erstes Kind",
+        "signupEndDate": "Anmeldeschluss"
+      },
+      "messages": {
+        "loadError": "Lager konnten nicht geladen werden."
+      },
+      "status": {
+        "open": "Anmeldung offen",
+        "started": "Gestartet"
+      },
+      "title": "Lager"
+    },
+    "participants": {
+      "actions": {
+        "new": "Neuer Teilnehmer"
+      },
+      "card": {
+        "dateOfBirth": "Geburtsdatum:",
+        "lastUpdated": "Zuletzt aktualisiert:"
+      },
+      "confirmDelete": {
+        "header": "Löschen bestätigen",
+        "message": "Möchten Sie {{firstName}} {{lastName}} wirklich löschen?"
+      },
+      "dialog": {
+        "createTitle": "Neuer Teilnehmer",
+        "editTitle": "Teilnehmer bearbeiten"
+      },
+      "empty": "Keine Teilnehmer gefunden.",
+      "messages": {
+        "created": "Teilnehmer erstellt.",
+        "deleteError": "Teilnehmer konnte nicht gelöscht werden.",
+        "deleted": "Teilnehmer gelöscht.",
+        "loadError": "Teilnehmer konnten nicht geladen werden.",
+        "phoneMissingDetail": "Bitte hinterlegen Sie eine Telefonnummer in Ihrem Profil, um einen Teilnehmer erstellen zu können. Wir benötigen diese für Notfälle.",
+        "phoneMissingSummary": "Telefonnummer fehlt",
+        "saveError": "Teilnehmer konnte nicht gespeichert werden.",
+        "updated": "Teilnehmer aktualisiert."
+      },
+      "phoneMissingBanner": {
+        "afterProfile": ", um Teilnehmer erstellen zu können. Wir benötigen diese, um Sie in Notfällen erreichen zu können.",
+        "beforeProfile": "Bitte hinterlegen Sie eine Telefonnummer in Ihrem "
+      },
+      "title": "Teilnehmer"
+    },
+    "profile": {
+      "actions": {
+        "changePassword": "Passwort ändern",
+        "manageAccount": "Account verwalten"
+      },
+      "guardians": {
+        "primary": "Hauptkontakt",
+        "secondary": "Zweitkontakt",
+        "title": "Sichtbare Erziehungsberechtigte"
+      },
+      "form": {
+        "phoneNumber": {
+          "help": "Wir benötigen Ihre Telefonnummer, um Sie im Notfall (falls Ihrem Kind etwas passiert) erreichen zu können. Ohne hinterlegte Telefonnummer können keine Teilnehmer erstellt werden."
+        },
+        "username": {
+          "label": "Benutzername"
+        }
+      },
+      "status": {
+        "accountManagementFailed": "Account-Verwaltung konnte nicht geöffnet werden.",
+        "loadError": "Profil konnte nicht geladen werden.",
+        "loading": "Profil wird geladen...",
+        "passwordChangeFailed": "Passwortänderung fehlgeschlagen."
+      },
+      "title": "Profil"
+    },
+    "household": {
+      "actions": {
+        "addGuardian": "Hinzufügen",
+        "setPrimary": "Als Hauptkontakt festlegen",
+        "setSecondary": "Als Zweitkontakt festlegen"
+      },
+      "contactTypes": {
+        "additional": "Zusätzlich",
+        "pending": "Ausstehend",
+        "primary": "Hauptkontakt",
+        "secondary": "Zweitkontakt"
+      },
+      "empty": {
+        "guardians": "Keine Erziehungsberechtigten im Haushalt vorhanden."
+      },
+      "form": {
+        "guardianEmail": {
+          "label": "Erziehungsberechtigte per E-Mail hinzufügen"
+        },
+        "place": {
+          "label": "Ort"
+        },
+        "plz": {
+          "label": "PLZ"
+        },
+        "streetAndNumber": {
+          "label": "Strasse und Nummer"
+        }
+      },
+      "messages": {
+        "addGuardianError": "Erziehungsberechtigte Person konnte nicht hinzugefügt werden.",
+        "contactTypeError": "Kontaktrolle konnte nicht aktualisiert werden.",
+        "loadError": "Haushalt konnte nicht geladen werden.",
+        "removeGuardianError": "Erziehungsberechtigte Person konnte nicht entfernt werden.",
+        "saveError": "Haushalt konnte nicht gespeichert werden."
+      },
+      "sections": {
+        "address": "Adresse",
+        "guardians": "Erziehungsberechtigte"
+      },
+      "title": "Haushalt"
+    },
+    "signup": {
+      "actions": {
+        "addMedication": "Medikament hinzufügen",
+        "complete": "Anmeldung abschliessen",
+        "reopen": "Anmeldung bearbeiten",
+        "saveProgress": "Zwischenstand speichern"
+      },
+      "confirmReopenApproved": "Diese Anmeldung wurde bereits bestätigt. Wenn Sie sie wieder bearbeiten, wird die Anmeldung zurückgezogen und muss den Anmeldeprozess erneut durchlaufen.",
+      "form": {
+        "additionalContactOptionsDuringCamp": {
+          "label": "Zusätzliche Kontaktmöglichkeiten während dem Lager"
+        },
+        "bemerkungen": {
+          "label": "Zusätzliche Notizen"
+        },
+        "dose": {
+          "label": "Dosierung"
+        },
+        "drugConsent": {
+          "label": "Einverständnis zur Medikamentenabgabe"
+        },
+        "frequency": {
+          "label": "Häufigkeit"
+        },
+        "infoEmail": {
+          "label": "Informationen per E-Mail erhalten"
+        },
+        "infosZimmerleitung": {
+          "label": "Informationen für die Zimmerleitung"
+        },
+        "medicationName": {
+          "label": "Medikament"
+        },
+        "needsHelp": {
+          "label": "Braucht Hilfe"
+        },
+        "photoConsent": {
+          "label": "Fotoeinverständnis"
+        },
+        "purpose": {
+          "label": "Zweck"
+        },
+        "schoolClass": {
+          "label": "Schulklasse während dem Lager"
+        }
+      },
+      "messages": {
+        "campStarted": "Dieses Lager hat bereits begonnen. Eine Anmeldung ist nicht mehr möglich.",
+        "drugConsentRequired": "Bitte für alle ausgewählten Teilnehmer die Medikamentenabgabe auswählen.",
+        "loadError": "Anmeldedaten konnten nicht geladen werden.",
+        "noParticipants": "Keine Teilnehmer im Haushalt vorhanden.",
+        "reopenError": "Anmeldung konnte nicht zur Bearbeitung geöffnet werden.",
+        "saveError": "Anmeldung konnte nicht gespeichert werden. Die benötigte Backend-API ist noch nicht verfügbar.",
+        "saved": "Anmeldung gespeichert.",
+        "selectParticipant": "Bitte mindestens einen Teilnehmer auswählen."
+      },
+      "sections": {
+        "medication": "Medikamente im Lager",
+        "participants": "Teilnehmer auswählen",
+        "signupData": "Anmeldedaten",
+        "summary": "Zusammenfassung"
+      },
+      "summary": {
+        "selectedParticipants": "Ausgewählte Teilnehmer"
+      },
+      "states": {
+        "APPROVED": "Bestätigt",
+        "COMPLETED": "Eingereicht",
+        "IN_PROGRESS": "In Bearbeitung"
+      },
+      "title": "Lageranmeldung"
+    },
+    "team": {
+      "healthData": {
+        "actions": {
+          "showDetails": "Details anzeigen"
+        },
+        "table": {
+          "pageReport": "Zeige {first} bis {last} von {totalRecords} Teilnehmern"
+        },
+        "title": "Gesundheitsdaten"
+      },
+      "healthDetails": {
+        "fields": {
+          "account": "Account",
+          "drugConsent": "Medikamentenabgabe",
+          "excludedActivities": "Eingeschränkte Aktivitäten",
+          "healthy": "Gesund",
+          "reason": "Grund",
+          "remarks": "Bemerkungen",
+          "tickVaccination": "Zeckenimpfung"
+        },
+        "messages": {
+          "loadError": "Fehler beim Laden der Teilnehmerdaten.",
+          "roomInvalidId": "Bitte eine gültige Zimmer-ID angeben.",
+          "roomLoadError": "Zimmer konnte nicht geladen werden."
+        },
+        "sections": {
+          "allergies": "Allergien & Unverträglichkeiten",
+          "campInfo": "Lager-Informationen",
+          "healthStatus": "Gesundheitsstatus",
+          "participantAccount": "Teilnehmer & Account"
+        },
+        "tabs": {
+          "rawJson": "Raw JSON",
+          "structured": "Strukturiert"
+        },
+        "title": "Gesundheitsdetails"
+      },
+      "roomLookup": {
+        "title": "Zimmersuche"
+      },
+      "roomManagement": {
+        "emptyLeaders": "Keine Teammitglieder verfügbar.",
+        "empty": "Keine Zimmer für dieses Lager vorhanden.",
+        "fields": {
+          "assignedCount": "Belegung",
+          "camp": "Lager",
+          "gender": "Geschlecht",
+          "leaders": "Zimmerleitung",
+          "maxCapacity": "Maximale Belegung",
+          "name": "Zimmername"
+        },
+        "form": {
+          "create": "Zimmer erstellen",
+          "edit": "Zimmer bearbeiten"
+        },
+        "messages": {
+          "loadError": "Zimmer konnten nicht geladen oder gespeichert werden."
+        },
+        "title": "Zimmer verwalten"
+      },
+      "campManagement": {
+        "actions": {
+          "deleteEndedCamp": "Beendetes Lager löschen"
+        },
+        "delete": {
+          "confirm": "Dieses Lager wird gelöscht. Zimmer, Zimmerleitungen, Lagerteilnehmer und Medikamentendaten zu diesem Lager werden entfernt. Teilnehmer und Anmeldungen bleiben erhalten.",
+          "description": "Optional können Rückmeldungen für alle Anmeldungen im Lager \"{{title}}\" nach Status gesetzt werden, bevor das Lager gelöscht wird.",
+          "title": "Lager löschen"
+        },
+        "empty": "Keine Lager vorhanden.",
+        "fields": {
+          "description": "Beschreibung",
+          "endDate": "Enddatum",
+          "id": "Lager-ID",
+          "isJugendUndSport": "Jugend+Sport Lager",
+          "priceFirst": "Preis erstes Kind",
+          "priceSecond": "Preis zweites Kind",
+          "priceThird": "Preis ab drittem Kind",
+          "signupEndDate": "Anmeldeschluss",
+          "startDate": "Startdatum",
+          "title": "Titel"
+        },
+        "form": {
+          "create": "Lager erstellen",
+          "edit": "Lager bearbeiten"
+        },
+        "messages": {
+          "loadError": "Lager konnten nicht geladen, gespeichert oder gelöscht werden."
+        },
+        "title": "Lager verwalten"
+      },
+      "signups": {
+        "actions": {
+          "approve": "Bestätigen",
+          "reject": "Zur Korrektur zurückgeben",
+          "saveFeedback": "Rückmeldung speichern",
+          "showParticipantDetails": "Details anzeigen"
+        },
+        "detail": {
+          "title": "Lagerteilnehmer-Details"
+        },
+        "empty": "Keine Anmeldungen für dieses Lager vorhanden.",
+        "fields": {
+          "camp": "Lager",
+          "currentRoom": "Aktuelles Zimmer",
+          "feedback": "Rückmeldung",
+          "household": "Haushalt",
+          "room": "Zimmer"
+        },
+        "messages": {
+          "loadError": "Anmeldungen konnten nicht geladen oder aktualisiert werden."
+        },
+        "privacy": {
+          "modalFiltered": "Einige Details sind ausgeblendet, weil sie nur für Erziehungsberechtigte, Admins, Sanität oder die zuständige Zimmerleitung sichtbar sind.",
+          "roomLeaderInfoHidden": "Informationen für die Zimmerleitung sind für diese Rolle ausgeblendet.",
+          "sensitiveDataHidden": "Weitere Lagerteilnehmerdaten sind für diese Rolle ausgeblendet."
+        },
+        "signupTitle": "Anmeldung #{{id}}",
+        "title": "Lageranmeldungen"
+      },
+      "title": "Jungschiteam",
+      "welcome": "Willkommen auf der Team-Seite!"
+    }
+  },
+  "legal": {
+    "impressum": {
+      "contactAddress": "Kontaktadresse",
+      "copyright": {
+        "paragraph": "Die Urheber- und alle anderen Rechte an Inhalten, Bildern, Fotos oder anderen Dateien auf dieser Website, gehören ausschliesslich der Jungschar der Markuskirche Luzern oder den speziell genannten Rechtsinhabern. Für die Reproduktion jeglicher Elemente ist die schriftliche Zustimmung der Urheberrechtsträger im Voraus einzuholen.",
+        "title": "Urheberrechte"
+      },
+      "disclaimer": {
+        "paragraph1": "Der Autor übernimmt keinerlei Gewähr hinsichtlich der inhaltlichen Richtigkeit, Genauigkeit, Aktualität, Zuverlässigkeit und Vollständigkeit der Informationen.",
+        "paragraph2": "Haftungsansprüche gegen den Autor wegen Schäden materieller oder immaterieller Art, welche aus dem Zugriff oder der Nutzung bzw. Nichtnutzung der veröffentlichten Informationen, durch Missbrauch der Verbindung oder durch technische Störungen entstanden sind, werden ausgeschlossen.",
+        "title": "Haftungsausschluss"
+      },
+      "linkLiability": {
+        "paragraph": "Verweise und Links auf Webseiten Dritter liegen ausserhalb unseres Verantwortungsbereichs. Es wird jegliche Verantwortung für solche Webseiten abgelehnt. Der Zugriff und die Nutzung solcher Webseiten erfolgen auf eigene Gefahr des Nutzers oder der Nutzerin.",
+        "title": "Haftung für Links"
+      },
+      "title": "Impressum"
+    }
+  }
+}

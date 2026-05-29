@@ -10,7 +10,8 @@ export const routes: Routes = [
   },
   {
     path: 'profile',
-    loadComponent: () => import('./features/profile/profile.component').then((m) => m.ProfileComponent),
+    loadComponent: () =>
+      import('./features/profile/profile.component').then((m) => m.ProfileComponent),
     canActivate: [authGuard],
   },
   {
@@ -20,17 +21,55 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
+    path: 'household',
+    loadComponent: () =>
+      import('./features/household/household.component').then((m) => m.HouseholdComponent),
+    canActivate: [authGuard],
+    data: { roles: ['guardian'] },
+  },
+  {
+    path: 'camps',
+    loadComponent: () => import('./features/camps/camps.component').then((m) => m.CampsComponent),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'camps/:campId/signup',
+    loadComponent: () => import('./features/camps/signup.component').then((m) => m.SignupComponent),
+    canActivate: [authGuard],
+  },
+  {
     path: 'team',
     loadComponent: () => import('./features/team/team.component').then((m) => m.TeamComponent),
     canActivate: [authGuard],
-    data: { roles: ['Jungschiteam'] },
+    data: { roles: ['Jungschiteam', 'ADMIN', 'Sanitaet'] },
+  },
+  {
+    path: 'team/signups',
+    loadComponent: () =>
+      import('./features/team/camp-signups.component').then((m) => m.CampSignupsComponent),
+    canActivate: [authGuard],
+    data: { roles: ['Jungschiteam', 'ADMIN'] },
+  },
+  {
+    path: 'team/room-management',
+    loadComponent: () =>
+      import('./features/team/room-management.component').then((m) => m.RoomManagementComponent),
+    canActivate: [authGuard],
+    data: { roles: ['ADMIN'] },
+  },
+  {
+    path: 'team/camp-management',
+    loadComponent: () =>
+      import('./features/team/camp-management.component').then((m) => m.CampManagementComponent),
+    canActivate: [authGuard],
+    data: { roles: ['ADMIN'] },
   },
   {
     path: 'team/health-data',
     loadComponent: () =>
       import('./features/team/health-data.component').then((m) => m.HealthDataComponent),
     canActivate: [authGuard],
-    data: { roles: ['Jungschiteam'] },
+    data: { roles: ['Jungschiteam', 'ADMIN', 'Sanitaet'] },
   },
   {
     path: 'team/health-data/:id/details',
@@ -39,7 +78,7 @@ export const routes: Routes = [
         (m) => m.ParticipantHealthDetailsComponent,
       ),
     canActivate: [authGuard],
-    data: { roles: ['Jungschiteam'] },
+    data: { roles: ['Jungschiteam', 'ADMIN', 'Sanitaet'] },
   },
   {
     path: 'participants/:id',
@@ -71,12 +110,17 @@ export const routes: Routes = [
         canDeactivate: [pendingChangesGuard],
       },
       {
-        path: 'camp-stats',
+        path: 'general-data',
         loadComponent: () =>
           import('./features/participant-detail/subpages/camp-stats.component').then(
             (m) => m.CampStatsComponent,
           ),
         canDeactivate: [pendingChangesGuard],
+      },
+      {
+        path: 'camp-stats',
+        redirectTo: 'general-data',
+        pathMatch: 'full',
       },
       {
         path: 'allergy',

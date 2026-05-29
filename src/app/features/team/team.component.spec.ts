@@ -6,12 +6,18 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { TeamComponent } from './team.component';
 import { By } from '@angular/platform-browser';
+import { provideTranslateTesting } from '../../shared/testing/translate-testing';
+import Keycloak from 'keycloak-js';
 
 describe('TeamComponent', () => {
   it('should create the team component', async () => {
     await TestBed.configureTestingModule({
       imports: [TeamComponent],
-      providers: [provideRouter([])],
+      providers: [
+        provideRouter([]),
+        provideTranslateTesting(),
+        { provide: Keycloak, useValue: { hasRealmRole: () => false } },
+      ],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TeamComponent);
@@ -22,7 +28,11 @@ describe('TeamComponent', () => {
   it('should contain a link to health-data', async () => {
     await TestBed.configureTestingModule({
       imports: [TeamComponent],
-      providers: [provideRouter([{ path: 'team/health-data', component: class {} }])],
+      providers: [
+        provideRouter([{ path: 'team/health-data', component: class {} }]),
+        provideTranslateTesting(),
+        { provide: Keycloak, useValue: { hasRealmRole: () => false } },
+      ],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TeamComponent);

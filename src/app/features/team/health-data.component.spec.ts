@@ -11,6 +11,7 @@ import { of } from 'rxjs';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
+import { provideTranslateTesting } from '../../shared/testing/translate-testing';
 
 describe('HealthDataComponent', () => {
   let teamServiceMock: any;
@@ -49,6 +50,7 @@ describe('HealthDataComponent', () => {
             },
           },
         }),
+        provideTranslateTesting(),
         { provide: TeamService, useValue: teamServiceMock },
       ],
     }).compileComponents();
@@ -62,7 +64,14 @@ describe('HealthDataComponent', () => {
 
   it('should load participants on init', async () => {
     const mockParticipants = [
-      { id: 1, firstname: 'John', lastname: 'Doe', dateOfBirth: '1990-01-01' },
+      {
+        id: 1,
+        firstname: 'John',
+        lastname: 'Doe',
+        dateOfBirth: '1990-01-01',
+        gender: 'male',
+        lastUpdatedAt: '2024-01-01T00:00:00',
+      },
     ];
     teamServiceMock.getAllParticipants.mockReturnValue(of(mockParticipants));
 

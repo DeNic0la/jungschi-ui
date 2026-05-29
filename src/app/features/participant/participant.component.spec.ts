@@ -14,6 +14,8 @@ import Aura from '@primeuix/themes/aura';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { signal } from '@angular/core';
+import { provideTranslateTesting } from '../../shared/testing/translate-testing';
+import { Participant } from '../../shared/models/participant.model';
 
 describe('ParticipantComponent', () => {
   let participantServiceMock: any;
@@ -60,6 +62,7 @@ describe('ParticipantComponent', () => {
             },
           },
         }),
+        provideTranslateTesting(),
         { provide: ParticipantService, useValue: participantServiceMock },
         { provide: UserService, useValue: userServiceMock },
         MessageService,
@@ -81,6 +84,7 @@ describe('ParticipantComponent', () => {
         firstname: 'John',
         lastname: 'Doe',
         dateOfBirth: '1990-01-01',
+        gender: 'male',
         lastUpdatedAt: '2026-03-19T00:00:00',
       },
     ];
@@ -127,11 +131,12 @@ describe('ParticipantComponent', () => {
   it('should open dialog for editing and patch values', () => {
     const fixture = TestBed.createComponent(ParticipantComponent);
     const component = fixture.componentInstance;
-    const participant = {
+    const participant: Participant = {
       id: 1,
       firstname: 'John',
       lastname: 'Doe',
       dateOfBirth: '1990-01-01',
+      gender: 'male',
       lastUpdatedAt: '2026-03-19T00:00:00',
     };
 
@@ -141,6 +146,7 @@ describe('ParticipantComponent', () => {
     expect(component['isEdit']()).toBe(true);
     expect(component['participantForm'].get('firstname')?.value).toBe('John');
     expect(component['participantForm'].get('lastname')?.value).toBe('Doe');
+    expect(component['participantForm'].get('gender')?.value).toBe('male');
     // Date of birth will be a Date object
     expect(component['participantForm'].get('dateOfBirth')?.value).toBeInstanceOf(Date);
   });

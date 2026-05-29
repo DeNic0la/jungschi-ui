@@ -15,6 +15,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideRouter } from '@angular/router';
 import { ParticipantService } from '../../../shared/services/participant.service';
 import { ConfirmationService } from 'primeng/api';
+import { provideTranslateTesting } from '../../../shared/testing/translate-testing';
 
 describe('Participant Subpages', () => {
   describe('HealthStatsComponent', () => {
@@ -26,6 +27,7 @@ describe('Participant Subpages', () => {
           provideHttpClientTesting(),
           provideAnimationsAsync(),
           provideRouter([]),
+          provideTranslateTesting(),
           ConfirmationService,
         ],
       });
@@ -55,6 +57,7 @@ describe('Participant Subpages', () => {
           provideHttpClientTesting(),
           provideAnimationsAsync(),
           provideRouter([]),
+          provideTranslateTesting(),
           { provide: ParticipantService, useValue: participantServiceMock },
           ConfirmationService,
         ],
@@ -85,6 +88,7 @@ describe('Participant Subpages', () => {
           provideHttpClientTesting(),
           provideAnimationsAsync(),
           provideRouter([]),
+          provideTranslateTesting(),
           { provide: ParticipantService, useValue: participantServiceMock },
           ConfirmationService,
         ],
@@ -126,6 +130,7 @@ describe('Participant Subpages', () => {
           provideHttpClientTesting(),
           provideAnimationsAsync(),
           provideRouter([]),
+          provideTranslateTesting(),
           { provide: ParticipantService, useValue: participantServiceMock },
           { provide: ConfirmationService, useValue: confirmationServiceMock },
         ],
@@ -159,12 +164,15 @@ describe('Participant Subpages', () => {
         provideHttpClientTesting(),
         provideAnimationsAsync(),
         provideRouter([]),
+        provideTranslateTesting(),
       ],
     });
     const fixture = TestBed.createComponent(CampStatsComponent);
     fixture.componentRef.setInput('id', '1');
     fixture.detectChanges();
-    expect(fixture.debugElement.query(By.css('h2')).nativeElement.textContent).toBe('Lager Daten');
+    expect(fixture.debugElement.query(By.css('h2')).nativeElement.textContent).toBe(
+      'Allgemeine Angaben',
+    );
   });
 
   it('AllergyComponent should show title', () => {
@@ -175,6 +183,7 @@ describe('Participant Subpages', () => {
         provideHttpClientTesting(),
         provideAnimationsAsync(),
         provideRouter([]),
+        provideTranslateTesting(),
         {
           provide: GlobalDefinitionsService,
           useValue: {

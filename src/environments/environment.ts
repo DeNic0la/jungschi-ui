@@ -4,5 +4,5 @@ export const environment = {
     url: 'http://localhost:8180',
     realm: 'jungschi',
     clientId: 'frontend-app',
-  }
+  },
 };

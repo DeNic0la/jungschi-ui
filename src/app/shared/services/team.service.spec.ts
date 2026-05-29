@@ -27,8 +27,22 @@ describe('TeamService', () => {
 
   it('should fetch all participants', () => {
     const mockParticipants: TeamParticipantDto[] = [
-      { id: 1, firstname: 'John', lastname: 'Doe', dateOfBirth: '1990-01-01' },
-      { id: 2, firstname: 'Jane', lastname: 'Doe', dateOfBirth: '1992-05-15' },
+      {
+        id: 1,
+        firstname: 'John',
+        lastname: 'Doe',
+        dateOfBirth: '1990-01-01',
+        gender: 'male',
+        lastUpdatedAt: '2024-01-01T00:00:00',
+      },
+      {
+        id: 2,
+        firstname: 'Jane',
+        lastname: 'Doe',
+        dateOfBirth: '1992-05-15',
+        gender: 'female',
+        lastUpdatedAt: '2024-01-02T00:00:00',
+      },
     ];
 
     service.getAllParticipants().subscribe((participants) => {
@@ -46,6 +60,7 @@ describe('TeamService', () => {
       firstname: 'John',
       lastname: 'Doe',
       dateOfBirth: '2010-01-01',
+      gender: 'male',
       lastUpdatedAt: '2024-01-01T10:00:00',
       user: {
         firstName: 'Parent',

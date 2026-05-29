@@ -1,0 +1,603 @@
+{
+  "app": {
+    "auth": {
+      "login": "Log in",
+      "logout": "Log out",
+      "myProfile": "My profile",
+      "profileFallback": "Profile",
+      "userMenu": "User menu"
+    },
+    "footer": {
+      "impressum": "Legal notice",
+      "rights": "© {{year}} Jungschi. All rights reserved."
+    },
+    "nav": {
+      "camps": "Camps",
+      "household": "Household",
+      "participants": "Participants",
+      "team": "Team"
+    }
+  },
+  "common": {
+    "actions": {
+      "back": "Back",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "edit": "Edit",
+      "remove": "Remove",
+      "refresh": "Refresh",
+      "save": "Save",
+      "select": "Select...",
+      "search": "Search...",
+      "view": "View"
+    },
+    "boolean": {
+      "no": "No",
+      "yes": "Yes"
+    },
+    "empty": {
+      "noData": "No data available.",
+      "noEntries": "No entries available.",
+      "none": "None"
+    },
+    "fields": {
+      "address": "Address",
+      "dateOfBirth": "Date of birth",
+      "email": "Email",
+      "firstName": "First name",
+      "gender": "Gender",
+      "lastName": "Last name",
+      "lastUpdatedAt": "Last updated",
+      "name": "Name",
+      "phoneNumber": "Phone number"
+    },
+    "gender": {
+      "else": "Other",
+      "female": "Female",
+      "male": "Male"
+    },
+    "severity": {
+      "affected": "Affected",
+      "lifeThreatening": "Life-threatening",
+      "strong": "Severe"
+    },
+    "status": {
+      "actionFailed": "Action failed.",
+      "complete": "Complete",
+      "error": "Error",
+      "loading": "Loading...",
+      "loadingData": "Loading data...",
+      "saveError": "Error while saving",
+      "saveFailed": "Saving failed.",
+      "saved": "Saved!",
+      "savedSuccessfully": "Saved successfully!",
+      "success": "Success",
+      "unknown": "Unknown"
+    },
+    "table": {
+      "actions": "Actions"
+    },
+    "validation": {
+      "requiredField": "{{field}} is required."
+    }
+  },
+  "global_definitions": {
+    "cashew": "Cashew allergy",
+    "ei": "Chicken egg allergy",
+    "erdnuss": "Peanut allergy",
+    "fisch": "Fish allergy",
+    "fruktose": "Fructose intolerance",
+    "gluten": "Gluten intolerance / celiac disease",
+    "haselnuss": "Hazelnut allergy",
+    "hausstaub": "Dust mite allergy",
+    "histamin": "Histamine intolerance",
+    "honig": "Honey allergy / intolerance",
+    "insektengift": "Insect venom allergy",
+    "krebstiere": "Crustacean allergy",
+    "laktose": "Lactose intolerance",
+    "latex": "Latex allergy",
+    "lupine": "Lupin allergy",
+    "mandel": "Almond allergy",
+    "medikamente": "Medication allergy",
+    "milch": "Milk allergy",
+    "nickel": "Nickel allergy",
+    "nuesse": "Tree nut allergy / nut allergy",
+    "parfum": "Fragrance allergy",
+    "penicillin": "Penicillin allergy",
+    "pistazie": "Pistachio allergy",
+    "pollen": "Pollen allergy",
+    "schimmel": "Mold allergy",
+    "schwefeldioxid": "Sulfur dioxide / sulfite sensitivity",
+    "sellerie": "Celery allergy",
+    "senf": "Mustard allergy",
+    "sesam": "Sesame allergy",
+    "soja": "Soy allergy",
+    "sonne": "Sun allergy",
+    "steinobst": "Stone fruit allergy",
+    "tierhaare": "Animal hair allergy",
+    "vegan": "Vegan",
+    "vegi": "Vegetarian",
+    "walnuss": "Walnut allergy",
+    "weichtiere": "Mollusk allergy",
+    "weizen": "Wheat allergy",
+    "zitrus": "Citrus fruit allergy"
+  },
+  "features": {
+    "landing": {
+      "features": {
+        "centralManagement": {
+          "description": "Sign in once and manage all data for your children conveniently in one place.",
+          "title": "Central management"
+        },
+        "noPaperwork": {
+          "description": "When you submit the data digitally, you no longer need to fill out a physical health or emergency form.",
+          "title": "No paperwork"
+        },
+        "secureCurrent": {
+          "description": "Your data is stored securely and can be updated at any time for future camps.",
+          "title": "Secure & up to date"
+        },
+        "title": "Your benefits"
+      },
+      "hero": {
+        "body": "The new tool for submitting participant data for our camps. Parents can sign in once and enter the data for their children conveniently online. Using this portal removes the need to fill out physical health and emergency forms.",
+        "learnMore": "Learn more",
+        "title": "Welcome to Jungschi camp registration"
+      }
+    },
+    "participantDetail": {
+      "actions": {
+        "backToList": "Back to list"
+      },
+      "allergy": {
+        "actions": {
+          "addCustom": "Add custom allergy",
+          "addCustomAria": "Add custom allergy",
+          "saveChanges": "Save changes"
+        },
+        "addSection": {
+          "searchAllergies": {
+            "label": "Search allergies",
+            "placeholder": "E.g. pollen, dust mites..."
+          },
+          "searchFoodIntolerances": {
+            "label": "Search food intolerances",
+            "placeholder": "E.g. lactose, gluten..."
+          },
+          "title": "Add new"
+        },
+        "currentEntries": {
+          "count": "{{count}} entries",
+          "customTag": "Custom entry",
+          "notes": {
+            "label": "Notes & details",
+            "placeholder": "E.g. emergency medication, symptoms..."
+          },
+          "severity": {
+            "label": "Severity",
+            "placeholder": "Choose severity"
+          },
+          "title": "Current entries"
+        },
+        "customDefaultLabel": "New custom entry",
+        "empty": "No entries available. Use the search above to add allergies or intolerances.",
+        "title": "Allergies & food intolerances"
+      },
+      "campStats": {
+        "availableCamps": "Available camps",
+        "actions": {
+          "save": "Save general data"
+        },
+        "form": {
+          "ahv": {
+            "label": "AHV number"
+          },
+          "drugConsent": {
+            "label": "Consent to administer medication",
+            "noDescription": "No, I do not want the camp leaders to give my child light medication (e.g. Dafalgan, Bepanthen) in case of a small accident/illness. I want to be informed by phone first in this case.",
+            "yesDescription": "Yes, the camp leaders may give my child medication for mild pain (e.g. Dafalgan) or apply cream (e.g. Bepanthen)."
+          },
+          "familyDoctor": {
+            "label": "Family doctor"
+          },
+          "foodPreferences": {
+            "label": "Food preferences"
+          },
+          "krankenkasse": {
+            "label": "Health insurance"
+          },
+          "krankenkassenNr": {
+            "label": "Health insurance number"
+          },
+          "medication": {
+            "label": "Medication"
+          },
+          "nationality": {
+            "label": "Nationality"
+          },
+          "nativeLanguage": {
+            "label": "Native language"
+          },
+          "notes": {
+            "label": "Other"
+          },
+          "tickVaccinated": {
+            "label": "Tick vaccination completed"
+          }
+        },
+        "messages": {
+          "loadError": "Data could not be loaded.",
+          "loading": "Loading general data..."
+        },
+        "title": "General data"
+      },
+      "healthStats": {
+        "confirmDelete": {
+          "header": "Confirm delete",
+          "message": "Do you want to delete all health information and reset it to \"Healthy\"?"
+        },
+        "form": {
+          "excludedActivities": {
+            "label": "Which program or program types can your child not take part in?"
+          },
+          "healthyReason": {
+            "label": "If no, please describe here"
+          },
+          "isHealthy": {
+            "label": "Is your child normally able to do sports, healthy, and able to take part in the program without restrictions?"
+          }
+        },
+        "messages": {
+          "loadError": "Data could not be loaded."
+        },
+        "title": "Health information"
+      },
+      "notFound": "Participant with ID {{id}} could not be found.",
+      "overview": {
+        "campStats": "General information",
+        "healthStats": "Health information",
+        "loadError": "Participant data could not be loaded."
+      },
+      "tabs": {
+        "allergy": "Allergies & food",
+        "campStats": "General data",
+        "healthStats": "Health information",
+        "overview": "Overview"
+      },
+      "title": "Participant details"
+    },
+    "camps": {
+      "actions": {
+        "signup": "Sign up"
+      },
+      "empty": "No camps available.",
+      "fields": {
+        "priceFirst": "Price first child",
+        "signupEndDate": "Signup deadline"
+      },
+      "messages": {
+        "loadError": "Camps could not be loaded."
+      },
+      "status": {
+        "open": "Signup open",
+        "started": "Started"
+      },
+      "title": "Camps"
+    },
+    "participants": {
+      "actions": {
+        "new": "New participant"
+      },
+      "card": {
+        "dateOfBirth": "Date of birth:",
+        "lastUpdated": "Last updated:"
+      },
+      "confirmDelete": {
+        "header": "Confirm delete",
+        "message": "Do you really want to delete {{firstName}} {{lastName}}?"
+      },
+      "dialog": {
+        "createTitle": "New participant",
+        "editTitle": "Edit participant"
+      },
+      "empty": "No participants found.",
+      "messages": {
+        "created": "Participant created.",
+        "deleteError": "Participant could not be deleted.",
+        "deleted": "Participant deleted.",
+        "loadError": "Participants could not be loaded.",
+        "phoneMissingDetail": "Please add a phone number to your profile before creating a participant. We need it for emergencies.",
+        "phoneMissingSummary": "Phone number missing",
+        "saveError": "Participant could not be saved.",
+        "updated": "Participant updated."
+      },
+      "phoneMissingBanner": {
+        "afterProfile": " before creating participants. We need it so we can reach you in emergencies.",
+        "beforeProfile": "Please add a phone number in your "
+      },
+      "title": "Participants"
+    },
+    "profile": {
+      "actions": {
+        "changePassword": "Change password",
+        "manageAccount": "Manage account"
+      },
+      "guardians": {
+        "primary": "Primary contact",
+        "secondary": "Secondary contact",
+        "title": "Visible guardians"
+      },
+      "form": {
+        "phoneNumber": {
+          "help": "We need your phone number so we can reach you in an emergency (if something happens to your child). Participants cannot be created without a saved phone number."
+        },
+        "username": {
+          "label": "Username"
+        }
+      },
+      "status": {
+        "accountManagementFailed": "Account management could not be opened.",
+        "loadError": "Profile could not be loaded.",
+        "loading": "Loading profile...",
+        "passwordChangeFailed": "Password change failed."
+      },
+      "title": "Profile"
+    },
+    "household": {
+      "actions": {
+        "addGuardian": "Add",
+        "setPrimary": "Set as primary contact",
+        "setSecondary": "Set as secondary contact"
+      },
+      "contactTypes": {
+        "additional": "Additional",
+        "pending": "Pending",
+        "primary": "Primary contact",
+        "secondary": "Secondary contact"
+      },
+      "empty": {
+        "guardians": "No guardians are linked to this household."
+      },
+      "form": {
+        "guardianEmail": {
+          "label": "Add guardian by email"
+        },
+        "place": {
+          "label": "Place"
+        },
+        "plz": {
+          "label": "Postal code"
+        },
+        "streetAndNumber": {
+          "label": "Street and number"
+        }
+      },
+      "messages": {
+        "addGuardianError": "Guardian could not be added.",
+        "contactTypeError": "Contact role could not be updated.",
+        "loadError": "Household could not be loaded.",
+        "removeGuardianError": "Guardian could not be removed.",
+        "saveError": "Household could not be saved."
+      },
+      "sections": {
+        "address": "Address",
+        "guardians": "Guardians"
+      },
+      "title": "Household"
+    },
+    "signup": {
+      "actions": {
+        "addMedication": "Add medication",
+        "complete": "Complete signup",
+        "reopen": "Edit signup",
+        "saveProgress": "Save progress"
+      },
+      "confirmReopenApproved": "This signup has already been approved. If you edit it again, the signup will be cancelled and must go through the signup process again.",
+      "form": {
+        "additionalContactOptionsDuringCamp": {
+          "label": "Additional contact options during camp"
+        },
+        "bemerkungen": {
+          "label": "Additional notes"
+        },
+        "dose": {
+          "label": "Dose"
+        },
+        "drugConsent": {
+          "label": "Medication consent"
+        },
+        "frequency": {
+          "label": "Frequency"
+        },
+        "infoEmail": {
+          "label": "Receive information by email"
+        },
+        "infosZimmerleitung": {
+          "label": "Information for room leaders"
+        },
+        "medicationName": {
+          "label": "Medication"
+        },
+        "needsHelp": {
+          "label": "Needs help"
+        },
+        "photoConsent": {
+          "label": "Photo consent"
+        },
+        "purpose": {
+          "label": "Purpose"
+        },
+        "schoolClass": {
+          "label": "School class during camp"
+        }
+      },
+      "messages": {
+        "campStarted": "This camp has already started. Signup is no longer possible.",
+        "drugConsentRequired": "Please choose medication consent for every selected participant.",
+        "loadError": "Signup data could not be loaded.",
+        "noParticipants": "No household participants available.",
+        "reopenError": "Signup could not be reopened for editing.",
+        "saveError": "Signup could not be saved. The required backend API is not available yet.",
+        "saved": "Signup saved.",
+        "selectParticipant": "Please select at least one participant."
+      },
+      "sections": {
+        "medication": "Medication during camp",
+        "participants": "Select participants",
+        "signupData": "Signup data",
+        "summary": "Summary"
+      },
+      "summary": {
+        "selectedParticipants": "Selected participants"
+      },
+      "states": {
+        "APPROVED": "Approved",
+        "COMPLETED": "Submitted",
+        "IN_PROGRESS": "In progress"
+      },
+      "title": "Camp signup"
+    },
+    "team": {
+      "healthData": {
+        "actions": {
+          "showDetails": "Show details"
+        },
+        "table": {
+          "pageReport": "Showing {first} to {last} of {totalRecords} participants"
+        },
+        "title": "Health data"
+      },
+      "healthDetails": {
+        "fields": {
+          "account": "Account",
+          "drugConsent": "Medication consent",
+          "excludedActivities": "Restricted activities",
+          "healthy": "Healthy",
+          "reason": "Reason",
+          "remarks": "Remarks",
+          "tickVaccination": "Tick vaccination"
+        },
+        "messages": {
+          "loadError": "Error loading participant data.",
+          "roomInvalidId": "Please provide a valid room ID.",
+          "roomLoadError": "Room could not be loaded."
+        },
+        "sections": {
+          "allergies": "Allergies & intolerances",
+          "campInfo": "Camp information",
+          "healthStatus": "Health status",
+          "participantAccount": "Participant & account"
+        },
+        "tabs": {
+          "rawJson": "Raw JSON",
+          "structured": "Structured"
+        },
+        "title": "Health details"
+      },
+      "roomLookup": {
+        "title": "Room lookup"
+      },
+      "roomManagement": {
+        "emptyLeaders": "No team members available.",
+        "empty": "No rooms exist for this camp.",
+        "fields": {
+          "assignedCount": "Assigned",
+          "camp": "Camp",
+          "gender": "Gender",
+          "leaders": "Room leaders",
+          "maxCapacity": "Maximum capacity",
+          "name": "Room name"
+        },
+        "form": {
+          "create": "Create room",
+          "edit": "Edit room"
+        },
+        "messages": {
+          "loadError": "Rooms could not be loaded or saved."
+        },
+        "title": "Manage rooms"
+      },
+      "campManagement": {
+        "actions": {
+          "deleteEndedCamp": "Delete ended camp"
+        },
+        "delete": {
+          "confirm": "This camp will be deleted. Rooms, room leaders, camp participants, and medication data for this camp will be removed. Participants and signups are kept.",
+          "description": "Optionally set feedback for all signups in camp \"{{title}}\" by state before deleting the camp.",
+          "title": "Delete camp"
+        },
+        "empty": "No camps exist.",
+        "fields": {
+          "description": "Description",
+          "endDate": "End date",
+          "id": "Camp ID",
+          "isJugendUndSport": "Youth+Sport camp",
+          "priceFirst": "Price first child",
+          "priceSecond": "Price second child",
+          "priceThird": "Price from third child",
+          "signupEndDate": "Signup deadline",
+          "startDate": "Start date",
+          "title": "Title"
+        },
+        "form": {
+          "create": "Create camp",
+          "edit": "Edit camp"
+        },
+        "messages": {
+          "loadError": "Camps could not be loaded, saved, or deleted."
+        },
+        "title": "Manage camps"
+      },
+      "signups": {
+        "actions": {
+          "approve": "Approve",
+          "reject": "Return for correction",
+          "saveFeedback": "Save feedback",
+          "showParticipantDetails": "Show details"
+        },
+        "detail": {
+          "title": "Camp participant details"
+        },
+        "empty": "No signups exist for this camp.",
+        "fields": {
+          "camp": "Camp",
+          "currentRoom": "Current room",
+          "feedback": "Feedback",
+          "household": "Household",
+          "room": "Room"
+        },
+        "messages": {
+          "loadError": "Signups could not be loaded or updated."
+        },
+        "privacy": {
+          "modalFiltered": "Some details are hidden because they are only visible to guardians, admins, medical staff, or the assigned room leader.",
+          "roomLeaderInfoHidden": "Room leader information is hidden for this role.",
+          "sensitiveDataHidden": "Additional camp participant data is hidden for this role."
+        },
+        "signupTitle": "Signup #{{id}}",
+        "title": "Camp signups"
+      },
+      "title": "Jungschi team",
+      "welcome": "Welcome to the team page!"
+    }
+  },
+  "legal": {
+    "impressum": {
+      "contactAddress": "Contact address",
+      "copyright": {
+        "paragraph": "The copyrights and all other rights to content, images, photos, or other files on this website belong exclusively to Jungschar der Markuskirche Luzern or the specifically named rights holders. Written consent from the copyright holders must be obtained in advance for the reproduction of any elements.",
+        "title": "Copyright"
+      },
+      "disclaimer": {
+        "paragraph1": "The author accepts no responsibility for the correctness, accuracy, timeliness, reliability, or completeness of the information.",
+        "paragraph2": "Liability claims against the author for material or immaterial damage resulting from access to, use or non-use of the published information, misuse of the connection, or technical faults are excluded.",
+        "title": "Disclaimer"
+      },
+      "linkLiability": {
+        "paragraph": "References and links to third-party websites are outside our area of responsibility. Any responsibility for such websites is rejected. Access to and use of such websites is at the user's own risk.",
+        "title": "Liability for links"
+      },
+      "title": "Legal notice"
+    }
+  }
+}

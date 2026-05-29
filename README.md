@@ -49,7 +49,9 @@ For one-off execution or CI, always use:
 ```bash
 pnpm test:ci
 ```
+
 Or manually add the flag:
+
 ```bash
 pnpm test --watch=false
 ```

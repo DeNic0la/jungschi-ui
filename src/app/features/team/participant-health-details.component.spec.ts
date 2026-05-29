@@ -4,6 +4,7 @@ import { TeamService } from '../../shared/services/team.service';
 import { of, throwError } from 'rxjs';
 import { provideRouter } from '@angular/router';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { provideTranslateTesting } from '../../shared/testing/translate-testing';
 
 describe('ParticipantHealthDetailsComponent', () => {
   let component: ParticipantHealthDetailsComponent;
@@ -27,6 +28,7 @@ describe('ParticipantHealthDetailsComponent', () => {
           firstname: 'Test',
           lastname: 'User',
           dateOfBirth: '1990-01-01',
+          gender: 'male',
           lastUpdatedAt: '2021-01-01T12:00:00',
           user: {
             firstName: 'Admin',
@@ -38,11 +40,13 @@ describe('ParticipantHealthDetailsComponent', () => {
           healthStats: { isHealthy: true, healthyReason: null, excludedActivities: null },
           campStats: {
             isTickVaccinated: true,
-            drugConsent: true,
             ahv: '123',
             krankenkasse: 'AOK',
             krankenkassenNr: 'KK123',
-            medication: 'None',
+            familyDoctor: null,
+            nationality: null,
+            nativeLanguage: null,
+            foodPreferences: null,
             notes: null,
           },
           intoleranceSelections: [],
@@ -55,6 +59,7 @@ describe('ParticipantHealthDetailsComponent', () => {
       providers: [
         { provide: TeamService, useValue: teamServiceMock },
         provideRouter([]),
+        provideTranslateTesting(),
       ],
     }).compileComponents();
 
@@ -74,6 +79,7 @@ describe('ParticipantHealthDetailsComponent', () => {
       firstname: 'John',
       lastname: 'Doe',
       dateOfBirth: '1990-01-01',
+      gender: 'male',
       lastUpdatedAt: '2021-01-01T12:00:00',
       user: {
         firstName: 'Admin',
@@ -85,11 +91,13 @@ describe('ParticipantHealthDetailsComponent', () => {
       healthStats: { isHealthy: true, healthyReason: null, excludedActivities: null },
       campStats: {
         isTickVaccinated: true,
-        drugConsent: true,
         ahv: '123',
         krankenkasse: 'AOK',
         krankenkassenNr: 'KK123',
-        medication: 'None',
+        familyDoctor: null,
+        nationality: null,
+        nativeLanguage: null,
+        foodPreferences: null,
         notes: null,
       },
       intoleranceSelections: [],
@@ -118,6 +126,7 @@ describe('ParticipantHealthDetailsComponent', () => {
       firstname: 'John',
       lastname: 'Doe',
       dateOfBirth: '1990-01-01',
+      gender: 'male',
       lastUpdatedAt: '2021-01-01T12:00:00',
       user: {
         firstName: 'Admin',
@@ -129,11 +138,13 @@ describe('ParticipantHealthDetailsComponent', () => {
       healthStats: { isHealthy: true, healthyReason: null, excludedActivities: null },
       campStats: {
         isTickVaccinated: true,
-        drugConsent: true,
         ahv: '123',
         krankenkasse: 'AOK',
         krankenkassenNr: 'KK123',
-        medication: 'None',
+        familyDoctor: null,
+        nationality: null,
+        nativeLanguage: null,
+        foodPreferences: null,
         notes: null,
       },
       intoleranceSelections: [
@@ -181,6 +192,7 @@ describe('ParticipantHealthDetailsComponent', () => {
       firstname: 'Nicola Maria',
       lastname: 'Fioretti',
       dateOfBirth: '2026-03-11',
+      gender: 'male',
       lastUpdatedAt: '2026-03-19T12:27:48.618243',
       user: {
         firstName: 'Nicola',
@@ -198,8 +210,12 @@ describe('ParticipantHealthDetailsComponent', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
-    const noDataElements = Array.from(fixture.nativeElement.querySelectorAll('p.italic.text-surface-500')) as HTMLElement[];
-    expect(noDataElements.some(el => el.textContent?.includes('Keine Daten vorhanden'))).toBe(true);
+    const noDataElements = Array.from(
+      fixture.nativeElement.querySelectorAll('p.italic.text-surface-500'),
+    ) as HTMLElement[];
+    expect(noDataElements.some((el) => el.textContent?.includes('Keine Daten vorhanden'))).toBe(
+      true,
+    );
 
     expect(fixture.nativeElement.textContent).toContain('Keine Einträge vorhanden');
   });
