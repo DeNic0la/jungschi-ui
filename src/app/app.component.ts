@@ -197,8 +197,7 @@ export class AppComponent {
       .login({
         prompt: 'login',
         action: 'login',
-        redirectUri: window.location.origin + '/profile',
-        scope: 'openid profile email',
+        redirectUri: window.location.origin + '/profile'
       })
       .catch((err) => console.error('Login error:', err));
   }

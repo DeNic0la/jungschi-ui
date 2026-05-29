@@ -78,7 +78,11 @@ describe('AppComponent', () => {
 
     app['login']();
 
-    expect(loginSpy).toHaveBeenCalled();
+    expect(loginSpy).toHaveBeenCalledWith({
+      prompt: 'login',
+      action: 'login',
+      redirectUri: `${window.location.origin}/profile`,
+    });
   });
 
   it('should update isLoggedIn when keycloak events fire', () => {
