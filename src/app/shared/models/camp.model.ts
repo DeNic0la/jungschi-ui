@@ -4,13 +4,30 @@ export interface CampDto {
   id: string;
   title: string;
   description: string | null;
-  startDate: string;
-  endDate: string;
-  signupEndDate: string;
+  startDate: string | null;
+  endDate: string | null;
+  signupEndDate: string | null;
   isJugendUndSport: boolean;
-  priceFirst: number;
-  priceSecond: number;
-  priceThird: number;
+  priceFirst: number | null;
+  priceSecond: number | null;
+  priceThird: number | null;
+}
+
+export interface CampInput {
+  id: string;
+  title: string;
+  description: string | null;
+  startDate: string | null;
+  endDate: string | null;
+  signupEndDate: string | null;
+  isJugendUndSport: boolean;
+  priceFirst: number | null;
+  priceSecond: number | null;
+  priceThird: number | null;
+}
+
+export interface DeleteCampInput {
+  feedbackByState: Partial<Record<'IN_PROGRESS' | 'COMPLETED' | 'APPROVED', string | null>>;
 }
 
 export interface RoomLeaderDto {
@@ -25,6 +42,8 @@ export interface RoomDto {
   campId: string | null;
   name: string;
   maxCapacity: number | null;
+  assignedCount: number;
+  remainingCapacity: number | null;
   gender: Gender | null;
   leaders: RoomLeaderDto[];
 }

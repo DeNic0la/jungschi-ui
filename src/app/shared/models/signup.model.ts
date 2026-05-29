@@ -12,7 +12,7 @@ export interface CampParticipantMedicationInput {
 }
 
 export interface CampParticipantSignupInput {
-  participantId: number;
+  participantId: number | null;
   schoolClass: string | null;
   infosZimmerleitung: string | null;
   bemerkungen: string | null;
@@ -34,13 +34,21 @@ export interface SignupDto extends SignupInput {
   feedback: string | null;
 }
 
-export interface TeamCampParticipantDto extends CampParticipantSignupInput {
+export interface TeamCampParticipantDto {
   id: number;
+  participantId: number;
   firstname: string | null;
   lastname: string | null;
   gender: Gender | null;
+  schoolClass: string | null;
+  infosZimmerleitung: string | null;
+  bemerkungen: string | null;
+  drugConsent: boolean | null;
+  medications: CampParticipantMedicationInput[];
   roomId: number | null;
   roomName: string | null;
+  fullAccess: boolean;
+  roomLeaderInfoVisible: boolean;
 }
 
 export interface TeamSignupDto {
@@ -53,4 +61,8 @@ export interface TeamSignupDto {
   infoEmail: boolean;
   additionalContactOptionsDuringCamp: string | null;
   campParticipants: TeamCampParticipantDto[];
+}
+
+export interface CampParticipantDetailDto extends TeamCampParticipantDto {
+  dateOfBirth: string | null;
 }

@@ -128,6 +128,7 @@ describe('SignupComponent', () => {
       },
       true,
     );
+    expect(component['participantDraft'](7).schoolClass).toBe('7');
     component['updateParticipantDraft'](7, {
       schoolClass: '5a',
       drugConsent: true,

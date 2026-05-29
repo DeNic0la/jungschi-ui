@@ -139,6 +139,9 @@ export class CampsComponent {
   }
 
   protected hasStarted(camp: CampDto): boolean {
+    if (!camp.startDate) {
+      return false;
+    }
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     return new Date(`${camp.startDate}T00:00:00`) <= today;

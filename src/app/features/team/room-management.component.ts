@@ -87,16 +87,32 @@ import { UserService } from '../../shared/services/user.service';
 
             <label class="flex flex-col gap-2 font-semibold">
               {{ 'features.team.roomManagement.fields.leaders' | translate }}
-              <select
-                class="p-inputtext p-component w-full min-h-28"
-                multiple
-                [(ngModel)]="draft.leaderEmails"
-                name="leaderEmails"
+              <div
+                class="grid grid-cols-1 gap-2 rounded-md border border-surface-200 dark:border-surface-700 p-3 max-h-72 overflow-auto"
               >
                 @for (leader of leaders(); track leader.email) {
-                  <option [ngValue]="leader.email">{{ displayLeader(leader) }}</option>
+                  <label
+                    class="flex items-center gap-3 rounded-md px-2 py-2 hover:bg-surface-50 dark:hover:bg-surface-800"
+                  >
+                    <input
+                      type="checkbox"
+                      class="h-4 w-4"
+                      [checked]="leaderSelected(leader.email)"
+                      (change)="toggleLeader(leader.email, $any($event.target).checked)"
+                    />
+                    <span class="min-w-0">
+                      <span class="block truncate">{{ displayLeader(leader) }}</span>
+                      <span class="block truncate text-xs font-normal text-surface-500">
+                        {{ leader.email }}
+                      </span>
+                    </span>
+                  </label>
+                } @empty {
+                  <span class="text-sm font-normal text-surface-500">
+                    {{ 'features.team.roomManagement.emptyLeaders' | translate }}
+                  </span>
                 }
-              </select>
+              </div>
             </label>
 
             <div class="flex flex-col sm:flex-row gap-2">
@@ -126,6 +142,13 @@ import { UserService } from '../../shared/services/user.service';
                   <p class="text-sm text-surface-500 mt-1 mb-0">
                     {{ 'features.team.roomManagement.fields.maxCapacity' | translate }}:
                     {{ room.maxCapacity ?? '-' }}
+                  </p>
+                  <p class="text-sm text-surface-500 mt-1 mb-0">
+                    {{ 'features.team.roomManagement.fields.assignedCount' | translate }}:
+                    {{ room.assignedCount }}
+                    @if (room.remainingCapacity !== null) {
+                      / {{ room.maxCapacity }}
+                    }
                   </p>
                   <p class="text-sm text-surface-500 mt-1 mb-0">
                     {{ 'features.team.roomManagement.fields.gender' | translate }}:
@@ -246,6 +269,23 @@ export class RoomManagementComponent {
     return (
       `${leader.firstName ?? ''} ${leader.lastName ?? ''}`.trim() || leader.username || leader.email
     );
+  }
+
+  protected leaderSelected(email: string): boolean {
+    return this.draft.leaderEmails.includes(email);
+  }
+
+  protected toggleLeader(email: string, selected: boolean): void {
+    const current = new Set(this.draft.leaderEmails);
+    if (selected) {
+      current.add(email);
+    } else {
+      current.delete(email);
+    }
+    this.draft = {
+      ...this.draft,
+      leaderEmails: [...current],
+    };
   }
 
   protected leaderNames(room: RoomDto): string {

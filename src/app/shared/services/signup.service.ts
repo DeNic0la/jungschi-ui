@@ -1,7 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SignupDto, SignupInput, TeamSignupDto } from '../models/signup.model';
+import {
+  CampParticipantDetailDto,
+  SignupDto,
+  SignupInput,
+  TeamSignupDto,
+} from '../models/signup.model';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +33,12 @@ export class SignupService {
 
   getForCampReview(campId: string): Observable<TeamSignupDto[]> {
     return this.http.get<TeamSignupDto[]>(`${this.apiUrl}/camp/${campId}/review`);
+  }
+
+  getCampParticipant(campParticipantId: number): Observable<CampParticipantDetailDto> {
+    return this.http.get<CampParticipantDetailDto>(
+      `${this.apiUrl}/camp-participants/${campParticipantId}`,
+    );
   }
 
   updateFeedback(id: number, feedback: string | null): Observable<TeamSignupDto> {

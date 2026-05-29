@@ -4,15 +4,22 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Button } from 'primeng/button';
 import { Card } from 'primeng/card';
+import { Dialog } from 'primeng/dialog';
 import { Message } from 'primeng/message';
 import { Tag } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { CampDto, RoomDto } from '../../shared/models/camp.model';
-import { SignupState, TeamSignupDto } from '../../shared/models/signup.model';
+import {
+  CampParticipantDetailDto,
+  SignupState,
+  TeamCampParticipantDto,
+  TeamSignupDto,
+} from '../../shared/models/signup.model';
 import { CampService } from '../../shared/services/camp.service';
 import { RoomService } from '../../shared/services/room.service';
 import { SignupService } from '../../shared/services/signup.service';
+import { catchError, forkJoin, of } from 'rxjs';
 
 @Component({
   selector: 'app-camp-signups',
@@ -22,6 +29,7 @@ import { SignupService } from '../../shared/services/signup.service';
     RouterLink,
     Button,
     Card,
+    Dialog,
     Message,
     Tag,
     TextareaModule,
@@ -106,7 +114,7 @@ import { SignupService } from '../../shared/services/signup.service';
                   </dt>
                   <dd class="m-0">{{ booleanLabel(signup.infoEmail) }}</dd>
                 </div>
-                <div>
+                <div class="sm:col-span-3">
                   <dt class="font-semibold text-surface-500">
                     {{
                       'features.signup.form.additionalContactOptionsDuringCamp.label' | translate
@@ -131,25 +139,45 @@ import { SignupService } from '../../shared/services/signup.service';
                         </p>
                       </div>
                       <div class="text-sm">
+                        @if (campParticipant.roomLeaderInfoVisible) {
+                          <div>
+                            <strong
+                              >{{
+                                'features.signup.form.infosZimmerleitung.label' | translate
+                              }}:</strong
+                            >
+                            {{ campParticipant.infosZimmerleitung || '-' }}
+                          </div>
+                        } @else {
+                          <div class="text-surface-500">
+                            {{
+                              'features.team.signups.privacy.roomLeaderInfoHidden' | translate
+                            }}
+                          </div>
+                        }
+                        @if (campParticipant.fullAccess) {
+                          <div>
+                            <strong
+                              >{{ 'features.signup.form.bemerkungen.label' | translate }}:</strong
+                            >
+                            {{ campParticipant.bemerkungen || '-' }}
+                          </div>
+                          <div>
+                            <strong
+                              >{{ 'features.signup.form.drugConsent.label' | translate }}:</strong
+                            >
+                            {{ nullableBooleanLabel(campParticipant.drugConsent) }}
+                          </div>
+                        } @else {
+                          <div class="text-surface-500">
+                            {{ 'features.team.signups.privacy.sensitiveDataHidden' | translate }}
+                          </div>
+                        }
                         <div>
                           <strong
-                            >{{
-                              'features.signup.form.infosZimmerleitung.label' | translate
-                            }}:</strong
+                            >{{ 'features.team.signups.fields.currentRoom' | translate }}:</strong
                           >
-                          {{ campParticipant.infosZimmerleitung || '-' }}
-                        </div>
-                        <div>
-                          <strong
-                            >{{ 'features.signup.form.bemerkungen.label' | translate }}:</strong
-                          >
-                          {{ campParticipant.bemerkungen || '-' }}
-                        </div>
-                        <div>
-                          <strong
-                            >{{ 'features.signup.form.drugConsent.label' | translate }}:</strong
-                          >
-                          {{ booleanLabel(campParticipant.drugConsent) }}
+                          {{ campParticipant.roomName || '-' }}
                         </div>
                       </div>
                       <label class="flex flex-col gap-2 font-semibold">
@@ -160,11 +188,21 @@ import { SignupService } from '../../shared/services/signup.service';
                           (ngModelChange)="assignRoom(campParticipant.id, $event)"
                         >
                           <option [ngValue]="null">{{ 'common.empty.none' | translate }}</option>
-                          @for (room of rooms(); track room.id) {
-                            <option [ngValue]="room.id">{{ room.name }}</option>
+                          @for (room of availableRoomsFor(campParticipant); track room.id) {
+                            <option [ngValue]="room.id">{{ roomLabel(room) }}</option>
                           }
                         </select>
                       </label>
+                      <button
+                        type="button"
+                        class="p-button p-component p-button-secondary w-fit"
+                        (click)="openCampParticipant(campParticipant)"
+                      >
+                        <span class="pi pi-eye p-button-icon p-button-icon-left"></span>
+                        <span class="p-button-label">
+                          {{ 'features.team.signups.actions.showParticipantDetails' | translate }}
+                        </span>
+                      </button>
                     </div>
                   </section>
                 }
@@ -208,6 +246,109 @@ import { SignupService } from '../../shared/services/signup.service';
           <p-message severity="info" [text]="'features.team.signups.empty' | translate" />
         }
       </div>
+
+      <p-dialog
+        [header]="'features.team.signups.detail.title' | translate"
+        [modal]="true"
+        [style]="{ width: 'min(48rem, calc(100vw - 2rem))' }"
+        [draggable]="false"
+        [(visible)]="detailVisible"
+        (onHide)="closeCampParticipant()"
+      >
+        @if (selectedDetail(); as detail) {
+          <div class="flex flex-col gap-5">
+            @if (!detail.fullAccess) {
+              <p-message
+                severity="info"
+                [text]="'features.team.signups.privacy.modalFiltered' | translate"
+              />
+            }
+            <dl class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm m-0">
+              <div>
+                <dt class="font-semibold text-surface-500">
+                  {{ 'common.fields.name' | translate }}
+                </dt>
+                <dd class="m-0">{{ detail.firstname }} {{ detail.lastname }}</dd>
+              </div>
+              <div>
+                <dt class="font-semibold text-surface-500">
+                  {{ 'common.fields.gender' | translate }}
+                </dt>
+                <dd class="m-0">
+                  {{
+                    detail.gender
+                      ? ('common.gender.' + detail.gender | translate)
+                      : ('common.empty.none' | translate)
+                  }}
+                </dd>
+              </div>
+              @if (detail.dateOfBirth) {
+                <div>
+                  <dt class="font-semibold text-surface-500">
+                    {{ 'common.fields.dateOfBirth' | translate }}
+                  </dt>
+                  <dd class="m-0">{{ detail.dateOfBirth | date: 'dd.MM.yyyy' }}</dd>
+                </div>
+              }
+              <div>
+                <dt class="font-semibold text-surface-500">
+                  {{ 'features.signup.form.schoolClass.label' | translate }}
+                </dt>
+                <dd class="m-0">{{ detail.schoolClass || '-' }}</dd>
+              </div>
+              <div>
+                <dt class="font-semibold text-surface-500">
+                  {{ 'features.team.signups.fields.currentRoom' | translate }}
+                </dt>
+                <dd class="m-0">{{ detail.roomName || '-' }}</dd>
+              </div>
+              @if (detail.roomLeaderInfoVisible) {
+                <div class="sm:col-span-2">
+                  <dt class="font-semibold text-surface-500">
+                    {{ 'features.signup.form.infosZimmerleitung.label' | translate }}
+                  </dt>
+                  <dd class="m-0 whitespace-pre-wrap">{{ detail.infosZimmerleitung || '-' }}</dd>
+                </div>
+              }
+              @if (detail.fullAccess) {
+                <div class="sm:col-span-2">
+                  <dt class="font-semibold text-surface-500">
+                    {{ 'features.signup.form.bemerkungen.label' | translate }}
+                  </dt>
+                  <dd class="m-0 whitespace-pre-wrap">{{ detail.bemerkungen || '-' }}</dd>
+                </div>
+                <div>
+                  <dt class="font-semibold text-surface-500">
+                    {{ 'features.signup.form.drugConsent.label' | translate }}
+                  </dt>
+                  <dd class="m-0">{{ nullableBooleanLabel(detail.drugConsent) }}</dd>
+                </div>
+              }
+            </dl>
+
+            @if (detail.fullAccess) {
+              <section>
+                <h3 class="text-base font-semibold mt-0 mb-3">
+                  {{ 'features.signup.sections.medication' | translate }}
+                </h3>
+                <div class="flex flex-col gap-3">
+                  @for (medication of detail.medications; track $index) {
+                    <div
+                      class="rounded-md border border-surface-200 dark:border-surface-700 p-3 text-sm"
+                    >
+                      <strong>{{ medication.medicationName }}</strong>
+                      <div>{{ medication.dose || '-' }} · {{ medication.frequency || '-' }}</div>
+                      <div>{{ medication.purpose || '-' }}</div>
+                    </div>
+                  } @empty {
+                    <p class="m-0 text-sm text-surface-500">{{ 'common.empty.none' | translate }}</p>
+                  }
+                </div>
+              </section>
+            }
+          </div>
+        }
+      </p-dialog>
     </div>
   `,
   styles: ``,
@@ -220,10 +361,12 @@ export class CampSignupsComponent {
   private readonly translate = inject(TranslateService);
 
   protected readonly camps = signal<CampDto[]>([]);
-  protected readonly rooms = signal<RoomDto[]>([]);
   protected readonly signups = signal<TeamSignupDto[]>([]);
+  protected readonly availableRooms = signal<Record<number, RoomDto[]>>({});
   protected readonly selectedCampId = signal<string | null>(null);
   protected readonly feedbackDrafts = signal<Record<number, string>>({});
+  protected readonly selectedDetail = signal<CampParticipantDetailDto | null>(null);
+  protected detailVisible = false;
   protected readonly loadError = signal(false);
 
   constructor() {
@@ -251,15 +394,13 @@ export class CampSignupsComponent {
     this.loadError.set(false);
     this.signupService.getForCampReview(campId).subscribe({
       next: (signups) => {
-        this.signups.set(signups);
+        const sorted = this.sortSignups(signups);
+        this.signups.set(sorted);
         this.feedbackDrafts.set(
           Object.fromEntries(signups.map((signup) => [signup.id, signup.feedback ?? ''])),
         );
+        this.loadAvailableRooms(campId, sorted);
       },
-      error: () => this.loadError.set(true),
-    });
-    this.roomService.getForCamp(campId).subscribe({
-      next: (rooms) => this.rooms.set(rooms),
       error: () => this.loadError.set(true),
     });
   }
@@ -296,9 +437,35 @@ export class CampSignupsComponent {
   protected assignRoom(campParticipantId: number, rawRoomId: number | null): void {
     const roomId = rawRoomId === null ? null : Number(rawRoomId);
     this.signupService.assignRoom(campParticipantId, roomId).subscribe({
-      next: (updated) => this.replaceSignup(updated),
+      next: (updated) => {
+        this.replaceSignup(updated);
+        const campId = this.selectedCampId();
+        if (campId) {
+          this.loadAvailableRooms(campId, this.signups());
+        }
+      },
       error: () => this.loadError.set(true),
     });
+  }
+
+  protected availableRoomsFor(campParticipant: TeamCampParticipantDto): RoomDto[] {
+    return this.availableRooms()[campParticipant.id] ?? [];
+  }
+
+  protected openCampParticipant(campParticipant: TeamCampParticipantDto): void {
+    this.selectedDetail.set({ ...campParticipant, dateOfBirth: null });
+    this.detailVisible = true;
+    this.signupService.getCampParticipant(campParticipant.id).subscribe({
+      next: (detail) => {
+        this.selectedDetail.set(detail);
+      },
+      error: () => this.loadError.set(true),
+    });
+  }
+
+  protected closeCampParticipant(): void {
+    this.detailVisible = false;
+    this.selectedDetail.set(null);
   }
 
   protected stateLabel(state: SignupState): string {
@@ -315,10 +482,54 @@ export class CampSignupsComponent {
     return this.translate.instant(value ? 'common.boolean.yes' : 'common.boolean.no');
   }
 
+  protected nullableBooleanLabel(value: boolean | null): string {
+    return value === null ? '-' : this.booleanLabel(value);
+  }
+
+  protected roomLabel(room: RoomDto): string {
+    const capacity =
+      room.remainingCapacity === null
+        ? ''
+        : ` (${room.assignedCount}/${room.maxCapacity ?? '-'})`;
+    return `${room.name}${capacity}`;
+  }
+
   private replaceSignup(updated: TeamSignupDto): void {
     this.signups.update((current) =>
-      current.map((signup) => (signup.id === updated.id ? updated : signup)),
+      this.sortSignups(current.map((signup) => (signup.id === updated.id ? updated : signup))),
     );
     this.setFeedbackDraft(updated.id, updated.feedback ?? '');
+  }
+
+  private loadAvailableRooms(campId: string, signups: TeamSignupDto[]): void {
+    const campParticipantIds = signups.flatMap((signup) =>
+      signup.campParticipants.map((campParticipant) => campParticipant.id),
+    );
+    if (campParticipantIds.length === 0) {
+      this.availableRooms.set({});
+      return;
+    }
+    const requests = Object.fromEntries(
+      campParticipantIds.map((id) => [
+        id,
+        this.roomService.getAvailableForCampParticipant(campId, id).pipe(catchError(() => of([]))),
+      ]),
+    ) as Record<number, ReturnType<RoomService['getAvailableForCampParticipant']>>;
+    forkJoin(requests).subscribe({
+      next: (roomsByParticipant) => this.availableRooms.set(roomsByParticipant),
+      error: () => this.loadError.set(true),
+    });
+  }
+
+  private sortSignups(signups: TeamSignupDto[]): TeamSignupDto[] {
+    return [...signups].sort(
+      (a, b) => this.stateOrder(a.state) - this.stateOrder(b.state) || a.id - b.id,
+    );
+  }
+
+  private stateOrder(state: SignupState): number {
+    if (state === 'COMPLETED') return 0;
+    if (state === 'IN_PROGRESS') return 1;
+    return 2;
   }
 }

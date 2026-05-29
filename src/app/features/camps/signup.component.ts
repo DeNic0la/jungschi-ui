@@ -543,6 +543,9 @@ export class SignupComponent {
   }
 
   protected hasStarted(camp: CampDto): boolean {
+    if (!camp.startDate) {
+      return false;
+    }
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     return new Date(`${camp.startDate}T00:00:00`) <= today;
@@ -556,7 +559,7 @@ export class SignupComponent {
     this.selectedParticipants.update((current) => {
       const next = { ...current };
       if (selected) {
-        next[participant.id] = next[participant.id] ?? this.emptyParticipantDraft();
+        next[participant.id] = next[participant.id] ?? this.emptyParticipantDraft(participant);
       } else {
         delete next[participant.id];
       }
@@ -707,9 +710,9 @@ export class SignupComponent {
     };
   }
 
-  private emptyParticipantDraft(): CampParticipantDraft {
+  private emptyParticipantDraft(participant?: Participant): CampParticipantDraft {
     return {
-      schoolClass: '',
+      schoolClass: participant ? this.estimateSchoolClass(participant) : '',
       infosZimmerleitung: '',
       bemerkungen: '',
       drugConsent: null,
@@ -735,5 +738,28 @@ export class SignupComponent {
 
   private t(key: string): string {
     return this.translate.instant(key);
+  }
+
+  private estimateSchoolClass(participant: Participant): string {
+    const startDate = this.camp()?.startDate;
+    if (!participant.dateOfBirth || !startDate) {
+      return '';
+    }
+    const birthDate = new Date(`${participant.dateOfBirth}T00:00:00`);
+    const campStart = new Date(`${startDate}T00:00:00`);
+    if (Number.isNaN(birthDate.getTime()) || Number.isNaN(campStart.getTime())) {
+      return '';
+    }
+    let age = campStart.getFullYear() - birthDate.getFullYear();
+    const birthdayThisYear = new Date(
+      campStart.getFullYear(),
+      birthDate.getMonth(),
+      birthDate.getDate(),
+    );
+    if (campStart < birthdayThisYear) {
+      age -= 1;
+    }
+    const estimatedClass = age - 5;
+    return estimatedClass > 0 ? String(estimatedClass) : '';
   }
 }

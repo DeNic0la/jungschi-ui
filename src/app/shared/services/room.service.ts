@@ -18,6 +18,12 @@ export class RoomService {
     return this.http.get<RoomDto[]>(`${this.apiUrl}/camp/${campId}`);
   }
 
+  getAvailableForCampParticipant(campId: string, campParticipantId: number): Observable<RoomDto[]> {
+    return this.http.get<RoomDto[]>(
+      `${this.apiUrl}/camp/${campId}/available-for/${campParticipantId}`,
+    );
+  }
+
   create(room: RoomInput): Observable<RoomDto> {
     return this.http.post<RoomDto>(this.apiUrl, room);
   }

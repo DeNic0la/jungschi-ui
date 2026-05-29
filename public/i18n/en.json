@@ -498,8 +498,10 @@
         "title": "Room lookup"
       },
       "roomManagement": {
+        "emptyLeaders": "No team members available.",
         "empty": "No rooms exist for this camp.",
         "fields": {
+          "assignedCount": "Assigned",
           "camp": "Camp",
           "gender": "Gender",
           "leaders": "Room leaders",
@@ -515,21 +517,62 @@
         },
         "title": "Manage rooms"
       },
+      "campManagement": {
+        "actions": {
+          "deleteEndedCamp": "Delete ended camp"
+        },
+        "delete": {
+          "confirm": "This camp will be deleted. Rooms, room leaders, camp participants, and medication data for this camp will be removed. Participants and signups are kept.",
+          "description": "Optionally set feedback for all signups in camp \"{{title}}\" by state before deleting the camp.",
+          "title": "Delete camp"
+        },
+        "empty": "No camps exist.",
+        "fields": {
+          "description": "Description",
+          "endDate": "End date",
+          "id": "Camp ID",
+          "isJugendUndSport": "Youth+Sport camp",
+          "priceFirst": "Price first child",
+          "priceSecond": "Price second child",
+          "priceThird": "Price from third child",
+          "signupEndDate": "Signup deadline",
+          "startDate": "Start date",
+          "title": "Title"
+        },
+        "form": {
+          "create": "Create camp",
+          "edit": "Edit camp"
+        },
+        "messages": {
+          "loadError": "Camps could not be loaded, saved, or deleted."
+        },
+        "title": "Manage camps"
+      },
       "signups": {
         "actions": {
           "approve": "Approve",
           "reject": "Return for correction",
-          "saveFeedback": "Save feedback"
+          "saveFeedback": "Save feedback",
+          "showParticipantDetails": "Show details"
+        },
+        "detail": {
+          "title": "Camp participant details"
         },
         "empty": "No signups exist for this camp.",
         "fields": {
           "camp": "Camp",
+          "currentRoom": "Current room",
           "feedback": "Feedback",
           "household": "Household",
           "room": "Room"
         },
         "messages": {
           "loadError": "Signups could not be loaded or updated."
+        },
+        "privacy": {
+          "modalFiltered": "Some details are hidden because they are only visible to guardians, admins, medical staff, or the assigned room leader.",
+          "roomLeaderInfoHidden": "Room leader information is hidden for this role.",
+          "sensitiveDataHidden": "Additional camp participant data is hidden for this role."
         },
         "signupTitle": "Signup #{{id}}",
         "title": "Camp signups"

@@ -240,8 +240,10 @@ const TEST_TRANSLATIONS: TranslationObject = {
         title: 'Gesundheitsdetails',
       },
       roomManagement: {
+        emptyLeaders: 'Keine Teammitglieder verfügbar.',
         empty: 'Keine Zimmer für dieses Lager vorhanden.',
         fields: {
+          assignedCount: 'Belegung',
           camp: 'Lager',
           gender: 'Geschlecht',
           leaders: 'Zimmerleitung',
@@ -257,21 +259,66 @@ const TEST_TRANSLATIONS: TranslationObject = {
         },
         title: 'Zimmer verwalten',
       },
+      campManagement: {
+        actions: {
+          deleteEndedCamp: 'Beendetes Lager löschen',
+        },
+        delete: {
+          confirm:
+            'Dieses Lager wird gelöscht. Zimmer, Zimmerleitungen, Lagerteilnehmer und Medikamentendaten zu diesem Lager werden entfernt. Teilnehmer und Anmeldungen bleiben erhalten.',
+          description:
+            'Optional können Rückmeldungen für alle Anmeldungen im Lager "{{title}}" nach Status gesetzt werden, bevor das Lager gelöscht wird.',
+          title: 'Lager löschen',
+        },
+        empty: 'Keine Lager vorhanden.',
+        fields: {
+          description: 'Beschreibung',
+          endDate: 'Enddatum',
+          id: 'Lager-ID',
+          isJugendUndSport: 'Jugend+Sport Lager',
+          priceFirst: 'Preis erstes Kind',
+          priceSecond: 'Preis zweites Kind',
+          priceThird: 'Preis ab drittem Kind',
+          signupEndDate: 'Anmeldeschluss',
+          startDate: 'Startdatum',
+          title: 'Titel',
+        },
+        form: {
+          create: 'Lager erstellen',
+          edit: 'Lager bearbeiten',
+        },
+        messages: {
+          loadError: 'Lager konnten nicht geladen, gespeichert oder gelöscht werden.',
+        },
+        title: 'Lager verwalten',
+      },
       signups: {
         actions: {
           approve: 'Bestätigen',
           reject: 'Zur Korrektur zurückgeben',
           saveFeedback: 'Rückmeldung speichern',
+          showParticipantDetails: 'Details anzeigen',
+        },
+        detail: {
+          title: 'Lagerteilnehmer-Details',
         },
         empty: 'Keine Anmeldungen für dieses Lager vorhanden.',
         fields: {
           camp: 'Lager',
+          currentRoom: 'Aktuelles Zimmer',
           feedback: 'Rückmeldung',
           household: 'Haushalt',
           room: 'Zimmer',
         },
         messages: {
           loadError: 'Anmeldungen konnten nicht geladen oder aktualisiert werden.',
+        },
+        privacy: {
+          modalFiltered:
+            'Einige Details sind ausgeblendet, weil sie nur für Erziehungsberechtigte, Admins, Sanität oder die zuständige Zimmerleitung sichtbar sind.',
+          roomLeaderInfoHidden:
+            'Informationen für die Zimmerleitung sind für diese Rolle ausgeblendet.',
+          sensitiveDataHidden: 'Weitere Lagerteilnehmerdaten sind für diese Rolle ausgeblendet.',
         },
         signupTitle: 'Anmeldung #{{id}}',
         title: 'Lageranmeldungen',
